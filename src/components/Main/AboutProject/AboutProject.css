@@ -1,0 +1,93 @@
+.aboutProject {
+  margin: 110px auto 0;
+  text-align: left;
+  align-items: center;
+  font-family: 'Inter';
+  font-style: normal;
+  color: #000;
+}
+
+.aboutProject__title{
+
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+
+  margin-left: 70px;
+  max-width: 1140px;
+  padding-bottom: 23px;
+  border-bottom: 1px solid #000;;
+}
+
+.aboutProject__stages{
+  padding: 70px 70px 110px;
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+}
+
+.aboutProject__stage{
+  margin-right: 40px;
+}
+
+.aboutProject__stage:last-child{
+  margin-right: 0;
+}
+
+.aboutProject__stage__title{
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.aboutProject__stage_description{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.aboutProject__progress{
+  display: flex;
+  margin: 0 auto;
+  padding: 0 70px 14px;
+  list-style-type: none;
+  max-width: calc(1280 - 80px*2);
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.aboutProject__progress_backend-line{
+  height: 36px;
+  background-color: #2BE080;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.aboutProject__progress_frontend-line{
+  height: 36px;
+  background-color: #F2F2F2;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.aboutProject__progress_backend{
+  width: 20%;
+  min-width: 100px;
+}
+
+.aboutProject__progress_frontend{
+  width: 80%;
+  min-width: 184px;
+}
+
+.aboutProject__progress_title{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #A0A0A0;
+}
