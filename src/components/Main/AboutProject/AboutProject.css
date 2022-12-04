@@ -8,22 +8,24 @@
 }
 
 .aboutProject__title{
-
+  letter-spacing: -0.04em;
   font-weight: 400;
   font-size: 22px;
   line-height: 27px;
-
-  margin-left: 70px;
+  margin: 0 auto 0 80px ;
   max-width: 1140px;
   padding-bottom: 23px;
-  border-bottom: 1px solid #000;;
+  border-bottom: 1px solid #000;
+  letter-spacing: -0.04em;
 }
 
 .aboutProject__stages{
-  padding: 70px 70px 110px;
+  margin: 0 auto;
+  padding: 70px 80px 110px;
   display: flex;
   list-style-type: none;
   align-items: center;
+
 }
 
 .aboutProject__stage{
@@ -35,29 +37,32 @@
 }
 
 .aboutProject__stage__title{
+  margin: 0 auto;
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
+  letter-spacing: -0.04em;
 }
 
 .aboutProject__stage_description{
+  margin: 24px auto 0;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
+  max-width: 550px;
 }
 
 .aboutProject__progress{
   display: flex;
-  margin: 0 auto;
-  padding: 0 70px 90px;
+  margin: 0 auto 100px;
+  padding: 0 80px 0;
   list-style-type: none;
   max-width: calc(1280 - 80px*2);
   text-align: center;
-
-
 }
 
 .aboutProject__progress_backend-line{
+  margin: 0 auto;
   height: 36px;
   background-color: #2BE080;
   font-weight: 400;
@@ -67,6 +72,7 @@
 }
 
 .aboutProject__progress_frontend-line{
+  margin: 0 auto;
   height: 36px;
   background-color: #F2F2F2;
   font-weight: 400;
@@ -90,4 +96,5 @@
   font-size: 14px;
   line-height: 17px;
   color: #A0A0A0;
+  margin: 14 auto 0;
 }

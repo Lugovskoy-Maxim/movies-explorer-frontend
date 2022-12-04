@@ -6,14 +6,13 @@
   border-radius: 10px;
   margin: 0 auto;
   text-align: center;
+  font-family: 'Inter';
+  font-style: normal;
 
 }
 
 .promo__title {
   padding: 160px 235px 151px;
-
-  font-family: 'Inter';
-  font-style: normal;
   font-weight: 400;
   font-size: 50px;
   line-height: 58px;
@@ -25,18 +24,18 @@
 }
 
 .promo__nav_links{
+  margin: 0 auto;
   display: flex;
   justify-content: center;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
   color: #000;
   list-style-type: none;
+  padding: 0;
 }
 
 .promo_nav_link{
+  font-weight: 550;
+  font-size: 12px;
+  line-height: 16px;
   display: flex;
   justify-content: center;
   align-items: center;

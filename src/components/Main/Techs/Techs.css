@@ -1,15 +1,16 @@
 .techs {
   position: relative;
-  margin: 110px auto 0;
-  text-align: left;
+  padding-top: 100px;
   align-items: center;
   font-family: 'Inter';
   font-style: normal;
   color: #000;
   text-align: center;
   letter-spacing: -0.04em;
+  background-color: #F5F5F5;
 }
 .techs__title{
+  margin: 0 auto;
   text-align: left;
   font-weight: 400;
   font-size: 22px;
@@ -21,7 +22,7 @@
 }
 
 .techs__stack{
-  margin: 70px auto 26px;
+  margin: 90px auto 26px;
   font-weight: 400;
   font-size: 50px;
   line-height: 58px;
@@ -39,7 +40,7 @@
 
 .techs__list{
   margin: 100px auto;
-  padding-bottom: 100px;
+  padding:0 0 100px;
   display: flex;
   list-style-type: none;
   justify-content: center;
