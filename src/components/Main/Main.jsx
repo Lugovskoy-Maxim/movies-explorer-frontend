@@ -1,6 +1,7 @@
 import React from "react";
 // import { Link, useLocation, Switch, Route } from "react-router-dom";
 import Promo from "./Promo/Promo.jsx";
+import Techs from "./Techs/Techs.jsx";
 import AboutProject from "./AboutProject/AboutProject.jsx";
 import "./Main.css";
 function Main(props) {
@@ -9,8 +10,8 @@ function Main(props) {
     <section className="Main">
     <Promo />
     <AboutProject />
-    {/*<Techs />
-    <AboutMe /> */}
+    <Techs />
+    {/*<AboutMe /> */}
     </section>
   )
 }
