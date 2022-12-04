@@ -49,12 +49,12 @@
 .aboutProject__progress{
   display: flex;
   margin: 0 auto;
-  padding: 0 70px 14px;
+  padding: 0 70px 90px;
   list-style-type: none;
   max-width: calc(1280 - 80px*2);
   text-align: center;
-  justify-content: center;
-  align-items: center;
+
+
 }
 
 .aboutProject__progress_backend-line{
