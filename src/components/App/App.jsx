@@ -5,7 +5,7 @@ import React from "react";
 // import Register from "./Register";
 // import Loading from "./Promo";
 // import Header from "./Header";
-import Main from "../Main/Main";
+import Main from "../Main/Main.jsx";
 // import Footer from "./Footer";
 // import ProtectedRoute from "./ProtectedRoute";
 import './App.css';
