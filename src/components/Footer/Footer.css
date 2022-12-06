@@ -7,6 +7,8 @@
   margin: 0 auto;
   font-family: 'Inter';
   font-style: normal;
+  position: relative;
+  bottom: 0;
 }
 
 .footer__title{

@@ -14,8 +14,8 @@ function App() {
   return(
     <div className="App">
       <div className="page">
-        {/* <Header/>
-        <Main /> */}
+        <Header/>
+        <Main />
         <Footer />
       {/*       <Switch>
             <Route path="/">
