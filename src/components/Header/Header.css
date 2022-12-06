@@ -1,0 +1,49 @@
+.header{
+  margin: 18px auto 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: calc(1280px - 70px*2);
+}
+
+.header__link{
+  text-decoration: none;
+  margin-right: 30px;
+  color: #000;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 30px;
+}
+
+.header__link:last-child{
+  margin-right: 0;
+}
+
+.header__link-logo{
+  width: 38px;
+  height: 38px;
+}
+
+.header__logo{
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.header__navInfo{
+  display: flex;
+  align-items: center;
+}
+
+.header__link_login{
+  height: 32px;
+  width: 76px;
+  background-color: #2BE080;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+

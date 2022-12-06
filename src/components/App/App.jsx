@@ -4,9 +4,9 @@ import React from "react";
 // import Login from "./Login";
 // import Register from "./Register";
 // import Loading from "./Promo";
-// import Header from "./Header";
+import Header from "../Header/Header.jsx";
 import Main from "../Main/Main.jsx";
-// import Footer from "./Footer";
+import Footer from "../Footer/Footer.jsx";
 // import ProtectedRoute from "./ProtectedRoute";
 import './App.css';
 
@@ -14,9 +14,10 @@ function App() {
   return(
     <div className="App">
       <div className="page">
-        <Main />
-      {/* <Header/>
-      <Switch>
+        {/* <Header/>
+        <Main /> */}
+        <Footer />
+      {/*       <Switch>
             <Route path="/">
               <Loading/>
             </Route>
@@ -35,8 +36,8 @@ function App() {
               <Redirect to="/404" />
             </Route>
           </Switch>
+*/}
 
-          <Footer /> */}
       </div>
     </div>
   );

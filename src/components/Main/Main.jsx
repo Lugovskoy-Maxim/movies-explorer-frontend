@@ -1,18 +1,18 @@
 import React from "react";
-// import { Link, useLocation, Switch, Route } from "react-router-dom";
 import Promo from "./Promo/Promo.jsx";
 import Techs from "./Techs/Techs.jsx";
 import AboutProject from "./AboutProject/AboutProject.jsx";
 import AboutMe from "./AboutMe/AboutMe.jsx";
 import "./Main.css";
+
 function Main(props) {
 
   return(
     <section className="Main">
-    <Promo />
-    <AboutProject />
-    <Techs />
-    <AboutMe />
+      <Promo />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
     </section>
   )
 }
