@@ -7,7 +7,8 @@ import React from "react";
 // import Header from "../Header/Header.jsx";
 // import Main from "../Main/Main.jsx";
 // import Footer from "../Footer/Footer.jsx";
-import SignIn from "../SignIn/SignIn.jsx";
+// import SignIn from "../SignIn/SignIn.jsx";
+import SignUp from "../SignUp/SignUp.jsx";
 // import ProtectedRoute from "./ProtectedRoute";
 import './App.css';
 
@@ -16,8 +17,9 @@ function App() {
     <div className="App">
       <div className="page">
         {/* <Header/>
-        <Main />  */}
-        <SignIn />
+        <Main />
+        <SignIn /> */}
+        <SignUp />
         {/* <Footer /> */}
 
 

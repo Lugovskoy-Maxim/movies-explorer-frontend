@@ -1,4 +1,4 @@
-.signin{
+.signup{
   justify-content: center;
   align-items: center;
   font-family: 'Inter';
@@ -8,12 +8,12 @@
   text-align: left;
 }
 
-.signin__link-logo{
+.signup__link-logo{
   width: 38px;
   height: 38px;
 }
 
-.signin__logo{
+.signup__logo{
   width: 38px;
   height: 38px;
   object-fit: cover;
@@ -22,7 +22,7 @@
   margin: 70px auto 40px;
 }
 
-.signin__title{
+.signup__title{
   text-align: left;
 
   margin: 0 auto;
@@ -31,14 +31,14 @@
   line-height: 29px;
 }
 
-.signin__form{
+.signup__form{
   position: relative;
   margin: 0 auto;
   max-width: 396px;
   padding-top: 40px;
 }
 
-.signin__lable{
+.signup__lable{
   margin: 0 auto;
   left: 0;
   font-weight: 400;
@@ -48,7 +48,7 @@
   text-align: left;
 }
 
-.signin__input{
+.signup__input{
   margin-top: 5px;
   padding: 0;
   border: none;
@@ -61,22 +61,23 @@
   outline: 0 !important;
 }
 
-.signin__line{
-  margin: 10px auto 0;
+.signup__line{
+  margin: 10px auto 24px;
+
   background: #E8E8E8;
 }
 
-.signin__line:first-of-type{
-  margin: 10px auto 24px;
+.signup__line:last-of-type{
+  margin: 10px auto 0;
 }
 
-.signin__button-container{
+.signup__button-container{
   margin-top: 215px;
   max-width: 396px;
   max-height: 45px;
 }
 
-.signin__save-button{
+.signup__save-button{
   border: none;
   width: 396px;
   height: 45px;
@@ -89,13 +90,13 @@
   border-radius: 3px;
 }
 
-.signin__register-container{
+.signup__register-container{
   align-items: center;
   display: flex;
   margin-top: 16px;
 }
 
-.signin__link{
+.signup__link{
   text-decoration: none;
   font-weight: 400;
   font-size: 14px;
@@ -107,7 +108,7 @@
 
 
 
-.signin__register-title{
+.signup__register-title{
   margin: 0 6px 0 auto;
   font-weight: 400;
   font-size: 14px;
