@@ -76,7 +76,7 @@ function SignUp(props) {
         <hr className="signup__line" />
         <div className="signup__button-container">
           <button type="submit" className="signup__save-button">
-            Войти
+          Зарегистрироваться
           </button>
         </div>
         <div className="signup__register-container">
