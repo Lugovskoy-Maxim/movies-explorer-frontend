@@ -1,0 +1,34 @@
+.NotFaundPage{
+  font-family: 'Inter';
+  font-style: normal;
+  text-align: center;
+}
+
+.notfaund__title{
+  margin: 0 auto;
+  padding-top: 246px;
+  font-weight: 400;
+  font-size: 140px;
+  line-height: 169px;
+
+}
+
+.notfaund__description{
+  margin: 0 auto;
+  padding-top: 5px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.notfaund__button{
+  margin: 0 auto;
+  padding-top: 186px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #2BE080;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+}
