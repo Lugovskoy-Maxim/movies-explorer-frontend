@@ -6,8 +6,9 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 // import Register from "./Register";
 // import Loading from "./Promo";
 import Header from "../Header/Header.js";
+import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.js";
 // import Main from "../Main/Main.jsx";
-// import Footer from "../Footer/Footer.jsx";
+import Footer from "../Footer/Footer.jsx";
 // import SignIn from "../SignIn/SignIn.jsx";
 // import SignUp from "../SignUp/SignUp.jsx";
 // import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
@@ -22,13 +23,14 @@ function App() {
         <div className="page">
           <Header
           onLogin={currentUser}  />
+          <MoviesExplorer/>
           {/* <Main />
           <SignIn />
           <SignUp />
           <NotFaundPage /> */}
 
 
-          {/* <Footer /> */}
+        <Footer />
 
 
         {/*       <Switch>
