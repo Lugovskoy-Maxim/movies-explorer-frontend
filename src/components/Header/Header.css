@@ -47,3 +47,15 @@
   text-align: center;
 }
 
+.header__button{
+  border: none;
+  width: 100px;
+  height: 32px;
+  background: #F9F9F9;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+  cursor: pointer;
+}
