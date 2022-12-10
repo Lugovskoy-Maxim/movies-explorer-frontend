@@ -1,4 +1,5 @@
 import React from "react";
+
 // import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 
 // import Login from "./Login";
@@ -8,7 +9,8 @@ import React from "react";
 // import Main from "../Main/Main.jsx";
 // import Footer from "../Footer/Footer.jsx";
 // import SignIn from "../SignIn/SignIn.jsx";
-import SignUp from "../SignUp/SignUp.jsx";
+// import SignUp from "../SignUp/SignUp.jsx";
+import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 // import ProtectedRoute from "./ProtectedRoute";
 import './App.css';
 
@@ -18,8 +20,11 @@ function App() {
       <div className="page">
         {/* <Header/>
         <Main />
-        <SignIn /> */}
-        <SignUp />
+        <SignIn />
+        <SignUp /> */}
+        <NotFaundPage />
+
+
         {/* <Footer /> */}
 
 
