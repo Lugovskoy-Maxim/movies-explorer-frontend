@@ -23,6 +23,7 @@
 }
 
 .movieElement__title{
+  cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
@@ -37,6 +38,7 @@
 }
 
 .movieElement__seveButton{
+  cursor: pointer;
   margin-right: 14px;
   background: none;
   border: none;
@@ -51,4 +53,5 @@
 
 .movieElement__preview{
   object-fit: cover;
+  cursor: pointer;
 }

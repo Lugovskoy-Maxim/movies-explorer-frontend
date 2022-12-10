@@ -1,3 +1,13 @@
 .movies__elements{
+  justify-content: center;
+  max-width: 1280px;
+  column-gap: 24px;
   display: grid;
+  grid-template-columns: repeat(auto-fit, 364px);
+  grid-template-rows: -webkit-max-content;
+  grid-template-rows: max-content;
+  justify-content: center;
+  row-gap: 30px;
+  margin: 0 auto;
+  padding: 0;
 }
