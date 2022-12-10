@@ -8,7 +8,7 @@ function Movie({
   function getTimeFromMins(duration) {
     const hours = Math.trunc(duration/60);
     const minutes = duration % 60;
-    return (hours == 0 ? "" : hours + "ч " )  + minutes + "м";
+    return (hours === 0 ? "" : hours + "ч " )  + minutes + "м";
   }
   return(
     <li className="movieElement">
