@@ -1,7 +1,8 @@
 // import React from "react";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { Route, Switch, useHistory, Redirect } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { WindiwSizeContext } from "../../context/WindiwSizeContext";
 // import Login from "./Login";
 // import Register from "./Register";
 // import Loading from "./Promo";
@@ -17,8 +18,26 @@ import './App.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
+  const [windowSize, setWindowSize] = React.useState(getWindowSize());
+
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
+  function getWindowSize(){
+    const width = document.documentElement.clientWidth;
+    return width;
+  }
+
   return(
     <CurrentUserContext.Provider value={currentUser}>
+      <WindiwSizeContext.Provider value={windowSize}>
       <div className="App">
         <div className="page">
           <Header
@@ -56,6 +75,7 @@ function App() {
 
         </div>
       </div>
+      </WindiwSizeContext.Provider>
     </CurrentUserContext.Provider>
   );
 }

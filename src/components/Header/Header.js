@@ -6,7 +6,6 @@ import Logo from "../../images/logo.svg";
 function Header(props) {
 
   function toggleNavigation() {
-    console.log(props.onLogin)
     if (!props.onLogin){
       return(
         <button className="header__button">Аккаунт</button>

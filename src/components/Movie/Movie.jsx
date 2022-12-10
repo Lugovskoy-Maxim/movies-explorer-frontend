@@ -3,7 +3,7 @@ import movieDefaultImage from "../../images/movieDefaultImage.png"
 import './Movie.css';
 
 function Movie({
-  name, duration, imageUrl
+  name, duration, imageUrl,
 }){
   function getTimeFromMins(duration) {
     const hours = Math.trunc(duration/60);
@@ -16,6 +16,7 @@ function Movie({
         <div className="movieElement__info">
           <p className="movieElement__title">{name}</p>
           <p className="movieElement__duraption">{getTimeFromMins(duration)}</p>
+
         </div>
         <button className="movieElement__seveButton"></button>
       </div>
