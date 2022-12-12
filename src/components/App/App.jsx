@@ -7,7 +7,8 @@ import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слуш
 // import Register from "./Register";
 // import Loading from "./Promo";
 import Header from "../Header/Header.js";
-import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.js";
+import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
+import MoviesSaved from "../MoviesExplorer/MoviesSaved/MoviesSaved.jsx";
 // import Main from "../Main/Main.jsx";
 import Footer from "../Footer/Footer.jsx";
 // import SignIn from "../SignIn/SignIn.jsx";
@@ -15,6 +16,8 @@ import Footer from "../Footer/Footer.jsx";
 // import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 // import ProtectedRoute from "./ProtectedRoute";
 import './App.css';
+import moviesDB from "../../utils/moviesBD"
+import moviesSaveDB from "../../utils/moviesSaveBD"
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
@@ -42,8 +45,13 @@ function App() {
         <div className="page">
           <Header
           onLogin={currentUser}  />
-          <MoviesExplorer/>
-          {/* <Main />
+          <MoviesExplorer
+            moviesDB={moviesDB}
+            moviesSaved={moviesSaveDB}
+          />
+          {/* <MoviesSaved
+            moviesDB={moviesSaveDB} />
+          <Main />
           <SignIn />
           <SignUp />
           <NotFaundPage /> */}

@@ -1,11 +1,10 @@
 import React from "react";
-import Movie from "../Movie/Movie.jsx";
-import SearchForm from "./SearchForm/SearchForm"
-import moviesDB from "../../utils/moviesBD"
-import './MoviesExplorer.css';
-import { WindiwSizeContext } from "../../context/WindiwSizeContext.js";
+import Movie from "../../Movie/Movie.jsx";
+import SearchForm from "./../SearchForm/SearchForm"
 
-function MoviesExplorer(){
+import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
+
+function MoviesSaved({ moviesDB }){
   const windowSize = React.useContext(WindiwSizeContext);
 
   function getMoviesListLength(){
@@ -46,4 +45,4 @@ function MoviesExplorer(){
   )
 }
 
-export default MoviesExplorer;
+export default MoviesSaved;
