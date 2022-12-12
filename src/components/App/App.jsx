@@ -1,8 +1,8 @@
 // import React from "react";
 import React, { useState, useEffect } from 'react';
 // import { Route, Switch, useHistory, Redirect } from "react-router-dom";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { WindiwSizeContext } from "../../context/WindiwSizeContext";
+import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
+import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
 // import Login from "./Login";
 // import Register from "./Register";
 // import Loading from "./Promo";
@@ -18,9 +18,9 @@ import './App.css';
 
 function App() {
   const [currentUser, setCurrentUser] = useState();
-  const [windowSize, setWindowSize] = React.useState(getWindowSize());
+  const [windowSize, setWindowSize] = React.useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
 
-  useEffect(() => {
+  useEffect(() => { // обновление стейта переменной для подписки компонентов
     function handleWindowResize() {
       setWindowSize(getWindowSize());
     }
@@ -30,7 +30,7 @@ function App() {
     };
   }, []);
 
-  function getWindowSize(){
+  function getWindowSize(){ // получение размера ширины окна
     const width = document.documentElement.clientWidth;
     return width;
   }
