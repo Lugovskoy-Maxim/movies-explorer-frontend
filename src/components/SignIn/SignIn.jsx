@@ -52,6 +52,7 @@ function SignIn(props) {
           id="password"
           name="password"
           type="password"
+          autoComplete="off"
           value={password || ""}
           onChange={handlePasswordChange}
         />

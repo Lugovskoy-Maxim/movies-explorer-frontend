@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Header.css";
 import Logo from "../../images/logo.svg";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
@@ -7,7 +7,9 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 function Header() {
   const location = useLocation();
   const currentUser = React.useContext(CurrentUserContext);
+  const navigate = useNavigate();
 
+  const toProfile = () => navigate("/profile");
    React.useEffect(() => {
     toggleNavigation()
    }, [currentUser])
@@ -23,11 +25,9 @@ function Header() {
       return className + "-notactive"
   }
 
-
-
   function toggleNavigation() {
     if (typeof currentUser == 'object') {
-      return <button className="header__button">Аккаунт</button>;
+      return <button className="header__button" onClick={toProfile}>Аккаунт</button>;
     } else {
       return (
         <div className="header__nav_info">

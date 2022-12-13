@@ -18,6 +18,7 @@ import moviesSaveDB from "../../utils/moviesSaveBD.js"
 
 
 function App() {
+
   const [currentUser, setCurrentUser] = useState({
     name: "Виталий",
     email: "Test@test.ru"
@@ -63,8 +64,8 @@ function App() {
                 path="/profile"
                 element={
                   <>
-                    <Header signOut={signOut} />
-                    <Profile />
+                    <Header  />
+                    <Profile onSignOut={signOut}/>
                   </>
                 }
               />

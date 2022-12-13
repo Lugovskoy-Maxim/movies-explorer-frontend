@@ -3,7 +3,8 @@ import { useNavigate  } from "react-router-dom";
 import "./Profile.css";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Profile({ signOut}) {
+function Profile({ onSignOut }) {
+
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName ] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
@@ -76,10 +77,20 @@ function Profile({ signOut}) {
             Редактировать
           </button>
         </div>
-          <button className="profile__signout-button button" onClick={signOut}>
+        <button
+            type="button"
+            className="profile__signout-button button"
+            onClick={
+              () => {
+                onSignOut()
+                navigate("/signin")
+              }
+            }
+          >
             Выйти из аккаунта
           </button>
       </form>
+
     </section>
     </>
   );
