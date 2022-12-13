@@ -7,6 +7,33 @@
   align-items: center;
 }
 
+@media only screen and (max-width: 1280px) {
+  .header{
+    margin: 18px 70px 38px;
+    max-width: calc(1280px - 30px*2);
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header{
+    margin: 18px 30px 30px;
+    max-width: calc(800px - 30px*2);
+  }
+
+  .header__link{
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .header{
+    margin: 18px 14px 18px;
+    max-width: calc(320px - 14px*2);
+  }
+}
+
 .header__link{
   text-decoration: none;
   margin-right: 30px;

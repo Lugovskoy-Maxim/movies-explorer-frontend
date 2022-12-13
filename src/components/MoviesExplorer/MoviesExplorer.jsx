@@ -11,7 +11,7 @@ function MoviesExplorer({ moviesDB, moviesSaveDB}){
   function getMoviesListLength(){
     if (windowSize >= 1000){
       return 12
-    } else if (windowSize >= 750){
+    } else if (windowSize >= 740){
       return 8
     } else {
       return 4
