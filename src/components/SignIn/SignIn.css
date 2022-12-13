@@ -86,6 +86,7 @@
   color: #FFFFFF;
   background-color: #2BE080;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .signin__register-container{
