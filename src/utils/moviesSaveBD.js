@@ -1,4 +1,4 @@
-const moviesDB = [
+const moviesSaveDB = [
   {
     "id": 1,
     "nameRU": "«Роллинг Стоунз» в изгнании",
@@ -54,8 +54,8 @@ const moviesDB = [
   },
   {
     "id": 2,
-    "nameRU": "All Tomorrow's Parties",
-    "nameEN": "All Tomorrow's Parties",
+    "nameRU": "Aфывфывфыв",
+    "nameEN": "Aфывфывфыв",
     "director": " Джонатан Кауэтт",
     "country": "Великобритания",
     "year": "2009",
@@ -405,4 +405,4 @@ const moviesDB = [
   },
 ]
 
-export default moviesDB;
+export default moviesSaveDB;

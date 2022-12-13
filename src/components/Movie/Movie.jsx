@@ -3,9 +3,18 @@ import { useLocation } from "react-router-dom";
 import movieDefaultImage from "../../images/movieDefaultImage.png";
 import "./Movie.css";
 
-function Movie({ name, duration, imageUrl, savedMoviesDB, moviesDB }) {
+function Movie({ name, duration, imageUrl, moviesSaveDB }) {
   const location = useLocation();
   const pathname = location.pathname;
+
+  function chekSaved(className) { // проверка наличия фильма в сохраненных (позможно придется возвращять кнопки а не классы)
+    if ( moviesSaveDB ) {
+      return moviesSaveDB.find(i => i.nameRU == name) ? className + " " + className + "_active" : className
+    } else {
+      return pathname === '/movies/saved' ? "movieElement__removeButton": className
+    }
+
+}
 
   function getTimeFromMins(duration) {
     const hours = Math.trunc(duration / 60);
@@ -21,12 +30,7 @@ function Movie({ name, duration, imageUrl, savedMoviesDB, moviesDB }) {
           <p className="movieElement__title">{name}</p>
           <p className="movieElement__duraption">{getTimeFromMins(duration)}</p>
         </div>
-        <button
-          className={
-              pathname === '/movies/saved'
-              ? "movieElement__removeButton"
-              : "movieElement__seveButton"
-          }
+        <button className={chekSaved("movieElement__seveButton")}
         ></button>
       </div>
       <img

@@ -6,21 +6,26 @@ import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слуш
 // import Login from "./Login";
 // import Register from "./Register";
 // import Loading from "./Promo";
-import Header from "../Header/Header.js";
-import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
-import MoviesSaved from "../MoviesExplorer/MoviesSaved/MoviesSaved.jsx";
+import Header from "../Header/Header.jsx";
+import Profile from "../Profile/Profile.jsx";
+// import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
+// import MoviesSaved from "../MoviesExplorer/MoviesSaved/MoviesSaved.jsx";
 // import Main from "../Main/Main.jsx";
-import Footer from "../Footer/Footer.jsx";
+// import Footer from "../Footer/Footer.jsx";
 // import SignIn from "../SignIn/SignIn.jsx";
 // import SignUp from "../SignUp/SignUp.jsx";
 // import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 // import ProtectedRoute from "./ProtectedRoute";
 import './App.css';
-import moviesDB from "../../utils/moviesBD"
-import moviesSaveDB from "../../utils/moviesSaveBD"
+// import moviesDB from "../../utils/moviesBD"
+// import moviesSaveDB from "../../utils/moviesSaveBD.js"
+
 
 function App() {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState({
+    name: "Виталий",
+    email: "Test@test.ru"
+  });
   const [windowSize, setWindowSize] = React.useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
 
   useEffect(() => { // обновление стейта переменной для подписки компонентов
@@ -38,51 +43,37 @@ function App() {
     return width;
   }
 
-  return(
+  function signOut(){
+    setCurrentUser("");
+  }
+
+  return (
     <CurrentUserContext.Provider value={currentUser}>
       <WindiwSizeContext.Provider value={windowSize}>
-      <div className="App">
-        <div className="page">
-          <Header
-          onLogin={currentUser}  />
-          <MoviesExplorer
+        <div className="App">
+          <div className="page">
+          <Header />
+            <Profile
+            signOut={signOut}
+            />
+
+         {/* <MoviesExplorer
             moviesDB={moviesDB}
-            moviesSaved={moviesSaveDB}
+            moviesSaveDB={moviesSaveDB}
           />
-          {/* <MoviesSaved
-            moviesDB={moviesSaveDB} />
-          <Main />
+            <MoviesSaved
+            moviesDB={moviesSaveDB}
+            />
+           <Main />
           <SignIn />
           <SignUp />
-          <NotFaundPage /> */}
+          <NotFaundPage />
 
 
         <Footer />
-
-
-        {/*       <Switch>
-              <Route path="/">
-                <Loading/>
-              </Route>
-              <Route path="/signin">
-                <Login/>
-              </Route>
-              <Route path="/signup">
-                <Register/>
-              </Route>
-              <ProtectedRoute
-                exact
-                path="/"
-                component={Main}
-              />
-              <Route path="*">
-                <Redirect to="/404" />
-              </Route>
-            </Switch>
   */}
-
+          </div>
         </div>
-      </div>
       </WindiwSizeContext.Provider>
     </CurrentUserContext.Provider>
   );

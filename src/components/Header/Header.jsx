@@ -2,21 +2,31 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 import Logo from "../../images/logo.svg";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Header(props) {
+function Header() {
   const location = useLocation();
+  const currentUser = React.useContext(CurrentUserContext);
+
+   React.useEffect(() => {
+    toggleNavigation()
+   }, [currentUser])
 
   function chekPathname(pathname, className) {
     if (location.pathname === pathname){
       return className + "-active"
+    } else if (location.pathname === "/profile" ){
+      return "header__link_movies-notactive"
     } else if (!location.pathname.includes('movies')) {
       return className + "-disabled"
     }
       return className + "-notactive"
   }
 
+
+
   function toggleNavigation() {
-    if (props.onLogin) {
+    if (typeof currentUser == 'object') {
       return <button className="header__button">Аккаунт</button>;
     } else {
       return (
@@ -42,13 +52,13 @@ function Header(props) {
       <nav className="header__nav">
         <div className="header__nav_movie">
           <Link
-            className={chekPathname("/movies", "header__link_movies") + " " + "header__link_movies"}
+            className={chekPathname("/movies", "header__link_movies") + " " + " header__link_movies"}
             to="/movies"
           >
             Фильмы
           </Link>
           <Link
-            className={chekPathname("/movies/saved", "header__link_movies") + " " + "header__link_movies"}
+            className={chekPathname("/movies/saved", "header__link_movies") + " header__link_movies"}
             to="/movies/saved"
           >
             Сохранённые фильмы

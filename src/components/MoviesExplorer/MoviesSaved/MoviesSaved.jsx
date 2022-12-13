@@ -5,15 +5,16 @@ import SearchForm from "./../SearchForm/SearchForm"
 import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
 
 function MoviesSaved({ moviesDB }){
+
   const windowSize = React.useContext(WindiwSizeContext);
 
   function getMoviesListLength(){
     if (windowSize >= 1000){
-      return 12
+      return 12 // для десктопа
     } else if (windowSize >= 750){
-      return 8
+      return 8 // для планшета
     } else {
-      return 4
+      return 4 // для смартфона
     }
   }
   const [quantity, setQuantity] = React.useState(getMoviesListLength());
@@ -25,6 +26,8 @@ function MoviesSaved({ moviesDB }){
     console.log(quantity);
     console.log(quantity + getMoviesListLength());
   }
+
+
 
   return(
     <section className="movies">

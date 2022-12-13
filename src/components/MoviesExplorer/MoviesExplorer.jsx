@@ -5,7 +5,7 @@ import SearchForm from "./SearchForm/SearchForm"
 import './MoviesExplorer.css';
 import { WindiwSizeContext } from "../../context/WindiwSizeContext.js";
 
-function MoviesExplorer({ moviesDB, moviesSaved}){
+function MoviesExplorer({ moviesDB, moviesSaveDB}){
   const windowSize = React.useContext(WindiwSizeContext);
 
   function getMoviesListLength(){
@@ -33,8 +33,7 @@ function MoviesExplorer({ moviesDB, moviesSaved}){
       <ul className="movies__elements">
         {result.map(movie => (
           <Movie
-            savedMoviesDB={moviesSaved}
-            moviesDB={moviesDB}
+            moviesSaveDB={moviesSaveDB}
             name={movie.nameRU}
             duration={movie.duration}
             imageUrl={movie.image.url}
