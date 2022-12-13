@@ -10,24 +10,28 @@ function Header() {
   const navigate = useNavigate();
 
   const toProfile = () => navigate("/profile");
-   React.useEffect(() => {
-    toggleNavigation()
-   }, [currentUser])
+  React.useEffect(() => {
+    toggleNavigation();
+  }, [currentUser]);
 
   function chekPathname(pathname, className) {
-    if (location.pathname === pathname){
-      return className + "-active"
-    } else if (location.pathname === "/profile" ){
-      return "header__link_movies-notactive"
-    } else if (!location.pathname.includes('movies')) {
-      return className + "-disabled"
+    if (location.pathname === pathname) {
+      return className + "-active";
+    } else if (location.pathname === "/profile") {
+      return "header__link_movies-notactive";
+    } else if (!location.pathname.includes("movies")) {
+      return className + "-disabled";
     }
-      return className + "-notactive"
+    return className + "-notactive";
   }
 
   function toggleNavigation() {
-    if (typeof currentUser == 'object') {
-      return <button className="header__button" onClick={toProfile}>Аккаунт</button>;
+    if (typeof currentUser == "object") {
+      return (
+        <button className="header__button" onClick={toProfile}>
+          Аккаунт
+        </button>
+      );
     } else {
       return (
         <div className="header__nav_info">
@@ -52,14 +56,20 @@ function Header() {
       <nav className="header__nav">
         <div className="header__nav_movie">
           <Link
-            className={ `${chekPathname("/movies", "header__link_movies")} header__link_movies `}
+            className={`${chekPathname(
+              "/movies",
+              "header__link_movies"
+            )} header__link_movies `}
             to="/movies"
           >
             Фильмы
           </Link>
           <Link
-            className={ `${chekPathname("/movies/saved", "header__link_movies")} header__link_movies `}
-            to="/movies/saved"
+            className={`${chekPathname(
+              "/saved-movies",
+              "header__link_movies"
+            )} header__link_movies `}
+            to="/saved-movies"
           >
             Сохранённые фильмы
           </Link>

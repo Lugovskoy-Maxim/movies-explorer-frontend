@@ -1,3 +1,5 @@
+@import url(../../../utils/animate.css);
+
 .aboutMe {
   position: relative;
   margin: 110px auto 0;
@@ -70,6 +72,11 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
+  color: #000;
+}
+
+.aboutMe__link:hover{
+  transform: scale(1.02,1.02);
 }
 
 .aboutMe__partfolio_title{

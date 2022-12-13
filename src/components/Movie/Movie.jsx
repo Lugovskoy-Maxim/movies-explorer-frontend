@@ -11,7 +11,7 @@ function Movie({ name, duration, imageUrl, moviesSaveDB }) {
     if ( moviesSaveDB ) {
       return moviesSaveDB.find(i => i.nameRU === name) ? className + " " + className + "_active" : className
     } else {
-      return pathname === '/movies/saved' ? "movieElement__removeButton": className
+      return pathname === '/saved-movies' ? "movieElement__removeButton": className
     }
 }
 

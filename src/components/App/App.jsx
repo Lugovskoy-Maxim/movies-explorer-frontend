@@ -83,7 +83,7 @@ function App() {
                 }
               />
               <Route
-                path="/movies/saved"
+                path="/saved-movies"
                 element={
                   <>
                     <Header />

@@ -35,6 +35,7 @@ function AboutProject() {
                 </p>
               </li>
             </ul>
+            <scroll-page className="scroll-page" id="tech"></scroll-page>
         </section>
     );
 }

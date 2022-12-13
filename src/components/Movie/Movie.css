@@ -1,3 +1,15 @@
+@keyframes animation-scale {
+  0% {
+    transform: scale(1,1);
+  }
+  50% {
+    transform: scale(1.02,1.02);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+
 .movieElement{
   list-style-type: none;
   margin: 0 auto;
@@ -9,6 +21,10 @@
   background: #FDFDFD;
 }
 
+.movieElement:hover{
+  animation: animation-scale  .5s ease-in-out;
+}
+
 .movieElement__header{
   align-items: center;
   justify-content: space-between;
@@ -18,7 +34,6 @@
 
 .movieElement__info{
   margin-left: 14px;
-
   text-align: left;
 }
 

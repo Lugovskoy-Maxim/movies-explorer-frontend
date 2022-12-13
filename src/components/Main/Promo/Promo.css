@@ -1,4 +1,5 @@
 .promo {
+  scroll-behavior: smooth;
   align-items: center;
   background-color: #F5F5F5;
   max-width: 1200px;
@@ -32,6 +33,7 @@
 }
 
 .promo_nav_link{
+  cursor: pointer;
   font-weight: 550;
   font-size: 12px;
   line-height: 16px;
@@ -44,8 +46,23 @@
   border-radius: 10px;
   background-color: #E8E8E8;
   margin-bottom: 30px;
+  transition: all 0.3s ease;
+}
+
+.promo__nav_link:hover{
+  transform: translateY(5px);
 }
 
 .promo_nav_link:last-child{
   margin-right: 0;
+}
+
+.promo__link{
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: #000;
+}
+
+.promo__link:hover{
+  transform: scale(1.1,1.1);
 }

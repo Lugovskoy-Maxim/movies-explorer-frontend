@@ -4,6 +4,7 @@ import "./Techs.css";
 function Techs() {
     return (
         <section className="techs">
+
             <h1 className="techs__title">Технологии</h1>
             <h2 className="techs__stack">7 технологий</h2>
             <p className="techs__description">На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
@@ -16,6 +17,7 @@ function Techs() {
                 <li className="techs__item"><p className="techs__name">Express.js</p></li>
                 <li className="techs__item"><p className="techs__name">nongoDB</p></li>
               </ul>
+              <scroll-page id="aboutMe"></scroll-page>
         </section>
     );
 }

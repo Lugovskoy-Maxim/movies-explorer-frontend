@@ -8,10 +8,11 @@
 }
 
 .search__nav{
+  position: relative;
   height: 72px;
   align-items: center;
   display: flex;
-  justify-content: space-between;
+  justify-content:space-between;
 }
 
 .search__nav_left{
@@ -32,7 +33,7 @@
 }
 
 .search__input{
-  width: 650px;
+  width: 750px;
   margin-left:10px;
   font-weight: 400;
   font-size: 18px;
@@ -50,6 +51,13 @@
   height: 34px;
   border-radius:  50%;
   border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.search__find:hover{
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transform: translateX(5px);
 }
 
 .search__togle{
@@ -62,7 +70,6 @@
   border-radius: 20px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
   background-color: #F9F9F9;
-
 }
 
 .search__togle_icon {
@@ -71,7 +78,14 @@
   background-color: white;
   border-radius : 50%;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+
+.search__togle_icon:hover {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.5);
+}
+
 
 .search__togle_active{
   margin-right: 14px;
