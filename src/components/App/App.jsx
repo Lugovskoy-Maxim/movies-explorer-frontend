@@ -1,24 +1,20 @@
-// import React from "react";
 import React, { useState, useEffect } from 'react';
-// import { Route, Switch, useHistory, Redirect } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
-// import Login from "./Login";
-// import Register from "./Register";
-// import Loading from "./Promo";
+
 import Header from "../Header/Header.jsx";
 import Profile from "../Profile/Profile.jsx";
-// import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
-// import MoviesSaved from "../MoviesExplorer/MoviesSaved/MoviesSaved.jsx";
-// import Main from "../Main/Main.jsx";
-// import Footer from "../Footer/Footer.jsx";
-// import SignIn from "../SignIn/SignIn.jsx";
-// import SignUp from "../SignUp/SignUp.jsx";
-// import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
-// import ProtectedRoute from "./ProtectedRoute";
+import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
+import MoviesSaved from "../MoviesExplorer/MoviesSaved/MoviesSaved.jsx";
+import Main from "../Main/Main.jsx";
+import Footer from "../Footer/Footer.jsx";
+import SignIn from "../SignIn/SignIn.jsx";
+import SignUp from "../SignUp/SignUp.jsx";
+import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 import './App.css';
-// import moviesDB from "../../utils/moviesBD"
-// import moviesSaveDB from "../../utils/moviesSaveBD.js"
+import moviesDB from "../../utils/moviesBD"
+import moviesSaveDB from "../../utils/moviesSaveBD.js"
 
 
 function App() {
@@ -52,26 +48,53 @@ function App() {
       <WindiwSizeContext.Provider value={windowSize}>
         <div className="App">
           <div className="page">
-          <Header />
-            <Profile
-            signOut={signOut}
-            />
-
-         {/* <MoviesExplorer
-            moviesDB={moviesDB}
-            moviesSaveDB={moviesSaveDB}
-          />
-            <MoviesSaved
-            moviesDB={moviesSaveDB}
-            />
-           <Main />
-          <SignIn />
-          <SignUp />
-          <NotFaundPage />
-
-
-        <Footer />
-  */}
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Header />
+                    <Main />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <>
+                    <Header signOut={signOut} />
+                    <Profile />
+                  </>
+                }
+              />
+              <Route
+                path="/movies"
+                element={
+                  <>
+                    <Header />
+                    <MoviesExplorer
+                      moviesDB={moviesDB}
+                      moviesSaveDB={moviesSaveDB}
+                    />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route
+                path="/movies/saved"
+                element={
+                  <>
+                    <Header />
+                    <MoviesSaved moviesDB={moviesSaveDB} />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="*" element={<NotFaundPage />} />
+            </Routes>
           </div>
         </div>
       </WindiwSizeContext.Provider>

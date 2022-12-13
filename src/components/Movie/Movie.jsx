@@ -9,11 +9,10 @@ function Movie({ name, duration, imageUrl, moviesSaveDB }) {
 
   function chekSaved(className) { // проверка наличия фильма в сохраненных (позможно придется возвращять кнопки а не классы)
     if ( moviesSaveDB ) {
-      return moviesSaveDB.find(i => i.nameRU == name) ? className + " " + className + "_active" : className
+      return moviesSaveDB.find(i => i.nameRU === name) ? className + " " + className + "_active" : className
     } else {
       return pathname === '/movies/saved' ? "movieElement__removeButton": className
     }
-
 }
 
   function getTimeFromMins(duration) {

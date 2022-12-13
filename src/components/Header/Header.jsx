@@ -52,13 +52,13 @@ function Header() {
       <nav className="header__nav">
         <div className="header__nav_movie">
           <Link
-            className={chekPathname("/movies", "header__link_movies") + " " + " header__link_movies"}
+            className={ `${chekPathname("/movies", "header__link_movies")} header__link_movies `}
             to="/movies"
           >
             Фильмы
           </Link>
           <Link
-            className={chekPathname("/movies/saved", "header__link_movies") + " header__link_movies"}
+            className={ `${chekPathname("/movies/saved", "header__link_movies")} header__link_movies `}
             to="/movies/saved"
           >
             Сохранённые фильмы
