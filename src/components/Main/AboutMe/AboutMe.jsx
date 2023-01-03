@@ -45,7 +45,7 @@ function aboutMe() {
           >
             Страничный сайт
           </a>
-          <p className="about-me__partfolio-icon">↗</p>
+          <p className="about-me__partfolio-icon">&#8599;</p>
         </li>
         <li className="about-me__partfolio-link about-me__link">
           <a
@@ -56,7 +56,7 @@ function aboutMe() {
           >
             Адаптивный сайт
           </a>
-          <p className="about-me__partfolio-icon">↗</p>
+          <p className="about-me__partfolio-icon">&#8599;</p>
         </li>
         <li className="about-me__partfolio-link about-me__link">
           <a
@@ -67,7 +67,7 @@ function aboutMe() {
           >
             Одностраничное приложение
           </a>
-          <p className="about-me__partfolio-icon">↗</p>
+          <p className="about-me__partfolio-icon">&#8599;</p>
         </li>
       </ul>
     </section>
