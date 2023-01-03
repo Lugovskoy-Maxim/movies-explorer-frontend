@@ -1,7 +1,10 @@
 import React from "react";
 import Movie from "../Movie/Movie.jsx";
 import SearchForm from "./SearchForm/SearchForm"
-
+import Header from "../Header/Header.jsx";
+import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
+import HeaderNavigationMovies from "../Header/__nav-movies/Header__nav-movies"
+import Footer from "../Footer/Footer.jsx";
 import './MoviesExplorer.css';
 import { WindiwSizeContext } from "../../context/WindiwSizeContext.js";
 
@@ -27,7 +30,12 @@ function MoviesExplorer({ moviesDB, moviesSaveDB}){
     console.log(quantity + getMoviesListLength());
   }
 
-  return(
+    return (
+      <>
+        <Header>
+          {HeaderNavigationProfile()}
+          {HeaderNavigationMovies()}
+        </Header>
     <section className="movies">
       <SearchForm />
       <ul className="movies__elements">
@@ -44,6 +52,8 @@ function MoviesExplorer({ moviesDB, moviesSaveDB}){
       </ul>
       <button className={ moviesDB.length >= quantity ? "movies__add-button" : "movies__add-button_hide" } onClick={addMovies}>Ещё</button>
     </section>
+    <Footer/>
+    </>
   )
 }
 

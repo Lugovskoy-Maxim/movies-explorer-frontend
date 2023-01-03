@@ -1,6 +1,6 @@
 @import url(../../../utils/animate.css);
 
-.aboutMe {
+.about-me {
   position: relative;
   margin: 110px auto 0;
   padding-bottom: 100px;
@@ -13,29 +13,29 @@
   font-style: normal;
 }
 
-.aboutMe__title {
+.about-me__title {
   letter-spacing: -0.04em;
   font-weight: 400;
   font-size: 22px;
   line-height: 27px;
-  margin: 0 auto 0 70px ;
+  margin: 0 70px;
   max-width: 1140px;
   padding-bottom: 23px;
   border-bottom: 1px solid #000;
 }
 
-.aboutMe__container {
+.about-me__container {
   position: relative;
   display: flex;
   justify-content: space-between;
   margin: 66px 70px 0;
 }
 
-.aboutMe__info{
+.about-me__info{
   position: relative;
 }
 
-.aboutMe__name{
+.about-me__name{
   margin: 0 0 18px;
   font-weight: 400;
   font-size: 50px;
@@ -43,15 +43,17 @@
   letter-spacing: -0.04em;
 }
 
-.aboutMe__profession{
+.about-me__profession{
   font-weight: 600;
   font-size: 18px;
   line-height: 20px;
   mix-blend-mode: normal;
 }
 
-.aboutMe__bio{
-  margin-top: 26px;
+.about-me__bio{
+  margin: 26px 0 0;
+  padding-bottom: 18px;
+  /*паддинг для того что бы не перекрывать кнопку с абсолютным расположением */
   max-width: 600px;
   font-weight: normal;
   font-size: 14px;
@@ -59,13 +61,14 @@
   mix-blend-mode: normal;
 }
 
-.aboutMe__photo{
+.about-me__photo{
+  margin-left: 270px;
   border-radius: 10px;
   max-width: 270px;
   max-height: 327px;
 }
 
-.aboutMe__info_link{
+.about-me__info-link{
   position: absolute;
   bottom: 0px;
   text-decoration: none;
@@ -75,12 +78,12 @@
   color: #000;
 }
 
-.aboutMe__link:hover{
+.about-me__link:hover{
   transform: scale(1.02,1.02);
 }
 
-.aboutMe__partfolio_title{
-  margin: 100px 0 30px 70px;
+.about-me__partfolio-title{
+  margin: 100px 70px 30px;
   font-weight: 400;
   font-size: 18px;
   line-height: 20px;
@@ -88,12 +91,12 @@
   mix-blend-mode: normal;
 }
 
-.aboutMe__partfolio_links{
+.about-me__partfolio-links{
   padding: 0 70px;
   margin: 0;
 }
 
-.aboutMe__partfolio_link{
+.about-me__partfolio-link{
   align-items: center;
   border-bottom: 1px solid #E8E8E8;
   display: flex;
@@ -104,16 +107,16 @@
   letter-spacing: -0.04em;
 }
 
-.aboutMe__partfolio_link:last-child{
+.about-me__partfolio-link:last-child{
   border-bottom: none;
 }
 
-.aboutMe__partfolio_project{
+.about-me__partfolio-project{
   text-decoration: none;
   color: #000;
 }
 
-.aboutMe__partfolio_icon{
+.about-me__partfolio-icon{
   font-weight: 400;
   font-size: 30px;
   line-height: 60px;
@@ -122,3 +125,85 @@
   margin-bottom: 9px;
   margin-top: 19px;
 }
+
+@media screen and (max-width: 900px) {
+  .about-me__title {
+    margin: 0 50px;
+  }
+  .about-me__photo{
+    margin-left: 50px;
+    padding-bottom: 90px;
+  }
+  .about-me {
+    margin: 90px auto 0;
+  }
+  .about-me__container{
+    margin: 66px 50px 0;
+  }
+  .about-me__partfolio-title{
+    margin: 90px 50px 30px;
+  }
+  .about-me__partfolio-links{
+    padding: 0 50px;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .about-me__title {
+    margin: 0;
+
+    font-weight: 400;
+    font-size: 18px;
+  }
+  .about-me {
+    padding-bottom: 70px;
+    margin: 0 14px;
+  }
+  .about-me__name{
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .about-me__profession{
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .about-me__bio{
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .about-me__photo{
+    margin: 0;
+  }
+  .about-me__info{
+    margin-top: 40px;
+  }
+  .about-me__info-link{
+    bottom: auto;
+    margin-top: 40px;
+  }
+  .about-me__container{
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    margin: 60px 0;
+  }
+  .about-me__partfolio-title{
+    margin:110px 0 30px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .about-me__partfolio-links{
+    padding: 0;
+    margin: 0;
+  }
+  .about-me__partfolio-link{
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .about-me__partfolio-icon{
+    line-height: 28px;
+  }
+}
+

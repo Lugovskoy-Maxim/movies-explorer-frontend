@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SignUp.css";
 import Logo from "../../images/logo.svg";
-
+import Header from "../Header/Header.jsx";
 function SignUp(props) {
 
   const [name, setName ] = useState("");
@@ -29,6 +29,8 @@ function SignUp(props) {
   }
 
   return (
+    <>
+    <Header/>
     <section className="signup">
       <a className="signup__link-logo" href="/">
         <img className="signup__logo" alt="Логотип" src={Logo} />
@@ -87,6 +89,7 @@ function SignUp(props) {
         </div>
       </form>
     </section>
+    </>
   );
 }
 

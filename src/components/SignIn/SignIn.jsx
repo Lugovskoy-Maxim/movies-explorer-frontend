@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SignIn.css";
 import Logo from "../../images/logo.svg";
-
+import Header from "../Header/Header.jsx";
+import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
 function SignIn(props) {
 
   const [email, setEmail ] = useState("");
@@ -24,6 +25,10 @@ function SignIn(props) {
   }
 
   return (
+        <>
+    <Header>
+      {HeaderNavigationProfile()}
+    </Header>
     <section className="signin">
       <a className="signin__link-logo" href="/">
         <img className="signin__logo" alt="Логотип" src={Logo} />
@@ -70,6 +75,7 @@ function SignIn(props) {
         </div>
       </form>
     </section>
+    </>
   );
 }
 

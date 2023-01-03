@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
 import "./Profile.css";
+import Header from "../Header/Header.jsx";
+import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 function Profile({ onSignOut }) {
@@ -40,6 +42,9 @@ function Profile({ onSignOut }) {
 
   return (
     <>
+    <Header>
+      {HeaderNavigationProfile()}
+    </Header>
     <section className="profile">
       <h1 className="profile__title">Привет, {name}</h1>
       <form onSubmit={handleSubmit} className="profile__form">
