@@ -1,5 +1,5 @@
 .aboutProject {
-  margin: 110px 80px 0;
+  margin: 110px 70px 0;
   text-align: left;
   align-items: center;
   font-family: 'Inter';
@@ -57,7 +57,7 @@
 
 .aboutProject__progress{
   display: flex;
-  margin: 0 80px 100px;
+  margin: 0 70px 100px;
   padding: 0;
   list-style-type: none;
   text-align: center;
@@ -102,21 +102,19 @@
 }
 
 
-@media screen and (max-width: 1280px) {
-
-
-
-}
 
 @media screen and (max-width: 780px) {
+  .aboutProject {
+    margin: 110px 70px 0;
+  }
 
   .aboutProject__title{
-    margin: 0 50px 0;
+    margin: 0;
     font-size: 22px;
     line-height: 27px;
   }
   .aboutProject__stages{
-    margin: 70px 80px 110px;
+    margin: 70px 0 110px;
   }
 
   .aboutProject__stage{
@@ -135,11 +133,11 @@
   }
 
   .aboutProject__progress{
-    margin: 0 50px 90px;
-    max-width: calc(768px - 80px*2);
+    margin: 0 0 90px;
   }
 
   .aboutProject__progress_title{
+    font-family: 'Suisse Intl';
     font-weight: 400;
     font-size: 14px;
     line-height: 17px;
@@ -160,18 +158,34 @@
 }
 
 @media screen and (max-width: 450px) {
-
+  .aboutProject{
+    margin: 70px 14px 0;
+  }
   .aboutProject__stages{
     flex-direction: column;
     align-items: flex-start;
-    margin: 60px 18px 60px;
+    margin: 60px 0 60px;
   }
-
+  .aboutProject__stage{
+    margin: 0;
+  }
+  .aboutProject__progress{
+    margin: 0 0 70px;
+  }
   .aboutProject__progress_backend-line{
     height: 35px;
+    font-size: 11px;
   }
 
   .aboutProject__progress_frontend-line{
     height: 35px;
+    font-size: 11px;
+  }
+  .aboutProject__stage:last-of-type{
+    margin: 56px 0 0;
+  }
+  .aboutProject__progress_title{
+    font-size: 11px;
+    line-height: 13px;
   }
 }

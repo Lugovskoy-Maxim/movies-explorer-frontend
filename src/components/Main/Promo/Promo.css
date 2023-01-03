@@ -107,6 +107,9 @@
     line-height: 37px;
   }
 
+  .promo__nav_links{
+    margin: 0 17px;
+  }
   .promo_nav_link{
     width: 82px;
     height: 26px;
