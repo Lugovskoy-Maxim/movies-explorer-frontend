@@ -10,7 +10,7 @@
   }
 }
 
-.movieElement{
+.movie__element{
   list-style-type: none;
   margin: 0 auto;
   width: 364px;
@@ -21,30 +21,30 @@
   background: #FDFDFD;
 }
 
-.movieElement:hover{
+.movie__element:hover{
   animation: animation-scale  .5s ease-in-out;
 }
 
-.movieElement__header{
+.movie__element-header{
   align-items: center;
   justify-content: space-between;
   display: flex;
   margin: 0 auto;
 }
 
-.movieElement__info{
+.movie__element-info{
   margin-left: 14px;
   text-align: left;
 }
 
-.movieElement__title{
+.movie__element-title{
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
 }
 
-.movieElement__duraption{
+.movie__element-duraption{
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
@@ -52,7 +52,7 @@
   color: #A0A0A0;
 }
 
-.movieElement__seveButton{
+.movie__element-saveButton{
   cursor: pointer;
   margin-right: 14px;
   background: none;
@@ -62,11 +62,11 @@
   background-image: url("../../images/saveButton.svg");
 }
 
-.movieElement__seveButton_active{
+.movie__element-saveButton-active{
   background-image: url("../../images/saveButtonActive.svg");
 }
 
-.movieElement__removeButton{
+.movie__element-removeButton{
   cursor: pointer;
   margin-right: 14px;
   background: none;
@@ -76,7 +76,29 @@
   background-image: url("../../images/x-icon.svg");
 }
 
-.movieElement__preview{
-  object-fit: cover;
+.movie__element-preview{
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .movie__element{
+    width: 339px;
+    height: 258px;
+  }
+  .movie__element-preview{
+    width: 339px;
+    height: 190px;
+  }
+
+}
+
+@media screen and (max-width: 350px) {
+  .movie__element{
+    width: 300px;
+    height: 236px;
+  }
+  .movie__element-preview{
+    width: 300px;
+    height: 168px;
+  }
 }

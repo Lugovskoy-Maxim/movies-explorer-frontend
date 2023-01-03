@@ -9,9 +9,9 @@ function Movie({ name, duration, imageUrl, moviesSaveDB }) {
 
   function chekSaved(className) { // проверка наличия фильма в сохраненных (позможно придется возвращять кнопки а не классы)
     if ( moviesSaveDB ) {
-      return moviesSaveDB.find(i => i.nameRU === name) ? className + " " + className + "_active" : className
+      return moviesSaveDB.find(i => i.nameRU === name) ? className + " " + className + "-active" : className
     } else {
-      return pathname === '/saved-movies' ? "movieElement__removeButton": className
+      return pathname === '/saved-movies' ? "movie__element-removeButton": className
     }
 }
 
@@ -23,17 +23,17 @@ function Movie({ name, duration, imageUrl, moviesSaveDB }) {
 
   // нужно сравнить 2 массива и поставить лайки на фильм
   return (
-    <li className="movieElement">
-      <div className="movieElement__header">
-        <div className="movieElement__info">
-          <p className="movieElement__title">{name}</p>
-          <p className="movieElement__duraption">{getTimeFromMins(duration)}</p>
+    <li className="movie__element">
+      <div className="movie__element-header">
+        <div className="movie__element-info">
+          <p className="movie__element-title">{name}</p>
+          <p className="movie__element-duraption">{getTimeFromMins(duration)}</p>
         </div>
-        <button className={chekSaved("movieElement__seveButton")}
+        <button className={chekSaved("movie__element-saveButton")}
         ></button>
       </div>
       <img
-        className="movieElement__preview"
+        className="movie__element-preview"
         src={movieDefaultImage || imageUrl}
         alt={name}
       />
