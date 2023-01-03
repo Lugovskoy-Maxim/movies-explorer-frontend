@@ -161,6 +161,10 @@
   .aboutProject{
     margin: 70px 14px 0;
   }
+  .aboutProject__title{
+    font-size: 18px;
+    line-height: 22px;
+  }
   .aboutProject__stages{
     flex-direction: column;
     align-items: flex-start;
@@ -168,6 +172,14 @@
   }
   .aboutProject__stage{
     margin: 0;
+  }
+  .aboutProject__stage-title{
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .aboutProject__stage_description{
+    font-size: 11px;
+    line-height: 16px;
   }
   .aboutProject__progress{
     margin: 0 0 70px;

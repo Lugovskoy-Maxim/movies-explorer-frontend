@@ -114,6 +114,8 @@
   }
   .techs__description{
     margin: 0 14px;
+    font-size: 11px;
+    line-height: 16px;
   }
   .techs__list{
     margin: 50px auto;
