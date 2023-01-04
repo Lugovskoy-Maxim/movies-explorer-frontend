@@ -18,7 +18,6 @@
   height: 38px;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin: 70px auto 40px;
 }
 
@@ -62,7 +61,7 @@
 }
 
 .signup__line{
-  margin: 10px auto 24px;
+  margin: 10px auto 6px;
 
   background: #E8E8E8;
 }
@@ -116,4 +115,11 @@
   line-height: 17px;
   text-align: center;
   color: #A0A0A0;
+}
+
+.signup__field-error{
+  margin: 6px 0 4px;
+  font-size: 10px;
+  line-height: 12px;
+  color: #EE3465;
 }
