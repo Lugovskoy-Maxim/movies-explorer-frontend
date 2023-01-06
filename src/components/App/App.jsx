@@ -19,7 +19,7 @@ import moviesSaveDB from "../../utils/moviesSaveBD.js";
 function App() {
   const [currentUser, setCurrentUser] = useState({
     name: "Виталий",
-    email: "Test@test.ru",
+    email: "email@domains.com",
   });
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
 

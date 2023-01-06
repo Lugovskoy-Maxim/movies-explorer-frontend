@@ -2,18 +2,86 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SignIn.css";
 import Logo from "../../images/logo.svg";
-import Header from "../Header/Header.jsx";
-import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
+import { useEffect } from "react";
+
 function SignIn(props) {
+  const [email, setEmail] = useState();
+  const [emailValid, setEmailValid] = useState(null);
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState();
+  const [passwordValid, setPasswordValid] = useState(null);
+  const [passwordError, setPasswordError] = useState("");
+  const [availableButton, setAvailableButton] = useState(false);
 
-  const [email, setEmail ] = useState("");
-  const [password, setPassword] = useState("");
+  useEffect(()=> {
+    toggleSubmitButton()
+  },[email, password])
 
-  function handleEmailChange(evt) {
-    setEmail(evt.target.value);
+
+  function toggleSubmitButton() {
+    if(emailValid === true && passwordValid === true ){
+      setAvailableButton(true)
+    } else {
+      setAvailableButton(false);
+    }
   }
 
-  function handlePasswordChange(evt) {
+  const checkValid = (type, value) => {
+    if (type === "email") {
+      const regExpEmail = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (regExpEmail.test(String(value).toLowerCase())) {
+        setEmailValid(true);
+        setEmailError("");
+      } else {
+        setEmailValid(false);
+        setEmailError(errorMessageEmail(value));
+      }
+    } else if (type === "password") {
+      const regExpPassword = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{7,}$/;
+      if (regExpPassword.test(String(value).toLowerCase())) {
+        setPasswordValid(true);
+        setPasswordError("");
+      } else {
+        setPasswordValid(false);
+        setPasswordError(errorMessagePassword(value));
+      }
+    }
+  };
+
+  const errorMessageEmail = () => {
+    return "Неверный формат почты, пример почты: email@domain.com";
+  };
+
+  const errorMessagePassword = (value) => {
+    if (value.length < 8) {
+      return "Пароль должен состоять минимум из 8 символов";
+    } else if (!/[0-9]/.test(value)) {
+      return "Пароль должен содержать минимум 1 цифру";
+    } else if (!/[a-zA-Z]/.test(value)) {
+      return "Пароль должен содержать минимум 1 букву";
+    } else if (/[!@#$%^&*]/.test(value)) {
+      return "Пароль должен состоять только из латинских символов и цифр";
+    } else if (/[a-яА-Я]/.test(value)) {
+      return "Пароль должен состоять только из латинских символов и цифр";
+    }
+  };
+
+  const lineColorEffect = (props) => {
+    if (props == null) {
+      return "signup__line";
+    } else if (props) {
+      return "signup__line signup__line-valid";
+    } else {
+      return "signup__line signup__line-error";
+    }
+  };
+
+  function onEmailChange(evt) {
+    checkValid(evt.target.id, evt.target.value);
+    setEmail(evt.target.value);
+  }
+  function onPasswordChange(evt) {
+    checkValid(evt.target.id, evt.target.value);
     setPassword(evt.target.value);
   }
 
@@ -25,45 +93,63 @@ function SignIn(props) {
   }
 
   return (
-        <>
-    <Header>
-      {HeaderNavigationProfile()}
-    </Header>
     <section className="signin">
       <a className="signin__link-logo" href="/">
         <img className="signin__logo" alt="Логотип" src={Logo} />
       </a>
       <h1 className="signin__title">Рады видеть!</h1>
       <form onSubmit={handleSubmit} className="signin__form">
-        <p className="signin__lable">E-mail</p>
+        <p className="signup__lable">E-mail</p>
         <label htmlFor="email"></label>
         <input
-          className="signin__input"
+          className="signup__input"
           placeholder="Email"
           required
           id="email"
+          autoComplete="off"
           name="email"
           type="email"
           value={email || ""}
-          onChange={handleEmailChange}
+          onChange={onEmailChange}
         />
-        <hr className="signin__line" />
-        <p className="signin__lable">Пароль</p>
+        <hr className={lineColorEffect(emailValid)} />
+        <p
+          className={`signup__field-error ${
+            emailValid ? "" : "signup__field-error-active"
+          }`}
+          id="email-error"
+        >
+          {emailError}
+        </p>
+        <p className="signup__lable">Пароль</p>
         <label htmlFor="password"></label>
         <input
-          className="signin__input"
+          className="signup__input"
           placeholder="Пароль"
           required
           id="password"
           name="password"
           type="password"
-          autoComplete="off"
           value={password || ""}
-          onChange={handlePasswordChange}
+          onChange={onPasswordChange}
         />
-        <hr className="signin__line" />
+        <hr className={lineColorEffect(passwordValid)} />
+        <p
+          className={`signup__field-error ${
+            passwordValid ? "" : "signup__field-error-active"
+          }`}
+          id="password-error"
+        >
+          {passwordError}
+        </p>
         <div className="signin__button-container">
-          <button type="submit" className="signin__save-button">
+          <button
+            type="submit"
+            disabled={availableButton? "" : "disable"}
+            className={`signin__save-button ${
+              availableButton ? "" : "signin__save-button-disable"
+            }`}
+          >
             Войти
           </button>
         </div>
@@ -75,7 +161,6 @@ function SignIn(props) {
         </div>
       </form>
     </section>
-    </>
   );
 }
 

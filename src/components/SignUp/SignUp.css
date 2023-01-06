@@ -62,8 +62,17 @@
 
 .signup__line{
   margin: 10px auto 6px;
+  border: 0;
+  border-bottom: 1px solid;
+  border-color: #E8E8E8;
+}
 
-  background: #E8E8E8;
+.signup__line-error{
+  border-color: #EE3465;
+}
+
+.signup__line-valid{
+  border-color: #2BE080;
 }
 
 .signup__line:last-of-type{
@@ -88,6 +97,11 @@
   background-color: #2BE080;
   border-radius: 3px;
   cursor: pointer;
+}
+
+.signup__save-button-disable{
+  background-color: #E8E8E8;
+  cursor: not-allowed;
 }
 
 .signup__register-container{
@@ -119,7 +133,11 @@
 
 .signup__field-error{
   margin: 6px 0 4px;
+  height: 12px;
   font-size: 10px;
   line-height: 12px;
+}
+
+.signup__field-error-active{
   color: #EE3465;
 }
