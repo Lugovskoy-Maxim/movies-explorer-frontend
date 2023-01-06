@@ -14,7 +14,6 @@ function HeaderNavProfile() {
   // const toProfile = () => navigate("/profile");
 
   const togglePopup = () => {
-    console.log(popupOpen)
     return  !popupOpen ? "header__popup" : "header__popup header__popup-opened";
   }
 
@@ -31,9 +30,9 @@ function HeaderNavProfile() {
             Аккаунт
           </button>
           <div className={togglePopup()}>
-            <botton className="header__popup-button" onClick={() => setPopupOpen(false)}>
+            <button className="header__popup-button" onClick={() => setPopupOpen(false)}>
               <img className="header__popup-button-image" alt="Закрыть" src={closeButton} />
-            </botton>
+            </button>
             <ul className="header__popup-links">
               <li className="header__popup-link">
                 <Link className="header__popup-link-title" to="/">
