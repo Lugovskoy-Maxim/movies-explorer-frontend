@@ -119,3 +119,52 @@
   text-align: center;
   color: #A0A0A0;
 }
+
+@media screen and (max-width:770px) {
+  .signin__logo{
+    margin: 232px auto 40px;
+  }
+
+}
+
+@media screen and (max-width:500px) {
+  .signin{
+    text-align: center;
+  }
+  .signin__logo{
+    margin: 56px auto 50px;
+  }
+  .signin__title{
+    text-align: center;
+  }
+  .signin__input{
+    width: 100%;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .signin__button-container{
+    margin-top: 215px;
+    max-width: 396px;
+    max-height: 45px;
+  }
+
+  .signin__form{
+    margin: 0 30px;
+  }
+
+  .signin__save-button{
+    width: 260px;
+    height: 45px;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 0;
+  }
+  .signin__register-title{
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .signin__link{
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

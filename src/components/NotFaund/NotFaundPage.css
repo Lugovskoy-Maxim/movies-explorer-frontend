@@ -1,7 +1,9 @@
-.NotFaundPage{
+.notfaund-page{
   font-family: 'Inter';
   font-style: normal;
   text-align: center;
+  height: 100%;
+
 }
 
 .notfaund__title{
@@ -10,6 +12,7 @@
   font-weight: 400;
   font-size: 140px;
   line-height: 169px;
+
 
 }
 
@@ -31,4 +34,29 @@
   border: none;
   background-color: #fff;
   cursor: pointer;
+}
+
+
+@media screen and (max-width: 770px) {
+  .notfaund__title{
+    padding-top: 410px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .notfaund__title{
+    font-size: 80px;
+    line-height: 97px;
+    padding-top: 330px;
+  }
+  .notfaund__description{
+    padding-top: 10px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .notfaund__button{
+    padding-top: 284px;
+    font-size: 12px;
+line-height: 15px;
+  }
 }

@@ -6,7 +6,7 @@ function NotFaundPage(){
   const navigate = useNavigate();
 
   return(
-    <section className="NotFaundPage">
+    <section className="notfaund-page">
       <h1 className="notfaund__title">404</h1>
       <p className="notfaund__description">Страница не найдена</p>
       <button className="notfaund__button" onClick={() => navigate(-1)}>Назад</button>

@@ -141,3 +141,52 @@
 .signup__field-error-active{
   color: #EE3465;
 }
+
+@media screen and (max-width:770px) {
+  .signup__logo{
+    margin: 232px auto 40px;
+  }
+
+}
+
+@media screen and (max-width:500px) {
+  .signup{
+    text-align: center;
+  }
+  .signup__logo{
+    margin: 56px auto 50px;
+  }
+  .signup__title{
+    text-align: center;
+  }
+  .signup__input{
+    width: 100%;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .signup__button-container{
+    margin-top: 215px;
+    max-width: 396px;
+    max-height: 45px;
+  }
+
+  .signup__form{
+    margin: 0 30px;
+  }
+
+  .signup__save-button{
+    width: 260px;
+    height: 45px;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 0;
+  }
+  .signup__register-title{
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .signup__link{
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

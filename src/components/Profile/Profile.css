@@ -76,3 +76,28 @@
   border: none;
   background-color: #fff;
 }
+
+@media screen and (max-width: 770px) {
+  .profile__title{
+        padding-top: 236px;
+  }
+  .profile__form{
+    padding-top: 96px;
+  }
+  .profile__button-container{
+    padding-top: 210px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .profile__title{
+    padding-top: 70px;
+  }
+  .profile__form{
+    padding-top: 80px;
+    margin: 0 30px;
+  }
+  .profile__button-container{
+    padding-top: 380px;
+  }
+}

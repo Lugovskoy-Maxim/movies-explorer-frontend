@@ -46,7 +46,7 @@ function Profile({ onSignOut }) {
       {HeaderNavigationProfile()}
     </Header>
     <section className="profile">
-      <h1 className="profile__title">Привет, {name}</h1>
+      <h1 className="profile__title">Привет, {name}!</h1>
       <form onSubmit={handleSubmit} className="profile__form">
         <div className="profile__container">
           <p className="profile__lable">Имя</p>
