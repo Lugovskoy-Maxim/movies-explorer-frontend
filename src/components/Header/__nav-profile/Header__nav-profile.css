@@ -107,9 +107,30 @@
   text-decoration: none;
 }
 
+.header__link_register{
+  margin-right: 30px;
+}
+
+.header__link_login{
+  text-align: center;
+  justify-content: center;
+}
+
 .header__popup-link-title-active{
   padding-bottom: 4px;
   border-bottom: 2px solid black;
+}
+
+.header__link {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.header__link:last-child {
+  line-height: 32px;
 }
 
 
@@ -129,5 +150,11 @@
   }
   .header__popup-opened {
     width: 320px;
+  }
+  .header__link_register{
+    margin-right: 14px;
+  }
+  .header__link:last-child {
+    line-height: 26px;
   }
 }
