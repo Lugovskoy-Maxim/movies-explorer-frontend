@@ -1,21 +1,41 @@
 import React from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../../context/CurrentUserContext";
 import "./Header__nav-profile.css";
 import closeButton from "../../../images/closeButton.svg";
-
+import menuButton from "../../../images/mainburger.svg";
+import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
 
 function HeaderNavProfile() {
-  const currentUser = React.useContext(CurrentUserContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentUser = React.useContext(CurrentUserContext);
   const [popupOpen, setPopupOpen] = useState(false);
+  const windowSize = React.useContext(WindiwSizeContext);
 
-  // const toProfile = () => navigate("/profile");
+
+  function desctopProfile(){
+    if(windowSize >= 768) {
+      return (
+        <button className="header__button" onClick={() =>navigate("/profile") }>
+        Аккаунт
+      </button>
+      )
+    } else {
+      return (
+        <button className="header__button-menu" onClick={() => setPopupOpen(true)}>
+          <img className="header__button-menu-image" alt="Меню" src={menuButton} />
+      </button>
+      )
+    }
+  }
 
   const togglePopup = () => {
     return  !popupOpen ? "header__popup" : "header__popup header__popup-opened";
   }
+
+  console.log(location.pathname);
 
   React.useEffect(() => {
     toggleNavigation();
@@ -26,28 +46,31 @@ function HeaderNavProfile() {
     if (typeof currentUser == "object") {
       return (
         <>
-          <button className="header__button" onClick={() => setPopupOpen(true)}>
-            Аккаунт
-          </button>
+          {desctopProfile()}
           <div className={togglePopup()}>
             <button className="header__popup-button" onClick={() => setPopupOpen(false)}>
               <img className="header__popup-button-image" alt="Закрыть" src={closeButton} />
             </button>
             <ul className="header__popup-links">
               <li className="header__popup-link">
-                <Link className="header__popup-link-title" to="/">
+                <Link className={`header__popup-link-title ${location.pathname === "/" ? "header__popup-link-title-active": ""}`} to="/">
                   Главная
                 </Link>
               </li>
               <li className="header__popup-link">
-                <Link className="header__popup-link-title header__popup-link-title-active" to="/movies">
+                <Link className={`header__popup-link-title ${location.pathname === "/movies" ? "header__popup-link-title-active": ""}`} to="/movies">
                   Фильмы
                 </Link>
               </li>
               <li className="header__popup-link">
-                <Link className="header__popup-link-title" to="/saved-movies">
+                <Link className={`header__popup-link-title ${location.pathname === "/saved-movies" ? "header__popup-link-title-active": ""}`} to="/saved-movies">
                   Сохранённые фильмы
                 </Link>
+              </li>
+              <li className="header__popup-link">
+                <button className="header__button" onClick={() =>navigate("/profile") }>
+          Аккаунт
+        </button>
               </li>
             </ul>
           </div>
