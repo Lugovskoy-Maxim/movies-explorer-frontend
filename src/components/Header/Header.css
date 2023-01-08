@@ -3,7 +3,6 @@
   display: flex;
   max-width: calc(1280px - 70px * 2);
   font-style: normal;
-  font-family: "Inter";
   align-items: center;
 }
 
