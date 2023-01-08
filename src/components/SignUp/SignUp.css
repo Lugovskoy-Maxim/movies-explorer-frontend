@@ -87,7 +87,7 @@
 
 .signup__save-button{
   border: none;
-  width: 396px;
+  width: 100%;
   height: 45px;
   font-weight: 500;
   font-size: 14px;
@@ -175,7 +175,6 @@
   }
 
   .signup__save-button{
-    width: 260px;
     height: 45px;
     font-size: 12px;
     line-height: 15px;
