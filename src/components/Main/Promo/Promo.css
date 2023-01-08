@@ -23,7 +23,7 @@
   margin: 0 auto;
 }
 
-.promo__nav_links{
+.promo__nav-links{
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -32,7 +32,7 @@
   padding: 0;
 }
 
-.promo_nav_link{
+.promo__nav-link{
   cursor: pointer;
   font-weight: 550;
   font-size: 12px;
@@ -49,11 +49,11 @@
   transition: all 0.3s ease;
 }
 
-.promo__nav_link:hover{
+.promo__nav-link:hover{
   transform: translateY(5px);
 }
 
-.promo_nav_link:last-child{
+.promo__nav-link:last-child{
   margin-right: 0;
 }
 

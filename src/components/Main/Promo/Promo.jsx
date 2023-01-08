@@ -27,10 +27,10 @@ function Promo() {
     return (
         <section className="promo">
             <h1 className="promo__title">Учебный проект студента факультета Веб-разработки.</h1>
-              <ul className="promo__nav_links">
-                <li className="promo_nav_link promo__link" onClick={scrollerToProject}>О проекте</li>
-                <li className="promo_nav_link promo__link" onClick={scrollerToTech}>Технологии</li>
-                <li className="promo_nav_link promo__link" onClick={scrollerToMe}>Студент</li>
+              <ul className="promo__nav-links">
+                <li className="promo__nav-link promo__link" onClick={scrollerToProject}>О проекте</li>
+                <li className="promo__nav-link promo__link" onClick={scrollerToTech}>Технологии</li>
+                <li className="promo__nav-link promo__link" onClick={scrollerToMe}>Студент</li>
               </ul>
               <scroll-page id="project"></scroll-page>
         </section>
