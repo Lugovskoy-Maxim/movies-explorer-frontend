@@ -1,38 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import searchIcon from "../../../images/iconSearch.svg";
 import searchLine from "../../../images/input__line.svg";
-import "./SearchForm.css"
+import "./SearchForm.css";
 
-function SearchForm(){
+function SearchForm() {
+  const [filterStatus, setFilterStatus] = useState(false);
 
-  return(
+  function toggleFilterstatus() {
+    filterStatus ? setFilterStatus(false) : setFilterStatus(true);
+  }
+
+  return (
     <>
-    <form className="search">
-      <nav className="search__nav">
-        <div className="search__nav-left">
-          <div className="search__input-left">
-        <img src={searchIcon} alt="Лупа" className="search__icon" />
-          <input className="search__input"
-            placeholder="Фильм"
-            type="text"
-            required
-          ></input>
+      <form className="search">
+        <nav className="search__nav">
+          <div className="search__nav-left">
+            <div className="search__input-left">
+              <img src={searchIcon} alt="Лупа" className="search__icon" />
+              <input
+                className="search__input"
+                placeholder="Фильм"
+                type="text"
+                required
+              ></input>
+            </div>
+            <button type="submit" className="search__find"></button>
           </div>
-          <button className="search__find"></button>
-        </div>
 
-        <div className="search__nav-right">
-          <img src={searchLine} alt="Линия" className="search__icon-line" />
-          <button className="search__togle search__togle-active">
-            <div className="search__togle-icon"></div>
-          </button>
-          <p className="search__togle-title">Короткометражки</p>
-        </div>
-      </nav>
-    </form>
-    <hr className="search__line" />
+          <div className="search__nav-right">
+            <img src={searchLine} alt="Линия" className="search__icon-line" />
+
+            <button
+              type="button"
+              className={`search__togle  ${filterStatus ? "search__togle-active" : ""}`}
+            >
+              <div className="search__togle-icon" onClick={() => toggleFilterstatus()} ></div>
+            </button>
+            <p className="search__togle-title">Короткометражки</p>
+          </div>
+        </nav>
+      </form>
+      <hr className="search__line" />
     </>
-  )
+  );
 }
 
 export default SearchForm;

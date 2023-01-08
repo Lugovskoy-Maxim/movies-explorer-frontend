@@ -35,8 +35,6 @@ function HeaderNavProfile() {
     return  !popupOpen ? "header__popup" : "header__popup header__popup-opened";
   }
 
-  console.log(location.pathname);
-
   React.useEffect(() => {
     toggleNavigation();
     togglePopup();
