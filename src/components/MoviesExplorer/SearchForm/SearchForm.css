@@ -172,6 +172,7 @@
     font-size: 11px;
     line-height: 18px;
   }
-
-
+  .search__nav-left{
+    border-radius: 9px;
+    }
 }
