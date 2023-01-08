@@ -6,6 +6,8 @@ import "./SearchForm.css";
 function SearchForm() {
   const [filterStatus, setFilterStatus] = useState(false);
 
+
+
   function toggleFilterstatus() {
     filterStatus ? setFilterStatus(false) : setFilterStatus(true);
   }
@@ -13,11 +15,12 @@ function SearchForm() {
   return (
     <>
       <form className="search">
-        <nav className="search__nav">
-          <div className="search__nav-left">
-            <div className="search__input-left">
+        <nav tabindex="-1" className="search__nav">
+          <div  className="search__nav-left">
+            <div  className="search__input-left">
               <img src={searchIcon} alt="Лупа" className="search__icon" />
               <input
+                id="search"
                 className="search__input"
                 placeholder="Фильм"
                 type="text"

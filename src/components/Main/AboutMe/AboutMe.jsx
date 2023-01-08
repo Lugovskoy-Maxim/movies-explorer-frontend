@@ -3,6 +3,7 @@ import "./AboutMe.css";
 import aboutMePhoto from "../../../images/aboutMePhoto.jpg";
 
 function aboutMe() {
+
   return (
     <section className="about-me">
       <h1 className="about-me__title">Студент</h1>
