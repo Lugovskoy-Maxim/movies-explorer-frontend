@@ -17,7 +17,10 @@ import moviesDB from "../../utils/moviesBD";
 import moviesSaveDB from "../../utils/moviesSaveBD.js";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState({
+    name: "Виталий",
+    email: "test@test.ru"
+  });
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
 
   useEffect(() => {

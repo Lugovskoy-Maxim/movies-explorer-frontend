@@ -43,9 +43,12 @@ function aboutMe() {
             target="_blank"
             href="https://github.com/Lugovskoy-Maxim/react-mesto-api-full"
           >
-            Страничный сайт
+            <p className="about-me__partfolio-project-title">
+              {" "}
+              Страничный сайт
+            </p>
+            <p className="about-me__partfolio-project-title">&#8599;</p>
           </a>
-          <p className="about-me__partfolio-icon">&#8599;</p>
         </li>
         <li className="about-me__partfolio-link about-me__link">
           <a
@@ -54,9 +57,9 @@ function aboutMe() {
             target="_blank"
             href="https://github.com/Lugovskoy-Maxim/russian-travel"
           >
-            Адаптивный сайт
+            <p className="about-me__partfolio-project-title">Адаптивный сайт</p>
+            <p className="about-me__partfolio-project-title">&#8599;</p>
           </a>
-          <p className="about-me__partfolio-icon">&#8599;</p>
         </li>
         <li className="about-me__partfolio-link about-me__link">
           <a
@@ -65,9 +68,11 @@ function aboutMe() {
             target="_blank"
             href="https://github.com/Lugovskoy-Maxim/how-to-learn"
           >
-            Одностраничное приложение
+            <p className="about-me__partfolio-project-title">
+              Одностраничное приложение
+            </p>
+            <p className="about-me__partfolio-project-title">&#8599;</p>
           </a>
-          <p className="about-me__partfolio-icon">&#8599;</p>
         </li>
       </ul>
     </section>
