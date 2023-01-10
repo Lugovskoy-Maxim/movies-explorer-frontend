@@ -72,31 +72,24 @@
   outline: 0;
   line-height: 60px;
   border-radius: 9px;
-}
-
-.search__nav-right:hover .search__togle {
-  outline: 1px solid rgba(69, 69, 69, 0.2);
-}
-
-.search__nav-right:hover .search__togle-icon {
-  outline: 1px solid rgba(69, 69, 69, 0.2);
+  /* background-color: #eeeeee; */
 }
 
 .search__togle:hover .search__togle-icon {
-  outline: 1px solid rgba(69, 69, 69, 0.2);
+  outline: 1px solid rgba(119, 119, 119, 0.2);
 }
 
 .search__nav-left:hover .search__input {
-  outline: 1px solid rgba(69, 69, 69, 0.2);
+  outline: 1px solid rgba(119, 119, 119, 0.2);
 }
 
 .search__nav-left:hover .search__find {
-  outline: 2px solid rgba(69, 69, 69, 0.4);
+  outline: 2px solid rgba(119, 119, 119, 0.2);
 
 }
 
 .search__input:focus{
-  outline: 1px solid rgba(69, 69, 69, 0.2);
+  outline: 1px solid rgba(119, 119, 119, 0.2);
   color: #000;
 }
 
@@ -109,7 +102,8 @@
   height: 20px;
   border-radius: 20px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.);
-  background-color: #F9F9F9;
+  background-color: #eceaea;
+  outline: 1px solid  rgba(119, 119, 119, 0.2);
 }
 
 .search__togle-icon {
@@ -118,12 +112,17 @@
   border-radius : 50%;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  background-color: F9F9F9;
+  background-color: #F9F9F9;
+  outline: 1px solid rgba(119, 119, 119, 0.1);
+}
+
+.search__togle-icon-active{
+  background-color: #2BE080;
 }
 
 .search__togle-active{
   padding-left: 18px;
-  background-color: #2BE080;
+  background-color: #26c972;
 }
 
 .search__togle-title{
@@ -173,10 +172,6 @@
     border-radius: 9px;
   }
 
-  .search__nav-left:hover {
-    /* border: 1px solid rgba(0, 0, 0, 0.1); */
-  }
-
   .search__nav-right:hover {
     outline: 1px solid rgba(0, 0, 0, 0);
   }
@@ -190,7 +185,6 @@
   .search__input{
     width: 144px;
     font-size: 14px;
-    line-height: 20px;
   }
   .search__find{
     margin-right: 19px;

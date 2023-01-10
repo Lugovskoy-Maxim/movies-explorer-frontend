@@ -22,7 +22,7 @@ function SearchForm() {
               <input
                 id="search"
                 className="search__input"
-                placeholder="Фильм"
+                placeholder=" Фильм"
                 type="text"
                 required
               ></input>
@@ -37,7 +37,7 @@ function SearchForm() {
               type="button"
               className={`search__togle  ${filterStatus ? "search__togle-active" : ""}`}
             >
-              <div className="search__togle-icon" onClick={() => toggleFilterstatus()} ></div>
+              <div className={`search__togle-icon  ${filterStatus ? "search__togle-icon-active" : ""}`} onClick={() => toggleFilterstatus()} ></div>
             </button>
             <p className="search__togle-title">Короткометражки</p>
           </div>
