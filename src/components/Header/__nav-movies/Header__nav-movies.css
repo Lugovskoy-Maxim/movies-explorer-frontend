@@ -1,4 +1,4 @@
-.header__link_movies {
+.header__nav-movies-link {
   margin-right: 16px;
   text-decoration: none;
   font-size: 13px;
@@ -13,22 +13,22 @@
   transition: all 0.3s ease;
 }
 
-.header__link_movies:hover {
+.header__nav-movies-link:hover {
   opacity: 0.8;
 }
 
-.header__link_movies:last-of-type {
+.header__nav-movies-link:last-of-type {
   margin-right: 0;
 }
-.header__link_movies-notactive {
+.header__nav-movies-link-notactive {
   font-weight: 500;
 }
 
-.header__link_movies-active {
+.header__nav-movies-link-active {
   font-weight: 700;
 }
 
-.header__link_movies-disabled {
+.header__nav-movies-link-disabled {
   display: none;
 }
 

@@ -10,7 +10,7 @@
   }
 }
 
-.movie__element{
+.movie{
   list-style-type: none;
   margin: 0 auto;
   width: 364px;
@@ -20,30 +20,30 @@
   background: #FDFDFD;
 }
 
-.movie__element:hover{
+.movie:hover{
   animation: animation-scale  .5s ease-in-out;
 }
 
-.movie__element-header{
+.movie-header{
   align-items: center;
   justify-content: space-between;
   display: flex;
   margin: 0 auto;
 }
 
-.movie__element-info{
+.movie-info{
   margin-left: 14px;
   text-align: left;
 }
 
-.movie__element-title{
+.movie-title{
   cursor: pointer;
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
 }
 
-.movie__element-duraption{
+.movie-duraption{
   font-weight: 400;
   font-size: 11px;
   line-height: 13px;
@@ -51,7 +51,7 @@
   color: #A0A0A0;
 }
 
-.movie__element-saveButton{
+.movie-saveButton{
   cursor: pointer;
   margin-right: 14px;
   background: none;
@@ -61,11 +61,11 @@
   background-image: url("../../images/saveButton.svg");
 }
 
-.movie__element-saveButton-active{
+.movie-saveButton-active{
   background-image: url("../../images/saveButtonActive.svg");
 }
 
-.movie__element-removeButton{
+.movie-removeButton{
   cursor: pointer;
   margin-right: 14px;
   background: none;
@@ -75,7 +75,7 @@
   background-image: url("../../images/x-icon.svg");
 }
 
-.movie__element-preview{
+.movie-preview{
   cursor: pointer;
 }
 
@@ -84,7 +84,7 @@
     width: 339px;
     height: 258px;
   }
-  .movie__element-preview{
+  .movie-preview{
     width: 339px;
     height: 190px;
   }
@@ -96,7 +96,7 @@
     width: 300px;
     height: 236px;
   }
-  .movie__element-preview{
+  .movie-preview{
     width: 300px;
     height: 168px;
   }

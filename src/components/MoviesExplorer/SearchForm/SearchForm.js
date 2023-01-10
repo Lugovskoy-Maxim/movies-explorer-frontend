@@ -43,7 +43,7 @@ function SearchForm() {
           </div>
         </nav>
       </form>
-      <hr className="search__line" />
+      <hr className="movies__search-line" />
     </>
   );
 }

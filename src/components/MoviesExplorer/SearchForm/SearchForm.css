@@ -152,7 +152,7 @@
   margin-right: 30px;
 }
 
-.search__line{
+.movies__search-line{
   margin: 0 70px;
   border: none;
   box-shadow: none;
@@ -163,7 +163,7 @@
   .search{
     margin: 98px 30px 70px;
   }
-  .search__line{
+  .movies__search-line{
     margin: 0 50px;
   }
 }
@@ -203,7 +203,7 @@
 
 
 @media screen and (max-width:350px) {
-  .search__line{
+  .movies__search-line{
     margin: 0 14px;
   }
   .search__input{

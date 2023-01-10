@@ -9,21 +9,20 @@ function HeaderNavMovies() {
     if (location.pathname === pathname) {
       return className + "-active";
     } else if (location.pathname === "/profile") {
-      return "header__link_movies-notactive";
+      return "header__nav-movies-link-notactive";
     } else if (!location.pathname.includes("movies")) {
       return className + "-disabled";
     }
     return className + "-notactive";
   }
 
-
   return (
       <div className="header__nav-movie">
         <Link
           className={`${chekPathname(
             "/movies",
-            "header__link_movies"
-          )} header__link_movies `}
+            "header__nav-movies-link"
+          )} header__nav-movies-link `}
           to="/movies"
         >
           Фильмы
@@ -31,8 +30,8 @@ function HeaderNavMovies() {
         <Link
           className={`${chekPathname(
             "/saved-movies",
-            "header__link_movies"
-          )} header__link_movies `}
+            "header__nav-movies-link"
+          )} header__nav-movies-link `}
           to="/saved-movies"
         >
           Сохранённые фильмы

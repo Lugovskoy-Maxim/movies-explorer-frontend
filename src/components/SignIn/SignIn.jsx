@@ -68,11 +68,11 @@ function SignIn(props) {
 
   const lineColorEffect = (props) => {
     if (props == null) {
-      return "signup__line";
+      return "signin__line";
     } else if (props) {
-      return "signup__line signup__line-valid";
+      return "signin__line signin__line-valid";
     } else {
-      return "signup__line signup__line-error";
+      return "signin__line signin__line-error";
     }
   };
 
@@ -99,10 +99,10 @@ function SignIn(props) {
       </a>
       <h1 className="signin__title">Рады видеть!</h1>
       <form onSubmit={handleSubmit} className="signin__form">
-        <p className="signup__lable">E-mail</p>
+        <p className="signin__lable">E-mail</p>
         <label htmlFor="email"></label>
         <input
-          className="signup__input"
+          className="signin__input"
           placeholder="Email"
           required
           id="email"
@@ -114,17 +114,17 @@ function SignIn(props) {
         />
         <hr className={lineColorEffect(emailValid)} />
         <p
-          className={`signup__field-error ${
-            emailValid ? "" : "signup__field-error-active"
+          className={`signin__field-error ${
+            emailValid ? "" : "signin__field-error-active"
           }`}
           id="email-error"
         >
           {emailError}
         </p>
-        <p className="signup__lable">Пароль</p>
+        <p className="signin__lable">Пароль</p>
         <label htmlFor="password"></label>
         <input
-          className="signup__input"
+          className="signin__input"
           placeholder="Пароль"
           required
           id="password"
@@ -135,8 +135,8 @@ function SignIn(props) {
         />
         <hr className={lineColorEffect(passwordValid)} />
         <p
-          className={`signup__field-error ${
-            passwordValid ? "" : "signup__field-error-active"
+          className={`signin__field-error ${
+            passwordValid ? "" : "signin__field-error-active"
           }`}
           id="password-error"
         >
@@ -155,7 +155,7 @@ function SignIn(props) {
         </div>
         <div className="signin__register-container">
           <p className="signin__register-title">Ещё не зарегистрированы?</p>
-          <Link className="signin__link" to="/signup">
+          <Link className="signin__link" to="/signin">
             Регистрация
           </Link>
         </div>
