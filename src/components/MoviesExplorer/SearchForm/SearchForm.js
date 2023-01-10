@@ -34,6 +34,7 @@ function SearchForm() {
             <img src={searchLine} alt="Линия" className="search__icon-line" />
 
             <button
+              onClick={() => toggleFilterstatus()}
               type="button"
               className={`search__togle  ${filterStatus ? "search__togle-active" : ""}`}
             >
