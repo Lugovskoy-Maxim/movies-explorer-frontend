@@ -88,7 +88,7 @@
   }
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 420px) {
   .profile__title{
     padding-top: 70px;
   }

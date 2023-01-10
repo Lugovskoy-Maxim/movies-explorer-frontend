@@ -80,7 +80,7 @@
 }
 
 @media screen and (max-width: 768px) {
-  .movie__element{
+  .movie{
     width: 339px;
     height: 258px;
   }
@@ -92,7 +92,7 @@
 }
 
 @media screen and (max-width: 350px) {
-  .movie__element{
+  .movie{
     width: 300px;
     height: 236px;
   }

@@ -155,7 +155,7 @@ function SignIn(props) {
         </div>
         <div className="signin__register-container">
           <p className="signin__register-title">Ещё не зарегистрированы?</p>
-          <Link className="signin__link" to="/signin">
+          <Link className="signin__link" to="/signup">
             Регистрация
           </Link>
         </div>
