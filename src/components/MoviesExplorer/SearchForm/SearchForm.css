@@ -42,9 +42,9 @@
   background: #f9f9f9;
   border-top-left-radius: 9px;
   border-bottom-left-radius: 9px;
-  border-left: 1px solid rgba(0, 0, 0, 0.0);
+  /* border-left: 1px solid rgba(0, 0, 0, 0.0);
   border-top: 1px solid rgba(0, 0, 0, 0.0);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.0);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.0); */
 }
 
 .search__nav-right{
@@ -55,9 +55,9 @@
   background: #f9f9f9;
   border-top-right-radius: 9px;
   border-bottom-right-radius: 9px;
-  border-right: 1px solid rgba(0, 0, 0, 0.0);
+  /* border-right: 1px solid rgba(0, 0, 0, 0.0);
   border-top: 1px solid rgba(0, 0, 0, 0.0);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.0);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.0); */
 }
 
 .search__icon{
@@ -82,15 +82,15 @@
 }
 
 .search__nav-left:hover {
-  border-left: 1px solid rgba(0, 0, 0, 0.1);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+  /* border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 }
 
 .search__nav-right:hover {
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  outline: 1px solid rgba(0, 0, 0, 0.1);
+  /* border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 }
 
 .search__nav-right:hover .search__togle {
@@ -102,7 +102,7 @@
 }
 
 .search__nav-left:hover .search__input {
-  border: 1px solid rgba(69, 69, 69, 0.2);
+  outline: 1px solid rgba(69, 69, 69, 0.2);
 }
 
 .search__nav-left:hover .search__find {
@@ -140,8 +140,6 @@
   background-color: F9F9F9;
 }
 
-
-
 .search__togle-active{
   padding-left: 18px;
   background-color: #2BE080;
@@ -158,7 +156,6 @@
   margin: 0 70px;
   border: none;
   box-shadow: none;
-  margin: 0 auto;
   border-bottom: 1px solid #E8E8E8;
 }
 
@@ -171,7 +168,7 @@
   }
 }
 
-@media screen and (max-width:620px) {
+@media screen and (max-width:660px) {
   .search{
     margin: 98px 10px 45px;
   }
@@ -179,6 +176,7 @@
     flex-direction: column;
   }
   .search__nav-right{
+    margin-top: 10px;
     background-color: #fff;
   }
   .search__icon{
@@ -195,11 +193,11 @@
   }
 
   .search__nav-left:hover {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* border: 1px solid rgba(0, 0, 0, 0.1); */
   }
 
   .search__nav-right:hover {
-    border: 1px solid rgba(0, 0, 0, 0);
+    outline: 1px solid rgba(0, 0, 0, 0);
   }
 }
 
