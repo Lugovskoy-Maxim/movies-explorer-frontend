@@ -27,7 +27,6 @@ function App() {
     name: "Виталий",
     email: "test@test.ru"
   });
-  console.log(currentUser)
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
 
   useEffect(() => {
