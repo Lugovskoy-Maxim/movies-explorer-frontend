@@ -3,12 +3,18 @@ import { Route, Routes } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
 
-
+import Promo from "../Promo/Promo.jsx";
+import Techs from "../Techs/Techs.jsx";
+import AboutProject from "../AboutProject/AboutProject.jsx";
+import AboutMe from "../AboutMe/AboutMe.jsx";
+import Header from "../Header/Header.jsx";
+import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
+import HeaderNavigationMovies from "../Header/__nav-movies/Header__nav-movies"
+import Footer from "../Footer/Footer.jsx";
 import Profile from "../Profile/Profile.jsx";
 import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
 import MoviesSaved from "../MoviesExplorer/MoviesSaved/MoviesSaved.jsx";
 import Main from "../Main/Main.jsx";
-
 import SignIn from "../SignIn/SignIn.jsx";
 import SignUp from "../SignUp/SignUp.jsx";
 import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
@@ -21,6 +27,7 @@ function App() {
     name: "Виталий",
     email: "test@test.ru"
   });
+  console.log(currentUser)
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
 
   useEffect(() => {
@@ -50,7 +57,20 @@ function App() {
         <div className="app">
           <div className="page">
             <Routes>
-              <Route path="/" element={<Main />} />
+              <Route path="/" element={
+                <>
+                  <Header>
+                    <HeaderNavigationProfile/>
+                  </Header>
+                  <Main>
+                    <Promo />
+                    <AboutProject />
+                    <Techs />
+                    <AboutMe />
+                  </Main>
+                  <Footer/>
+                </>
+              } />
               <Route
                 path="/profile"
                 element={<Profile onSignOut={signOut} />}
@@ -58,15 +78,35 @@ function App() {
               <Route
                 path="/movies"
                 element={
-                  <MoviesExplorer
-                    moviesDB={moviesDB}
-                    moviesSaveDB={moviesSaveDB}
-                  />
+                  <>
+                  <Header>
+                  <HeaderNavigationProfile/>
+                  <HeaderNavigationMovies/>
+                  </Header>
+                  <Main>
+                    <MoviesExplorer
+                      moviesDB={moviesDB}
+                      moviesSaveDB={moviesSaveDB}
+                    />
+                  </Main>
+                  <Footer/>
+                </>
                 }
               />
               <Route
                 path="/saved-movies"
-                element={<MoviesSaved moviesDB={moviesSaveDB} />}
+                element={
+                  <>
+                  <Header>
+                      <HeaderNavigationProfile />
+                      <HeaderNavigationMovies />
+                    </Header>
+                    <Main>
+                    <MoviesSaved moviesDB={moviesSaveDB} />
+                  </Main>
+                  <Footer/>
+                </>
+}
               />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/signin" element={<SignIn />} />

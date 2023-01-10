@@ -15,7 +15,7 @@ function SearchForm() {
   return (
     <>
       <form className="search">
-        <nav tabindex="-1" className="search__nav">
+        <nav tabIndex="-1" className="search__nav">
           <div  className="search__nav-left">
             <div  className="search__input-left">
               <img src={searchIcon} alt="Лупа" className="search__icon" />

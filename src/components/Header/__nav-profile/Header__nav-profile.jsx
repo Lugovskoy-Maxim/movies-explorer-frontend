@@ -1,19 +1,18 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { CurrentUserContext } from "../../../context/CurrentUserContext";
 import "./Header__nav-profile.css";
 import closeButton from "../../../images/closeButton.svg";
 import menuButton from "../../../images/mainburger.svg";
 import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
+import { CurrentUserContext } from "../../../context/CurrentUserContext";
 
 function HeaderNavProfile() {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
   const [popupOpen, setPopupOpen] = useState(false);
-  const windowSize = React.useContext(WindiwSizeContext);
-
+  const windowSize = useContext(WindiwSizeContext);
 
   function desctopProfile(){
     if(windowSize >= 768) {

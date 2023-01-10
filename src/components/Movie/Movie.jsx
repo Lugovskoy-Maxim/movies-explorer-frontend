@@ -29,7 +29,7 @@ function Movie({ name, duration, imageUrl, moviesSaveDB }) {
           <p className="movie-title">{name}</p>
           <p className="movie-duraption">{getTimeFromMins(duration)}</p>
         </div>
-        <button className={chekSaved("movie-saveButton")}
+        <button type="button" className={chekSaved("movie-saveButton")}
         ></button>
       </div>
       <img
