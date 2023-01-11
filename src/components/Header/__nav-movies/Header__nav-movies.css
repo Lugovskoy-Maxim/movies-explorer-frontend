@@ -1,0 +1,39 @@
+.header__nav-movies-link {
+  margin-right: 16px;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: right;
+  color: #000000;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: right;
+  color: #000000;
+  transition: all 0.3s ease;
+}
+
+.header__nav-movies-link:hover {
+  opacity: 0.8;
+}
+
+.header__nav-movies-link:last-of-type {
+  margin-right: 0;
+}
+.header__nav-movies-link-notactive {
+  font-weight: 500;
+}
+
+.header__nav-movies-link-active {
+  font-weight: 700;
+}
+
+.header__nav-movies-link-disabled {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .header__nav-movie {
+    display: none;
+  }
+}

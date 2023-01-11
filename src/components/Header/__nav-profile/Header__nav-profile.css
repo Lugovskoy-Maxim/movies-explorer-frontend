@@ -1,0 +1,156 @@
+.header__nav-profile {
+  justify-content: right;
+}
+
+.header__nav_info {
+  display: flex;
+  align-items: center;
+}
+
+.header__link_login {
+  height: 32px;
+  width: 76px;
+  background-color: #2be080;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.header__button {
+  padding: 0;
+  border: none;
+  width: 100px;
+  height: 32px;
+  background: #f9f9f9;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.header__button:hover {
+  transform: scale(1.3, 1.3);
+}
+
+.header__popup {
+  display: none;
+}
+
+.header__popup-opened {
+  max-width: 520px;
+  display: flex;
+  z-index: 3;
+  position: fixed;
+  width: 70%;
+  background-color: #ffffff;
+  height: 100%;
+  top: 0;
+  right: 0;
+  box-shadow: -1px 0 0.4em rgba(0, 0, 0, 0.2);
+}
+
+.header__popup-links {
+  margin: 160px auto 0;
+  padding: 0;
+  list-style-type: none;
+}
+.header__popup-link {
+  margin-top: 28px;
+}
+
+.header__popup-link:last-of-type {
+  position: absolute;
+  bottom: 90px;
+  right: 35%;
+}
+
+.header__popup-button {
+  cursor: pointer;
+  border: none;
+  background-color: #ffffff;
+  position: absolute;
+  top: 22px;
+  right: 22px;
+}
+
+.header__button-menu {
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background-color: #ffffff;
+}
+
+.header__button-menu-image {
+  overflow: hidden;
+  object-fit: cover;
+  height: 44px;
+  width: 44px;
+}
+
+.header__popup-button-image {
+  overflow: hidden;
+  object-fit: cover;
+  height: 22px;
+  width: 22px;
+}
+
+.header__popup-link-title {
+  color: black;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 0;
+  text-decoration: none;
+}
+
+.header__link_register {
+  margin-right: 30px;
+}
+
+.header__link_login {
+  text-align: center;
+  justify-content: center;
+}
+
+.header__popup-link-title-active {
+  padding-bottom: 4px;
+  border-bottom: 2px solid black;
+}
+
+.header__link {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.header__link:last-child {
+  line-height: 32px;
+}
+
+@media screen and (max-width: 1280px) {
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 350px) {
+  .header__button-menu-image {
+    height: 43px;
+    width: 40px;
+  }
+  .header__popup-opened {
+    width: 320px;
+  }
+  .header__link_register {
+    margin-right: 14px;
+  }
+  .header__link:last-child {
+    line-height: 26px;
+  }
+}

@@ -1,0 +1,190 @@
+.signup{
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  margin: 0 auto;
+  max-width: 396px;
+  text-align: left;
+}
+
+.signup__link-logo{
+  width: 38px;
+  height: 38px;
+}
+
+.signup__logo{
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 70px auto 40px;
+}
+
+.signup__title{
+  text-align: left;
+
+  margin: 0 auto;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.signup__form{
+  position: relative;
+  margin: 0 auto;
+  max-width: 396px;
+  padding-top: 40px;
+}
+
+.signup__lable{
+  margin: 0 auto;
+  left: 0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #A0A0A0;
+  text-align: left;
+}
+
+.signup__input{
+  margin-top: 5px;
+  padding: 0;
+  border: none;
+  width: 396px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  max-height: 32px;
+  -webkit-box-shadow: inset 0 0 0 50px #fff;
+  outline: 0 !important;
+}
+
+.signup__line{
+  margin: 10px auto 6px;
+  border: 0;
+  border-bottom: 1px solid;
+  border-color: #E8E8E8;
+}
+
+.signup__line-error{
+  border-color: #EE3465;
+}
+
+.signup__line-valid{
+  border-color: #2BE080;
+}
+
+.signup__line:last-of-type{
+  margin: 10px auto 0;
+}
+
+.signup__button-container{
+  margin-top: 215px;
+  max-width: 396px;
+  max-height: 45px;
+}
+
+.signup__save-button{
+  border: none;
+  width: 100%;
+  height: 45px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #FFFFFF;
+  background-color: #2BE080;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.signup__save-button-disable{
+  background-color: #E8E8E8;
+  cursor: not-allowed;
+}
+
+.signup__register-container{
+  align-items: center;
+  display: flex;
+  margin-top: 16px;
+}
+
+.signup__link{
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #2BE080;
+  margin: 0 auto 0 0;
+}
+
+
+
+.signup__register-title{
+  margin: 0 6px 0 auto;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #A0A0A0;
+}
+
+.signup__field-error{
+  margin: 6px 0 4px;
+  height: 12px;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.signup__field-error-active{
+  color: #EE3465;
+}
+
+@media screen and (max-width:770px) {
+  .signup__logo{
+    margin: 232px auto 40px;
+  }
+
+}
+
+@media screen and (max-width:500px) {
+  .signup{
+    text-align: center;
+  }
+  .signup__logo{
+    margin: 56px auto 50px;
+  }
+  .signup__title{
+    text-align: center;
+  }
+  .signup__input{
+    width: 100%;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .signup__button-container{
+    margin-top: 215px;
+    max-width: 396px;
+    max-height: 45px;
+  }
+
+  .signup__form{
+    margin: 0 30px;
+  }
+
+  .signup__save-button{
+    height: 45px;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 0;
+  }
+  .signup__register-title{
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .signup__link{
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

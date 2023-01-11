@@ -1,0 +1,103 @@
+@keyframes animation-scale {
+  0% {
+    transform: scale(1,1);
+  }
+  50% {
+    transform: scale(1.02,1.02);
+  }
+  100% {
+    transform: scale(1,1);
+  }
+}
+
+.movie{
+  list-style-type: none;
+  margin: 0 auto;
+  width: 364px;
+  height: 271px;
+  font-style: normal;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, .08);
+  background: #FDFDFD;
+}
+
+.movie:hover{
+  animation: animation-scale  .5s ease-in-out;
+}
+
+.movie-header{
+  align-items: center;
+  justify-content: space-between;
+  display: flex;
+  margin: 0 auto;
+}
+
+.movie-info{
+  margin-left: 14px;
+  text-align: left;
+}
+
+.movie-title{
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+}
+
+.movie-duraption{
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  align-items: center;
+  color: #A0A0A0;
+}
+
+.movie-saveButton{
+  cursor: pointer;
+  margin-right: 14px;
+  background: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  background-image: url("../../images/saveButton.svg");
+}
+
+.movie-saveButton-active{
+  background-image: url("../../images/saveButtonActive.svg");
+}
+
+.movie-removeButton{
+  cursor: pointer;
+  margin-right: 14px;
+  background: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  background-image: url("../../images/x-icon.svg");
+}
+
+.movie-preview{
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .movie{
+    width: 339px;
+    height: 258px;
+  }
+  .movie-preview{
+    width: 339px;
+    height: 190px;
+  }
+
+}
+
+@media screen and (max-width: 350px) {
+  .movie{
+    width: 300px;
+    height: 236px;
+  }
+  .movie-preview{
+    width: 300px;
+    height: 168px;
+  }
+}

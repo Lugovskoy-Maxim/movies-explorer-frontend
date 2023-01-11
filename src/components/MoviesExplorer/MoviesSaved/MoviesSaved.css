@@ -1,0 +1,34 @@
+.movies__elements{
+
+  justify-content: center;
+  max-width: 1280px;
+  column-gap: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 364px);
+  grid-template-rows: -webkit-max-content;
+  grid-template-rows: max-content;
+  justify-content: center;
+  row-gap: 30px;
+  margin: 80px auto 30px;
+  padding: 0;
+}
+
+.movies__add-button{
+  font-style: normal;
+  border: 1px solid #E8E8E8;
+  border-radius: 7px;
+  width: 320px;
+  height: 36px;
+  margin: 50px auto;
+  background:  none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+}
+
+.movies__add-button_hide{
+  display: none;
+}
