@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useNav } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
 
@@ -8,8 +8,8 @@ import Techs from "../Techs/Techs.jsx";
 import AboutProject from "../AboutProject/AboutProject.jsx";
 import AboutMe from "../AboutMe/AboutMe.jsx";
 import Header from "../Header/Header.jsx";
-import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
-import HeaderNavigationMovies from "../Header/__nav-movies/Header__nav-movies"
+import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile";
+import HeaderNavigationMovies from "../Header/__nav-movies/Header__nav-movies";
 import Footer from "../Footer/Footer.jsx";
 import Profile from "../Profile/Profile.jsx";
 import MoviesExplorer from "../MoviesExplorer/MoviesExplorer.jsx";
@@ -23,9 +23,10 @@ import moviesDB from "../../utils/moviesBD";
 import moviesSaveDB from "../../utils/moviesSaveBD.js";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
+import ProtectedRoute from "../protectedRoute";
 
 function App() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
   const [loggedIn, setLoggedIn] = useState(false);
@@ -37,9 +38,10 @@ function App() {
         .checkToken(jwtToken)
         .then((res) => {
           if (res) {
-            setCurrentUser({name: res.name, email: res.email});
+            setCurrentUser({ name: res.name, email: res.email });
             setLoggedIn(true);
             // history.push("/");
+            navigate("/movies");
           }
         })
         .catch((err) => {
@@ -50,8 +52,7 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-  }, []);
-
+  }, [loggedIn]);
 
   useEffect(() => {
     // обновление стейта переменной для подписки компонентов
@@ -70,13 +71,8 @@ function App() {
     return width;
   }
 
-  const removeCookie = () => {
-    document.cookie = `Name=jwtToken + =; Path=/; ${new Date(0).toUTCString()}; Domain=.lugovskoy-movies.nomoredomains.club/}`;
-  }
-
   function signOut() {
     setCurrentUser("");
-    removeCookie();
     setLoggedIn(false);
     localStorage.removeItem("jwtToken");
     setCurrentUser("");
@@ -88,7 +84,8 @@ function App() {
       .then((res) => {
         if (res) {
           localStorage.setItem("jwtToken", res.jwtToken);
-          handleTokenCheck();
+          setLoggedIn(true);
+          setCurrentUser({ name: res.name, email: res.email });
           // history.push("/");
           navigate("/");
         }
@@ -103,20 +100,27 @@ function App() {
       .register(name, email, password)
       .then((res) => {
         if (res) {
-          setCurrentUser({ name: res.name, email: res.email })
-          handleAuthorize(email, password)
+          setLoggedIn(true);
+          // setCurrentUser({ name: res.name, email: res.email })
+          handleAuthorize(email, password);
           navigate("/");
         }
       })
       .catch((err) => {
         console.log(err);
-      })
-      // .finally();
+      });
+    // .finally();
   }
 
-  function updateUserInfo(name, email){
+  function updateUserInfo(name, email) {}
 
-  }
+  // const ProtectedRoute = (props) => {
+  //   if (!props.user) {
+  //     return <Navigate to="/" replace />;
+  //   }
+
+  //   return props.children;
+  // };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -124,66 +128,77 @@ function App() {
         <div className="app">
           <div className="page">
             <Routes>
-              <Route path="/" element={
-                <>
-                  <Header>
-                    <HeaderNavigationProfile/>
-                  </Header>
-                  <Main>
-                    <Promo />
-                    <AboutProject />
-                    <Techs />
-                    <AboutMe />
-                  </Main>
-                  <Footer/>
-                </>
-              } />
+              <Route
+                loggedIn={loggedIn}
+                exact
+                path="/"
+                element={
+                  <>
+                    <Header>
+                      <HeaderNavigationProfile />
+                    </Header>
+                    <Main>
+                      <Promo />
+                      <AboutProject />
+                      <Techs />
+                      <AboutMe />
+                    </Main>
+                    <Footer />
+                  </>
+                }
+              />
               <Route
                 path="/profile"
-                element={<Profile
-                  onSignOut={signOut}
-                  updateUserInfo={updateUserInfo}
-              />}
+                element={
+                  <ProtectedRoute user={loggedIn}>
+                    <Profile
+                      onSignOut={signOut}
+                      updateUserInfo={updateUserInfo}
+                    />
+                  </ProtectedRoute>
+                }
               />
               <Route
                 path="/movies"
                 element={
-                  <>
-                  <Header>
-                  <HeaderNavigationProfile/>
-                  <HeaderNavigationMovies/>
-                  </Header>
-                  <Main>
-                    <MoviesExplorer
-                      moviesDB={moviesDB}
-                      moviesSaveDB={moviesSaveDB}
-                    />
-                  </Main>
-                  <Footer/>
-                </>
+                  <ProtectedRoute user={loggedIn}>
+                    <Header>
+                      <HeaderNavigationProfile />
+                      <HeaderNavigationMovies />
+                    </Header>
+                    <Main>
+                      <MoviesExplorer
+                        moviesDB={moviesDB}
+                        moviesSaveDB={moviesSaveDB}
+                      />
+                    </Main>
+                    <Footer />
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path="/saved-movies"
                 element={
-                  <>
-                  <Header>
+                  <ProtectedRoute user={loggedIn}>
+                    <Header>
                       <HeaderNavigationProfile />
                       <HeaderNavigationMovies />
                     </Header>
                     <Main>
-                    <MoviesSaved moviesDB={moviesSaveDB} />
-                  </Main>
-                  <Footer/>
-                </>
-}
+                      <MoviesSaved moviesDB={moviesSaveDB} />
+                    </Main>
+                    <Footer />
+                  </ProtectedRoute>
+                }
               />
-              <Route path="/signup" element={<SignUp
-                register={handleRegister}
-              />} />
-              <Route path="/signin" element={<SignIn
-                login={handleAuthorize}
-              />} />
+              <Route
+                path="/signup"
+                element={<SignUp register={handleRegister} />}
+              />
+              <Route
+                path="/signin"
+                element={<SignIn login={handleAuthorize} />}
+              />
               <Route path="*" element={<NotFaundPage />} />
             </Routes>
           </div>
