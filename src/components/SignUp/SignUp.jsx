@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./SignUp.css";
 import Logo from "../../images/logo.svg";
+import { register } from "../../utils/MainApi";
 
 function SignUp(props) {
   const [name, setName] = useState();
@@ -104,6 +105,7 @@ function SignUp(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    props.register(name, email, password);
     // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");

@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.movies-explorer.ru';
+const BASE_URL = 'https://api.lugovskoy-movies.nomoredomains.club';
 
 const handleResponse = res => {
   if (res.ok) {

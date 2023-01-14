@@ -87,6 +87,7 @@ function SignIn(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    props.login(email, password)
     // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");

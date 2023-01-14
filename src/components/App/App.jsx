@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useState, useEffect, useNav } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
 
@@ -21,13 +21,37 @@ import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 import "./App.css";
 import moviesDB from "../../utils/moviesBD";
 import moviesSaveDB from "../../utils/moviesSaveBD.js";
+import * as mainApi from "../../utils/MainApi";
+import * as MoviesApi from "../../utils/MoviesApi";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState({
-    name: "Виталий",
-    email: "test@test.ru"
-  });
+  const navigate = useNavigate()
+  const [currentUser, setCurrentUser] = useState("");
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  function handleTokenCheck() {
+    const jwtToken = localStorage.getItem("jwtToken");
+    if (jwtToken) {
+      mainApi
+        .checkToken(jwtToken)
+        .then((res) => {
+          if (res) {
+            setCurrentUser({name: res.name, email: res.email});
+            setLoggedIn(true);
+            // history.push("/");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
+
 
   useEffect(() => {
     // обновление стейта переменной для подписки компонентов
@@ -48,6 +72,38 @@ function App() {
 
   function signOut() {
     setCurrentUser("");
+  }
+
+  function handleAuthorize(email, password) {
+    mainApi
+      .authorize(email, password)
+      .then((res) => {
+        if (res) {
+          localStorage.setItem("jwtToken", res.jwtToken);
+          handleTokenCheck();
+          // history.push("/");
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleRegister(name, email, password) {
+    mainApi
+      .register(name, email, password)
+      .then((res) => {
+        if (res) {
+          setCurrentUser({ name: res.name, email: res.email })
+          handleAuthorize(email, password)
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      // .finally();
   }
 
   return (
@@ -107,8 +163,12 @@ function App() {
                 </>
 }
               />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp
+                register={handleRegister}
+              />} />
+              <Route path="/signin" element={<SignIn
+                login={handleAuthorize}
+              />} />
               <Route path="*" element={<NotFaundPage />} />
             </Routes>
           </div>
