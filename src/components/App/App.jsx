@@ -71,7 +71,7 @@ function App() {
   }
 
   const removeCookie = () => {
-    document.cookie = `Name=jwtToken + =; Path=/; ${new Date(0).toUTCString()}; Domain=.${document.domain.split('.').splice(1).join('.')}`;
+    document.cookie = `Name=jwtToken + =; Path=/; ${new Date(0).toUTCString()}; Domain=.lugovskoy-movies.nomoredomains.club/}`;
   }
 
   function signOut() {
