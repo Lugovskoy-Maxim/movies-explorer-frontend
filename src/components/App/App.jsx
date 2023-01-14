@@ -71,7 +71,7 @@ function App() {
   }
 
   const removeCookie = () => {
-    document.cookie = jwtToken +`=; Path=/; ${new Date(0).toUTCString()}; Domain=.${document.domain.split('.').splice(1).join('.')}`;
+    document.cookie = `Name=jwtToken + =; Path=/; ${new Date(0).toUTCString()}; Domain=.${document.domain.split('.').splice(1).join('.')}`;
   }
 
   function signOut() {
@@ -114,6 +114,10 @@ function App() {
       // .finally();
   }
 
+  function updateUserInfo(name, email){
+
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <WindiwSizeContext.Provider value={windowSize}>
@@ -136,7 +140,10 @@ function App() {
               } />
               <Route
                 path="/profile"
-                element={<Profile onSignOut={signOut} />}
+                element={<Profile
+                  onSignOut={signOut}
+                  updateUserInfo={updateUserInfo}
+              />}
               />
               <Route
                 path="/movies"
