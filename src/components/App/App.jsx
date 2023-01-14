@@ -29,9 +29,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState("");
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
   const [loggedIn, setLoggedIn] = useState(false);
+  const jwtToken = localStorage.getItem("jwtToken");
 
   function handleTokenCheck() {
-    const jwtToken = localStorage.getItem("jwtToken");
     if (jwtToken) {
       mainApi
         .checkToken(jwtToken)
@@ -70,7 +70,15 @@ function App() {
     return width;
   }
 
+  const removeCookie = () => {
+    document.cookie = jwtToken +`=; Path=/; ${new Date(0).toUTCString()}; Domain=.${document.domain.split('.').splice(1).join('.')}`;
+  }
+
   function signOut() {
+    setCurrentUser("");
+    removeCookie();
+    setLoggedIn(false);
+    localStorage.removeItem("jwtToken");
     setCurrentUser("");
   }
 
