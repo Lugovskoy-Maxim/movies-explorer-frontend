@@ -10,25 +10,3 @@ function ProtectedRoute (props){
 };
 
 export default ProtectedRoute;
-
-// <Route
-//   path="/profile"
-//   element={<Profile
-//     onSignOut={signOut}
-//     updateUserInfo={updateUserInfo}
-//   />}
-// />
-
-// <ProtectedRoute
-//   loggedIn={loggedIn}
-//   exact
-//   path="/"
-//   component={Main}
-//   onEditProfile={handleEditProfileClick}
-//   onEditAvatar={handleEditAvatarClick}
-//   onAddPlace={handleAddPlaceClick}
-//   cards={cards}
-//   onCardLike={handleCardLike}
-//   handlePreviewPopupClick={handlePreviewPopupClick}
-//   onCardDelete={handleCardDeleteClick}
-// />

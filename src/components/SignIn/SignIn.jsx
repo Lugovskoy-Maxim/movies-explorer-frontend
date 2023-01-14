@@ -13,14 +13,13 @@ function SignIn(props) {
   const [passwordError, setPasswordError] = useState("");
   const [availableButton, setAvailableButton] = useState(false);
 
-  useEffect(()=> {
-    toggleSubmitButton()
-  },[email, password])
-
+  useEffect(() => {
+    toggleSubmitButton();
+  }, [email, password]);
 
   function toggleSubmitButton() {
-    if(emailValid === true && passwordValid === true ){
-      setAvailableButton(true)
+    if (emailValid === true && passwordValid === true) {
+      setAvailableButton(true);
     } else {
       setAvailableButton(false);
     }
@@ -87,7 +86,7 @@ function SignIn(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.login(email, password)
+    props.login(email, password);
     // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");
@@ -146,7 +145,7 @@ function SignIn(props) {
         <div className="signin__button-container">
           <button
             type="submit"
-            disabled={availableButton? "" : "disable"}
+            disabled={availableButton ? "" : "disable"}
             className={`signin__save-button ${
               availableButton ? "" : "signin__save-button-disable"
             }`}

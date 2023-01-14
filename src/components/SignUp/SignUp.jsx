@@ -112,8 +112,8 @@ function SignUp(props) {
   }
 
   function toggleSubmitButton() {
-    if(nameValid === true && emailValid === true && passwordValid === true ){
-      setAvailableButton(true)
+    if (nameValid === true && emailValid === true && passwordValid === true) {
+      setAvailableButton(true);
     } else {
       setAvailableButton(false);
     }
