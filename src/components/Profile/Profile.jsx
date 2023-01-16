@@ -4,10 +4,12 @@ import "./Profile.css";
 import Header from "../Header/Header.jsx";
 import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { useEffect } from "react";
 
-function Profile({ onSignOut }) {
+function Profile({ onSignOut, updateInfo }) {
 
   const currentUser = React.useContext(CurrentUserContext);
+  const HelloName = currentUser.name;
   const [name, setName ] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
   const navigate = useNavigate();
@@ -22,23 +24,21 @@ function Profile({ onSignOut }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    // функция отправки лучше прокинуть пропсом
-    setName("");
-    setEmail("");
+    updateInfo(name, email);
   }
 
-  React.useEffect(()=> {
-    checkUser()
-  }, [currentUser])
+  // React.useEffect(()=> {
+  //   checkUser()
+  // }, [currentUser])
 
-  function checkUser(){
-    if (!typeof currentUser === 'object'){
-      return navigate("/404")
-    } else {
-      setName(currentUser.name)
-      setEmail(currentUser.email)
-    }
-  }
+  // function checkUser(){
+  //   if (!typeof currentUser === 'object'){
+  //     return navigate("/404")
+  //   } else {
+  //     setName(currentUser.name)
+  //     setEmail(currentUser.email)
+  //   }
+  // }
 
   return (
     <>
@@ -46,7 +46,7 @@ function Profile({ onSignOut }) {
       {HeaderNavigationProfile()}
     </Header>
     <section className="profile">
-      <h1 className="profile__title">Привет, {name}!</h1>
+      <h1 className="profile__title">Привет, {currentUser.name}!</h1>
       <form onSubmit={handleSubmit} className="profile__form">
         <div className="profile__container">
           <p className="profile__lable">Имя</p>

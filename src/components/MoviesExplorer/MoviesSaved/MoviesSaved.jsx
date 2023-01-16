@@ -3,7 +3,7 @@ import Movie from "../../Movie/Movie.jsx";
 import SearchForm from "./../SearchForm/SearchForm"
 import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
 
-function MoviesSaved({ moviesDB }){
+function MoviesSaved({ moviesDB, onSearch }){
   const windowSize = React.useContext(WindiwSizeContext);
 
   function getMoviesListLength(){
@@ -17,7 +17,8 @@ function MoviesSaved({ moviesDB }){
   }
   const [quantity, setQuantity] = React.useState(getMoviesListLength());
   const result = moviesDB.filter( movies => movies.id < quantity + 1); // поискать метод что бы не привязываться к id
-
+  const AllMovies = localStorage.getItem("AllMovies");
+  console.log(AllMovies);
   function addMovies(){
     setQuantity(quantity + getMoviesListLength())
     console.log(getMoviesListLength());
@@ -27,7 +28,9 @@ function MoviesSaved({ moviesDB }){
 
   return(
     <section className="movies">
-      <SearchForm />
+      <SearchForm
+        onSearch={onSearch}
+      />
       <ul className="movies__elements">
         {result.map(movie => (
           <Movie

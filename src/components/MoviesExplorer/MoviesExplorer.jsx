@@ -3,9 +3,38 @@ import Movie from "../Movie/Movie.jsx";
 import SearchForm from "./SearchForm/SearchForm"
 import './MoviesExplorer.css';
 import { WindiwSizeContext } from "../../context/WindiwSizeContext.js";
+import { useEffect } from "react";
+import * as MoviesApi from "../../utils/MoviesApi";
 
-function MoviesExplorer({ moviesDB, moviesSaveDB}){
+function MoviesExplorer({ moviesDB, moviesSaveDB, onSearch }){
   const windowSize = React.useContext(WindiwSizeContext);
+  const moviesData = localStorage.getItem("moviesData");
+  const searchResult = localStorage.getItem("searchResult");
+
+  function  sad () {
+
+  }
+  console.log(moviesData);
+
+
+  // const AllMovies = localStorage.getItem("AllMovies");
+
+  // function getMoviesList (){
+  //   MoviesApi
+  //   .getMovie()
+  //   .then((res) => {
+  //     localStorage.setItem("AllMovies", res);
+  //     const AllMovies = localStorage.getItem("AllMovies");
+  //     console.log(AllMovies)
+  //   })
+  //   .catch((err) => console.log(err))
+  // }
+
+  // useEffect(() => {
+  //   getMoviesList()
+  // },[])
+
+
 
   function getMoviesListLength(){
     if (windowSize >= 1000){
@@ -28,7 +57,9 @@ function MoviesExplorer({ moviesDB, moviesSaveDB}){
 
     return (
     <section className="movies">
-      <SearchForm />
+      <SearchForm
+        onSearch={onSearch}
+      />
       <ul className="movies__elements">
         {result.map(movie => (
           <Movie

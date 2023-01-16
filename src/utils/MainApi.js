@@ -43,6 +43,18 @@ export const authorize = async (email, password) => {
   return handleResponse(res);
 };
 
+export const updateUserUnfo = async (name, email) => {
+  const res = await fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({name, email}),
+  });
+  return handleResponse(res);
+};
+
 export const getUserData = async () => {
   const res = await fetch(`${BASE_URL} + "/movies"`, {
     method: "GET",
@@ -62,6 +74,18 @@ export const createMovies = async (owner, movie) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ owner, movie }),
+  });
+  return handleResponse(res);
+};
+
+export const getMainMovie = async (owner) => {
+  const res = await fetch(`${BASE_URL} + "/movies"`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(owner),
   });
   return handleResponse(res);
 };
