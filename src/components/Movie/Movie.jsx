@@ -34,7 +34,7 @@ function Movie({ name, duration, imageUrl, moviesSaveDB }) {
       </div>
       <img
         className="movie-preview"
-        src={movieDefaultImage || imageUrl}
+        src={imageUrl}
         alt={name}
       />
     </li>

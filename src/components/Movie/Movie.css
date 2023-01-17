@@ -77,6 +77,8 @@
 
 .movie-preview{
   cursor: pointer;
+  width: 364px;
+  height: 203px;
 }
 
 @media screen and (max-width: 768px) {

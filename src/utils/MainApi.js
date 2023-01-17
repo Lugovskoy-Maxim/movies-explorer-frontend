@@ -56,7 +56,7 @@ export const updateUserUnfo = async (name, email) => {
 };
 
 export const getUserData = async () => {
-  const res = await fetch(`${BASE_URL} + "/movies"`, {
+  const res = await fetch(`${BASE_URL}/movies`, {
     method: "GET",
     credentials: "include",
     headers: {
@@ -66,26 +66,25 @@ export const getUserData = async () => {
   return handleResponse(res);
 };
 
-export const createMovies = async (owner, movie) => {
-  const res = await fetch(`${BASE_URL} + "/movies"`, {
+export const createMovies = async (movie) => {
+  const res = await fetch(`${BASE_URL}/movies`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ owner, movie }),
+    body: JSON.stringify(movie),
   });
   return handleResponse(res);
 };
 
-export const getMainMovie = async (owner) => {
-  const res = await fetch(`${BASE_URL} + "/movies"`, {
+export const getMainMovie = async () => {
+  const res = await fetch(`${BASE_URL}/movies`, {
     method: "GET",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(owner),
   });
   return handleResponse(res);
 };

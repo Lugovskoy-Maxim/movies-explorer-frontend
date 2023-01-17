@@ -3,8 +3,25 @@ import Movie from "../../Movie/Movie.jsx";
 import SearchForm from "./../SearchForm/SearchForm"
 import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
 
-function MoviesSaved({ moviesDB, onSearch }){
+function MoviesSaved({ mainMovies, onSearch }){
   const windowSize = React.useContext(WindiwSizeContext);
+
+  function render (){
+    if(mainMovies === null){
+      return (<p>У вас нет сохраненных фильмов</p>)
+    } else {
+      return (
+        mainMovies.filter( movies => movies.id < quantity + 1).map(movie => (
+        <Movie
+          name={movie.nameRU}
+          duration={movie.duration}
+          imageUrl={movie.image.url}
+          key={movie.id} />
+        )
+      )
+    )
+  }
+  }
 
   function getMoviesListLength(){
     if (windowSize >= 1000){
@@ -16,7 +33,7 @@ function MoviesSaved({ moviesDB, onSearch }){
     }
   }
   const [quantity, setQuantity] = React.useState(getMoviesListLength());
-  const result = moviesDB.filter( movies => movies.id < quantity + 1); // поискать метод что бы не привязываться к id
+  // const result = mainMovies.filter( movies => movies.id < quantity + 1); // поискать метод что бы не привязываться к id
   const AllMovies = localStorage.getItem("AllMovies");
   console.log(AllMovies);
   function addMovies(){
@@ -32,17 +49,9 @@ function MoviesSaved({ moviesDB, onSearch }){
         onSearch={onSearch}
       />
       <ul className="movies__elements">
-        {result.map(movie => (
-          <Movie
-            name={movie.nameRU}
-            duration={movie.duration}
-            imageUrl={movie.image.url}
-            key={movie.id} />
-          )
-        )
-        }
+        {render}
       </ul>
-      <button type="button" className={ moviesDB.length >= quantity ? "movies__add-button" : "movies__add-button_hide" } onClick={addMovies}>Ещё</button>
+      <button type="button" className={ mainMovies === null ? mainMovies.length >= quantity ? "movies__add-button" : "movies__add-button_hide" :  "movies__add-button_hide"} onClick={addMovies}>Ещё</button>
     </section>
   )
 }

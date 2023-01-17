@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import searchIcon from "../../../images/iconSearch.svg";
 import searchLine from "../../../images/input__line.svg";
 import "./SearchForm.css";
@@ -11,9 +11,17 @@ function SearchForm({ onSearch }) {
     setSearchValue(event.target.value);
   }
 
+  const setFilter = (boolean) => {
+
+    localStorage.setItem("filter", (boolean))
+  }
+
   function toggleFilterstatus() {
     filterStatus ? setFilterStatus(false) : setFilterStatus(true);
+    filterStatus ? setFilter(false) : setFilter(true);
   }
+
+  console.log(filterStatus);
 
   function handleSubmit() {
     // onSearch({ search: searchValue, checked: filterStatus })

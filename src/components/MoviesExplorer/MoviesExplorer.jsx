@@ -5,16 +5,11 @@ import './MoviesExplorer.css';
 import { WindiwSizeContext } from "../../context/WindiwSizeContext.js";
 import { useEffect } from "react";
 import * as MoviesApi from "../../utils/MoviesApi";
+import { useState } from "react";
 
-function MoviesExplorer({ moviesDB, moviesSaveDB, onSearch }){
+function MoviesExplorer({ moviesData, mainMovies, onSearch }){
   const windowSize = React.useContext(WindiwSizeContext);
-  const moviesData = localStorage.getItem("moviesData");
-  const searchResult = localStorage.getItem("searchResult");
 
-  function  sad () {
-
-  }
-  console.log(moviesData);
 
 
   // const AllMovies = localStorage.getItem("AllMovies");
@@ -34,8 +29,6 @@ function MoviesExplorer({ moviesDB, moviesSaveDB, onSearch }){
   //   getMoviesList()
   // },[])
 
-
-
   function getMoviesListLength(){
     if (windowSize >= 1000){
       return 12
@@ -46,8 +39,7 @@ function MoviesExplorer({ moviesDB, moviesSaveDB, onSearch }){
     }
   }
   const [quantity, setQuantity] = React.useState(getMoviesListLength());
-  const result = moviesDB.filter( movies => movies.id < quantity + 1); // поискать метод что бы не привязываться к id
-
+  // const result = moviesDB.filter( movies => movies.id < quantity + 1); // поискать метод что бы не привязываться к id
   function addMovies(){
     setQuantity(quantity + getMoviesListLength())
     console.log(getMoviesListLength());
@@ -61,18 +53,18 @@ function MoviesExplorer({ moviesDB, moviesSaveDB, onSearch }){
         onSearch={onSearch}
       />
       <ul className="movies__elements">
-        {result.map(movie => (
+        {moviesData.map(movie => (
           <Movie
-            moviesSaveDB={moviesSaveDB}
+            moviesSaveDB={mainMovies}
             name={movie.nameRU}
             duration={movie.duration}
-            imageUrl={movie.image.url}
+            imageUrl={` https://api.nomoreparties.co${movie.image.url}`}
             key={movie.id} />
           )
         )
         }
       </ul>
-      <button type="button" className={ moviesDB.length >= quantity ? "movies__add-button" : "movies__add-button_hide" } onClick={addMovies}>Ещё</button>
+      <button type="button" className={ moviesData.length >= quantity ? "movies__add-button" : "movies__add-button_hide" } onClick={addMovies}>Ещё</button>
     </section>
   )
 }

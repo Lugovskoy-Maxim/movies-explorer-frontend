@@ -24,8 +24,7 @@ import moviesSaveDB from "../../utils/moviesSaveBD.js";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../protectedRoute";
-import { filterDuration, filter} from "../../utils/searchFilter.js"
-
+import { filterDuration, filter } from "../../utils/searchFilter.js";
 
 function App() {
   const location = useLocation();
@@ -37,7 +36,13 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchResult, setSearchResult] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const countItemsOnDisplay= () => windowSize > 980 ? 12 : windowSize > 520 ? 8 : 5;
+  const [moviesData, setMoviesData] = useState();
+  const [mainMovies, setMainMovies] = useState();
+
+  console.log(moviesData);
+
+  const countItemsOnDisplay = () =>
+    windowSize > 980 ? 12 : windowSize > 520 ? 8 : 5;
   const addItemOnDisplay = (windowSize) => (windowSize > 520 ? 3 : 2);
 
   // useEffect(()=>{
@@ -46,7 +51,7 @@ function App() {
   //   }
   // })
 
-////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
   // const handleSearch = (searchParams) => {
   //   // setCardListHelpText("");
   //   setIsLoading(true);
@@ -88,37 +93,40 @@ function App() {
   //   localStorage.setItem("search", searchParams.search);
   //   setIsLoading(false);
   // };
-////////////////
+  ////////////////
 
-  function getMovies (){
-    if(!localStorage.getItem("moviesData")){
-      MoviesApi
-        .getMovie()
-        .then((res) =>{
-          localStorage.setItem("moviesData", JSON.stringify(res));
+  function getMainMovies() {
+    mainApi.getMainMovie()
+    .then((res)=> {
+      setMainMovies(localStorage.setItem("mainMovies",JSON.stringify(res)))
+    }).catch((err)=> {
+      localStorage.removeItem("mainMovies");
+      console.log(err)
+    });
+  }
+  getMainMovies();
+
+  function getMovies() {
+    if (!localStorage.getItem("moviesData")) {
+      MoviesApi.getMovie()
+        .then((res) => {
+          setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
           // localStorage.setItem("shortFilms", JSON.stringify((res) =>{
           //   res.filter(({ duration }) => duration <= 40);
           // }));
-
-        } ).catch((err)=> console.log(err))
+        })
+        .catch((err) => console.log(err));
     } else {
-      console.log(localStorage.getItem("moviesData"));
+      MoviesApi.getMovie()
+        .then((res) => {
+          setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
+          console.log(localStorage.getItem("moviesData"));
       // localStorage.setItem("shortFilm", filterDuration(localStorage.getItem("moviesData")))
-    }
+    })}
   }
   getMovies();
 
-  console.log(localStorage.getItem("moviesData"));
   // console.log(localStorage.getItem("shortFilm"));
-
-
-
-
-
-
-
-
-
 
   function handleTokenCheck() {
     if (jwtToken) {
@@ -128,7 +136,9 @@ function App() {
           if (res) {
             setCurrentUser({ id: res.id, name: res.name, email: res.email });
             setLoggedIn(true);
-            location.pathname === "/signin" ? navigate("/movies") : navigate(`${location.pathname}`);
+            location.pathname === "/signin"
+              ? navigate("/movies")
+              : navigate(`${location.pathname}`);
           }
         })
         .catch((err) => {
@@ -152,6 +162,7 @@ function App() {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
+
 
   function getWindowSize() {
     // получение размера ширины окна
@@ -202,13 +213,17 @@ function App() {
       .updateUserUnfo(name, email)
       .then((res) => {
         if (res) {
-          setCurrentUser({id: currentUser.id, name: res.name, email: res.email });
+          setCurrentUser((currentUser) => ({
+            ...currentUser,
+            name: res.name,
+            email: res.email,
+          }));
           console.log(currentUser);
         }
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   }
 
   return (
@@ -259,9 +274,8 @@ function App() {
                     <Main>
                       <MoviesExplorer
                         // onSearch={handleSearch}
-
-                        moviesDB={searchResult}
-                        moviesSaveDB={moviesSaveDB}
+                        moviesData={moviesData}
+                        mainMovies={mainMovies}
                       />
                     </Main>
                     <Footer />
@@ -278,9 +292,9 @@ function App() {
                     </Header>
                     <Main>
                       <MoviesSaved
-                      // onSearch={handleSearch}
-
-                      moviesDB={searchResult} />
+                        // onSearch={handleSearch}
+                        mainMovies={mainMovies}
+                      />
                     </Main>
                     <Footer />
                   </ProtectedRoute>
