@@ -31,7 +31,7 @@ function App() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const jwtToken = localStorage.getItem("jwtToken");
   const searchValue = localStorage.getItem("search");
   const [isLoading, setIsLoading] = useState(false);
