@@ -19,27 +19,49 @@ import SignIn from "../SignIn/SignIn.jsx";
 import SignUp from "../SignUp/SignUp.jsx";
 import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 import "./App.css";
-import moviesDB from "../../utils/moviesBD";
-import moviesSaveDB from "../../utils/moviesSaveBD.js";
+// import moviesDB from "../../utils/moviesBD";
+// import moviesSaveDB from "../../utils/moviesSaveBD.js";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../protectedRoute";
-import { filterDuration, filter } from "../../utils/searchFilter.js";
+// import { filterDuration, filter } from "../../utils/searchFilter.js";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState("");
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const jwtToken = localStorage.getItem("jwtToken");
+  const searchValue = localStorage.getItem("search");
   const [isLoading, setIsLoading] = useState(false);
-  const [searchResult, setSearchResult] = useState("");
+  const [searchResult, setSearchResult] = useState({
+    movies: [],
+    visible: 0,
+  });
+
+
   const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
   const [mainMovies, setMainMovies] = useState();
+  const [filterStatus, setFilterStatus] = useState(!localStorage.getItem("filter") === null ? "false" : localStorage.getItem("filter")); // Если нет в памяти тогда выключено, если есть то принимает значение
 
-  console.log(moviesData);
+  function toggleFilterStatus() {
+    filterStatus === "true"
+      ? setFilterStatus("false")
+      : setFilterStatus("true");
+    filterStatus === "true"
+      ? localStorage.setItem("filter", "false")
+      : localStorage.setItem("filter", "true");
+  }
+
+
+        useEffect(() => {
+          setFilterStatus(localStorage.getItem("filter"));
+          handleSearch(searchValue)
+        }, [])
+
+
 
   const countItemsOnDisplay = () =>
     windowSize > 980 ? 12 : windowSize > 520 ? 8 : 5;
@@ -47,84 +69,98 @@ function App() {
 
   // useEffect(()=>{
   //   if(loggedIn){
-  //     handleSearch()
+  //     handleSearch(searchValue);
   //   }
   // })
 
   ////////////////////////////////////////////////////
-  // const handleSearch = (searchParams) => {
-  //   // setCardListHelpText("");
-  //   setIsLoading(true);
 
-  //   if (!localStorage.getItem("moviesData")) {
-  //     MoviesApi.getMovie()
-  //       .then((res) => {
-  //         const searchResult = filter(res, searchParams);
+  const filter = (movies, filterStatus, searchValue) => {
+    console.log(movies, searchValue, filterStatus);
+    const matched = (str, match) =>
+      str.toLowerCase().includes(match.toLowerCase());
+    return (filterStatus === "true"
+      ? movies.filter((movie) => movie.duration <= 40)
+      : movies)
+    .filter(
+      ({ nameRU, nameEN, description }) =>
+        matched(nameRU, searchValue) ||
+        matched(nameEN, searchValue) ||
+        matched(description, searchValue)
+    );
+  };
 
-  //         setSearchResult((prev) => ({
-  //           ...prev,
-  //           movies: searchResult,
-  //           visible: countItemsOnDisplay,
-  //         }));
 
-  //         localStorage.setItem("moviesData", JSON.stringify(res));
-  //         localStorage.setItem("searchResult", JSON.stringify(searchResult));
-  //       })
-  //       .catch((err) => {
-  //         setErrorMessage(
-  //           "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз."
-  //         );
-  //         // setPopupOpened(true);
-  //       })
-  //       .finally(() => setIsLoading(false));
-  //   } else {
-  //     setSearchResult((prev) => ({
-  //       ...prev,
-  //       movies: filter(
-  //         JSON.parse(localStorage.getItem("moviesData")),
-  //         searchParams
-  //       ),
-  //       visible: countItemsOnDisplay,
-  //     }));
-  //     localStorage.setItem("searchResult", JSON.stringify(searchResult));
-  //   }
+  const handleSearch = (searchValue) => {
+    setIsLoading(true);
 
-  //   localStorage.setItem("shortFilm", searchParams.checked || false);
-  //   localStorage.setItem("search", searchParams.search);
-  //   setIsLoading(false);
-  // };
+    if (!localStorage.getItem("moviesData")) {
+      MoviesApi.getMovie()
+        .then((res) => {
+          const searchResults = filter(res, filterStatus, searchValue);
+          console.log(searchResults);
+          setSearchResult((prev) => ({
+            ...prev,
+            movies: searchResults,
+            visible: countItemsOnDisplay(),
+          }));
+
+          localStorage.setItem("moviesData", JSON.stringify(res));
+          localStorage.setItem("searchResult", JSON.stringify(searchResults));
+        })
+        .catch((err) => {
+          setErrorMessage(
+            `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+          );
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      const moviesData = JSON.parse(localStorage.getItem("moviesData"));
+      const searchResults = filter(moviesData, filterStatus, searchValue);
+      setSearchResult((prev) => ({
+        ...prev,
+        movies: searchResults,
+        visible: countItemsOnDisplay(),
+      }))
+      localStorage.setItem("searchResult", JSON.stringify(searchResults));
+    }
+
+    localStorage.setItem("search", searchValue);
+    setIsLoading(false);
+  };
   ////////////////
 
   function getMainMovies() {
-    mainApi.getMainMovie()
-    .then((res)=> {
-      setMainMovies(localStorage.setItem("mainMovies",JSON.stringify(res)))
-    }).catch((err)=> {
-      localStorage.removeItem("mainMovies");
-      console.log(err)
-    });
+    mainApi
+      .getMainMovie()
+      .then((res) => {
+        setMainMovies(localStorage.setItem("mainMovies", JSON.stringify(res)));
+      })
+      .catch((err) => {
+        localStorage.removeItem("mainMovies");
+        console.log(err);
+      });
   }
-  getMainMovies();
-
   function getMovies() {
     if (!localStorage.getItem("moviesData")) {
       MoviesApi.getMovie()
         .then((res) => {
-          setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
+          setMoviesData(
+            localStorage.setItem("moviesData", JSON.stringify(res))
+          );
           // localStorage.setItem("shortFilms", JSON.stringify((res) =>{
           //   res.filter(({ duration }) => duration <= 40);
           // }));
         })
         .catch((err) => console.log(err));
     } else {
-      MoviesApi.getMovie()
-        .then((res) => {
-          setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
-          console.log(localStorage.getItem("moviesData"));
-      // localStorage.setItem("shortFilm", filterDuration(localStorage.getItem("moviesData")))
-    })}
+      MoviesApi.getMovie().then((res) => {
+        setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
+        console.log(localStorage.getItem("moviesData"));
+        // localStorage.setItem("shortFilm", filterDuration(localStorage.getItem("moviesData")))
+      });
+    }
   }
-  getMovies();
 
   // console.log(localStorage.getItem("shortFilm"));
 
@@ -136,6 +172,7 @@ function App() {
           if (res) {
             setCurrentUser({ id: res.id, name: res.name, email: res.email });
             setLoggedIn(true);
+            getMovies();
             location.pathname === "/signin"
               ? navigate("/movies")
               : navigate(`${location.pathname}`);
@@ -148,9 +185,10 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    handleTokenCheck();
-  }, [loggedIn]);
+  // useEffect(() => {
+  //   handleTokenCheck();
+  // getMainMovies()
+  // }, [loggedIn]);
 
   useEffect(() => {
     // обновление стейта переменной для подписки компонентов
@@ -163,7 +201,6 @@ function App() {
     };
   }, []);
 
-
   function getWindowSize() {
     // получение размера ширины окна
     const width = document.documentElement.clientWidth;
@@ -172,7 +209,7 @@ function App() {
 
   function signOut() {
     setLoggedIn(false);
-    localStorage.removeItem("jwtToken");
+    localStorage.clear();
     setCurrentUser("");
   }
 
@@ -240,6 +277,9 @@ function App() {
                   <>
                     <Header>
                       <HeaderNavigationProfile />
+                      <HeaderNavigationMovies
+                      loggedIn={loggedIn}
+                      />
                     </Header>
                     <Main>
                       <Promo />
@@ -266,20 +306,25 @@ function App() {
               <Route
                 path="/movies"
                 element={
-                  <ProtectedRoute user={loggedIn}>
+                  // <ProtectedRoute user={loggedIn}>
+                  <>
                     <Header>
                       <HeaderNavigationProfile />
                       <HeaderNavigationMovies />
                     </Header>
                     <Main>
                       <MoviesExplorer
-                        // onSearch={handleSearch}
-                        moviesData={moviesData}
+                        countItemsOnDisplay={countItemsOnDisplay}
+                        toggleFilterstatus={toggleFilterStatus}
+                        filterStatus={filterStatus}
+                        onSearch={handleSearch}
                         mainMovies={mainMovies}
+                        searchResult={searchResult}
                       />
                     </Main>
                     <Footer />
-                  </ProtectedRoute>
+                  </>
+                  // </ProtectedRoute>
                 }
               />
               <Route
