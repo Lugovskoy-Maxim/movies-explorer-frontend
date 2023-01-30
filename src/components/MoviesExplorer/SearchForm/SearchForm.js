@@ -3,7 +3,7 @@ import searchIcon from "../../../images/iconSearch.svg";
 import searchLine from "../../../images/input__line.svg";
 import "./SearchForm.css";
 
-function SearchForm({ onSearch, filterStatus, toggleFilterstatus }) {
+function SearchForm({ onSearch, filterStatus, toggleFilterstatus, setFirstCoutn }) {
   // const [filterStatus, setFilterStatus] = useState();
   const [searchValue, setSearchValue] = useState("");
 
@@ -28,6 +28,7 @@ function SearchForm({ onSearch, filterStatus, toggleFilterstatus }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setFirstCoutn();
     onSearch(searchValue)
   }
 

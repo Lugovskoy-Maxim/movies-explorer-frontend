@@ -78,7 +78,7 @@ export const createMovies = async (movie) => {
   return handleResponse(res);
 };
 
-export const getMainMovie = async () => {
+export const getMainMovies = async () => {
   const res = await fetch(`${BASE_URL}/movies`, {
     method: "GET",
     credentials: "include",

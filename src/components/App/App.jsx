@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
@@ -40,11 +40,36 @@ function App() {
     visible: 0,
   });
 
+  function setFirstCoutn() {
+    setCountItem(countItemsOnDisplay());
+  }
+  const [countItem, setCountItem] = useState(
+    !localStorage.getItem("countItemonDisplay") === null
+      ? countItemsOnDisplay()
+      : localStorage.getItem("countItemonDisplay")
+  );
+
+  useEffect(() => {
+    setCountItem(localStorage.getItem("countItemonDisplay"));
+  }, []);
+
+  const AddMovies = () => {
+    // const searchResultCopy = {...searchResult, visible: countItem + countItemsOnDisplay()}
+    localStorage.setItem(
+      "countItemonDisplay",
+      countItem + addItemOnDisplay()
+    );
+    setCountItem(countItem + addItemOnDisplay());
+  };
 
   const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
   const [mainMovies, setMainMovies] = useState();
-  const [filterStatus, setFilterStatus] = useState(!localStorage.getItem("filter") === null ? "false" : localStorage.getItem("filter")); // Если нет в памяти тогда выключено, если есть то принимает значение
+  const [filterStatus, setFilterStatus] = useState(
+    !localStorage.getItem("filter") === null
+      ? "false"
+      : localStorage.getItem("filter")
+  ); // Если нет в памяти тогда выключено, если есть то принимает значение
 
   function toggleFilterStatus() {
     filterStatus === "true"
@@ -56,16 +81,34 @@ function App() {
   }
 
 
-        useEffect(() => {
-          setFilterStatus(localStorage.getItem("filter"));
-          handleSearch(searchValue)
-        }, [])
+    useEffect(() => {
+      console.log(searchValue);
+      if(!searchValue === undefined){
+      setFilterStatus(localStorage.getItem("filter"));
+      handleSearch(searchValue);
+    }
+    }, []);
 
 
+  useEffect(() => {
+    // обновление стейта переменной для подписки компонентов
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    handleTokenCheck();
+  }, [loggedIn]);
 
   const countItemsOnDisplay = () =>
     windowSize > 980 ? 12 : windowSize > 520 ? 8 : 5;
-  const addItemOnDisplay = (windowSize) => (windowSize > 520 ? 3 : 2);
+  const addItemOnDisplay = (windowSize) => (windowSize < 520 ? 3 : 2);
 
   // useEffect(()=>{
   //   if(loggedIn){
@@ -81,8 +124,8 @@ function App() {
       str.toLowerCase().includes(match.toLowerCase());
     return (filterStatus === "true"
       ? movies.filter((movie) => movie.duration <= 40)
-      : movies)
-    .filter(
+      : movies
+    ).filter(
       ({ nameRU, nameEN, description }) =>
         matched(nameRU, searchValue) ||
         matched(nameEN, searchValue) ||
@@ -90,9 +133,10 @@ function App() {
     );
   };
 
-
   const handleSearch = (searchValue) => {
     setIsLoading(true);
+    // setCountItem(countItemsOnDisplay());
+    // localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
 
     if (!localStorage.getItem("moviesData")) {
       MoviesApi.getMovie()
@@ -121,7 +165,7 @@ function App() {
         ...prev,
         movies: searchResults,
         visible: countItemsOnDisplay(),
-      }))
+      }));
       localStorage.setItem("searchResult", JSON.stringify(searchResults));
     }
 
@@ -130,17 +174,19 @@ function App() {
   };
   ////////////////
 
-  function getMainMovies() {
+  const getMainMovies = () => {
     mainApi
-      .getMainMovie()
+      .getMainMovies()
       .then((res) => {
         setMainMovies(localStorage.setItem("mainMovies", JSON.stringify(res)));
+        localStorage.setItem("mainMovies", JSON.stringify(res));
       })
       .catch((err) => {
         localStorage.removeItem("mainMovies");
         console.log(err);
       });
-  }
+  };
+
   function getMovies() {
     if (!localStorage.getItem("moviesData")) {
       MoviesApi.getMovie()
@@ -164,7 +210,7 @@ function App() {
 
   // console.log(localStorage.getItem("shortFilm"));
 
-  function handleTokenCheck() {
+  const handleTokenCheck = () =>  {
     if (jwtToken) {
       mainApi
         .checkToken(jwtToken)
@@ -173,8 +219,9 @@ function App() {
             setCurrentUser({ id: res.id, name: res.name, email: res.email });
             setLoggedIn(true);
             getMovies();
+            getMainMovies();
             location.pathname === "/signin"
-              ? navigate("/movies")
+              ? navigate("/")
               : navigate(`${location.pathname}`);
           }
         })
@@ -184,22 +231,6 @@ function App() {
         });
     }
   }
-
-  // useEffect(() => {
-  //   handleTokenCheck();
-  // getMainMovies()
-  // }, [loggedIn]);
-
-  useEffect(() => {
-    // обновление стейта переменной для подписки компонентов
-    function handleWindowResize() {
-      setWindowSize(getWindowSize());
-    }
-    window.addEventListener("resize", handleWindowResize);
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
 
   function getWindowSize() {
     // получение размера ширины окна
@@ -277,9 +308,7 @@ function App() {
                   <>
                     <Header>
                       <HeaderNavigationProfile />
-                      <HeaderNavigationMovies
-                      loggedIn={loggedIn}
-                      />
+                      <HeaderNavigationMovies loggedIn={loggedIn} />
                     </Header>
                     <Main>
                       <Promo />
@@ -314,6 +343,9 @@ function App() {
                     </Header>
                     <Main>
                       <MoviesExplorer
+                        setFirstCoutn={setFirstCoutn}
+                        countItem={countItem}
+                        AddMovies={AddMovies}
                         countItemsOnDisplay={countItemsOnDisplay}
                         toggleFilterstatus={toggleFilterStatus}
                         filterStatus={filterStatus}
@@ -337,7 +369,13 @@ function App() {
                     </Header>
                     <Main>
                       <MoviesSaved
-                        // onSearch={handleSearch}
+                        setFirstCoutn={setFirstCoutn}
+                        countItem={countItem}
+                        AddMovies={AddMovies}
+                        countItemsOnDisplay={countItemsOnDisplay}
+                        toggleFilterstatus={toggleFilterStatus}
+                        filterStatus={filterStatus}
+                        onSearch={handleSearch}
                         mainMovies={mainMovies}
                       />
                     </Main>

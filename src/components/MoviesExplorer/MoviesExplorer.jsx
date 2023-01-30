@@ -9,26 +9,34 @@ import { useState } from "react";
 
 function MoviesExplorer({
   searchResult,
-  countItemsOnDisplay,
+  AddMovies,
   mainMovies,
   onSearch,
   filterStatus,
   toggleFilterstatus,
+  countItem,
+  setFirstCoutn,
 }) {
   // const windowSize = React.useContext(WindiwSizeContext);
   // const moviesData = JSON.parse(localStorage.getItem("searchResult"));
   console.log(searchResult.movies);
+  console.log(countItem);
+  console.log(mainMovies);
   // const [searchResults, setSearchResult] = useState(searchResult);
-  const [countItem, setCountItem] = useState(countItemsOnDisplay());
-    useEffect(() => {
-      setCountItem(localStorage.getItem("countItemonDisplay"));
-    }, [])
+  // const [countsItem, setCountsItem] = useState(countItem);
+  //   useEffect(() => {
+  //     setCountsItem(localStorage.getItem("countItemonDisplay"));
+  //   }, [])
   // const AllMovies = localStorage.getItem("AllMovies");
 
-  const AddMovies = () => {
-    // const searchResultCopy = {...searchResult, visible: countItem + countItemsOnDisplay()}
-    localStorage.setItem("countItemonDisplay", countItem + countItemsOnDisplay())
-    setCountItem(countItem + countItemsOnDisplay());
+  // const AddMovies = () => {
+  //   // const searchResultCopy = {...searchResult, visible: countItem + countItemsOnDisplay()}
+  //   localStorage.setItem("countItemonDisplay", countItem + countItemsOnDisplay())
+  //   setCountItem(countItem + countItemsOnDisplay());
+// }
+
+  const handleAddMovie = () => {
+    AddMovies();
 }
 
   const result = searchResult.movies.slice(0, countItem);
@@ -46,6 +54,7 @@ function MoviesExplorer({
   return (
     <section className="movies">
       <SearchForm
+        setFirstCoutn={setFirstCoutn}
         filterStatus={filterStatus}
         toggleFilterstatus={toggleFilterstatus}
         onSearch={onSearch}
@@ -68,7 +77,7 @@ function MoviesExplorer({
             ? "movies__add-button"
             : "movies__add-button_hide"
         }
-        onClick={AddMovies}
+        onClick={handleAddMovie}
       >
         Ещё
       </button>

@@ -4,7 +4,6 @@ import "./Header__nav-movies.css";
 
 function HeaderNavMovies({loggedIn}) {
   const location = useLocation();
-  console.log(location.pathname)
   function chekPathname(pathname, className) {
     if (location.pathname === pathname) {
       return className + "-active";
