@@ -14,6 +14,9 @@ function HeaderNavMovies({loggedIn}) {
     else if (loggedIn === true && location.pathname === "/") {
       return "header__nav-movies-link-notactive";
     }
+    else if (loggedIn === true && location.pathname === "/profile") {
+      return "header__nav-movies-link-notactive";
+    }
     else if (!location.pathname.includes("movies")) {
       return className + "-disabled";
     }

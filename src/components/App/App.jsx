@@ -35,10 +35,15 @@ function App() {
   const jwtToken = localStorage.getItem("jwtToken");
   const searchValue = localStorage.getItem("search");
   const [isLoading, setIsLoading] = useState(false);
+  const [mainMovies, setMainMovies] = useState();
   const [searchResult, setSearchResult] = useState({
     movies: [],
     visible: 0,
   });
+
+  function render(obj) {
+    return obj.slice(0, countItem);
+  }
 
   function setFirstCoutn() {
     setCountItem(countItemsOnDisplay());
@@ -50,21 +55,36 @@ function App() {
   );
 
   useEffect(() => {
-    setCountItem(localStorage.getItem("countItemonDisplay"));
+    // const searchMainMovies = localStorage.getItem("searchResultMain");
+    // setSearchResultMain((prev) => ({
+    //     ...prev,
+    //     movies: localStorage.getItem("searchResultMain").movies,
+    //     visible: localStorage.getItem("searchResultMain").visible
+    //   })
+    //   )
+    // setSearchResult((prev) => ({
+    //   ...prev,
+    //   movies: searchResults,
+    //   visible: countItemsOnDisplay()})
+    // )
   }, []);
 
   const AddMovies = () => {
     // const searchResultCopy = {...searchResult, visible: countItem + countItemsOnDisplay()}
-    localStorage.setItem(
-      "countItemonDisplay",
-      countItem + addItemOnDisplay()
-    );
+    localStorage.setItem("countItemonDisplay", countItem + addItemOnDisplay());
     setCountItem(countItem + addItemOnDisplay());
   };
-
+  const searchMainMovies = localStorage.getItem("searchResultMain");
+  console.log(searchMainMovies);
   const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
-  const [mainMovies, setMainMovies] = useState();
+  const [searchResultMain, setSearchResultMain] = useState(!localStorage.getItem("searchResultMain") ? {
+    movies: [],
+    visible: 0,
+  } : {movies: [searchMainMovies],
+  visible: 0,}
+  );
+
   const [filterStatus, setFilterStatus] = useState(
     !localStorage.getItem("filter") === null
       ? "false"
@@ -80,15 +100,12 @@ function App() {
       : localStorage.setItem("filter", "true");
   }
 
-
-    useEffect(() => {
-      console.log(searchValue);
-      if(!searchValue === undefined){
+  useEffect(() => {
+    if (!searchValue === undefined) {
       setFilterStatus(localStorage.getItem("filter"));
       handleSearch(searchValue);
     }
-    }, []);
-
+  }, []);
 
   useEffect(() => {
     // обновление стейта переменной для подписки компонентов
@@ -101,10 +118,10 @@ function App() {
     };
   }, []);
 
-
   useEffect(() => {
     handleTokenCheck();
-  }, [loggedIn]);
+    getMainMoviesDB();
+  }, []);
 
   const countItemsOnDisplay = () =>
     windowSize > 980 ? 12 : windowSize > 520 ? 8 : 5;
@@ -115,8 +132,6 @@ function App() {
   //     handleSearch(searchValue);
   //   }
   // })
-
-  ////////////////////////////////////////////////////
 
   const filter = (movies, filterStatus, searchValue) => {
     console.log(movies, searchValue, filterStatus);
@@ -133,93 +148,150 @@ function App() {
     );
   };
 
+
+
+  function getMovies() {
+      MoviesApi.getMovie()
+        .then((res) => {
+          setMoviesData(
+            localStorage.setItem("moviesData", JSON.stringify(res))
+          )
+        })
+        .catch((err) => console.log(err));
+  }
+
   const handleSearch = (searchValue) => {
     setIsLoading(true);
     // setCountItem(countItemsOnDisplay());
     // localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
 
-    if (!localStorage.getItem("moviesData")) {
-      MoviesApi.getMovie()
-        .then((res) => {
-          const searchResults = filter(res, filterStatus, searchValue);
-          console.log(searchResults);
-          setSearchResult((prev) => ({
-            ...prev,
-            movies: searchResults,
-            visible: countItemsOnDisplay(),
-          }));
-
-          localStorage.setItem("moviesData", JSON.stringify(res));
-          localStorage.setItem("searchResult", JSON.stringify(searchResults));
-        })
-        .catch((err) => {
-          setErrorMessage(
-            `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-          );
-        })
-        .finally(() => setIsLoading(false));
-    } else {
-      const moviesData = JSON.parse(localStorage.getItem("moviesData"));
-      const searchResults = filter(moviesData, filterStatus, searchValue);
-      setSearchResult((prev) => ({
-        ...prev,
-        movies: searchResults,
-        visible: countItemsOnDisplay(),
-      }));
-      localStorage.setItem("searchResult", JSON.stringify(searchResults));
-    }
-
-    localStorage.setItem("search", searchValue);
-    setIsLoading(false);
-  };
-  ////////////////
-
-  const getMainMovies = () => {
-    mainApi
-      .getMainMovies()
+    if (!localStorage.getItem("moviesData") && !localStorage.getItem("mainMovies")) {
+      Promise.all([MoviesApi.getMovie(), mainApi.getMainMovies()])
       .then((res) => {
-        setMainMovies(localStorage.setItem("mainMovies", JSON.stringify(res)));
-        localStorage.setItem("mainMovies", JSON.stringify(res));
+        /// BeatFilm
+        const searchResults = filter(res[0], filterStatus, searchValue);
+        console.log(searchResults)
+        setSearchResult((prev) => ({
+          ...prev,
+          movies: searchResults,
+          visible: countItemsOnDisplay(),
+        }))
+        localStorage.setItem("moviesData", JSON.stringify(res[0]));
+        localStorage.setItem("searchResult", JSON.stringify(searchResults));
+
+        ////// MAIN
+        const searchResultsMain = filter(res[1], filterStatus, searchValue);
+        console.log(searchResultsMain)
+        setSearchResultMain((prev) => ({
+          ...prev,
+          movies: searchResultsMain,
+          visible: countItemsOnDisplay(),
+        }))
+        localStorage.setItem("mainMovies", JSON.stringify(res[1]));
+        localStorage.setItem("searchResultMain", JSON.stringify({ movies: searchResultsMain, visible: countItemsOnDisplay()}));
       })
       .catch((err) => {
-        localStorage.removeItem("mainMovies");
-        console.log(err);
-      });
+        setErrorMessage(
+          `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+        );
+      })
+      .finally(() => setIsLoading(false));
+    } else {
+        /// BeatFilm
+        if(location.pathname === "/movies") {
+        const moviesData = JSON.parse(localStorage.getItem("moviesData"));
+        const searchResults = filter(moviesData, filterStatus, searchValue);
+        console.log(searchResults)
+        setSearchResult((prev) => ({
+          ...prev,
+          movies: searchResults,
+          visible: countItemsOnDisplay(),
+        }))
+        localStorage.setItem("moviesData", JSON.stringify(moviesData));
+        localStorage.setItem("searchResult", JSON.stringify(searchResults));
+      } else {
+        ////// MAIN
+        const mainMoviesData = JSON.parse(localStorage.getItem("mainMovies"));
+        const searchResultsMain = filter(mainMoviesData, filterStatus, searchValue);
+        console.log(searchResultsMain)
+        setSearchResultMain((prev) => ({
+          ...prev,
+          movies: searchResultsMain,
+          visible: countItemsOnDisplay(),
+        }))
+        localStorage.setItem("mainMovies", JSON.stringify(mainMoviesData));
+        localStorage.searchResultMain = JSON.parse({ movies: searchResultsMain.movies, visible:  countItemsOnDisplay()});
+      }
+      //// придумать как сохранить что бы подгружать при перезагрузки страницы
+    localStorage.setItem("search", searchValue);
+    setIsLoading(false);
+  }};
+  ////////////////
+  // const handleMainSearch = (searchValue) => {
+  //   setIsLoading(true);
+  //   // setCountItem(countItemsOnDisplay());
+  //   // localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
+
+  //   if (!localStorage.getItem("mainMovies")) {
+  //     mainApi
+  //       .getMainMovies()
+  //       .then((res) => {
+  //         const searchResults = filter(res, filterStatus, searchValue);
+  //         console.log(searchResults);
+  //         setSearchResultMain((prev) => ({
+  //           ...prev,
+  //           movies: searchResults,
+  //           visible: countItemsOnDisplay(),
+  //         }));
+
+  //         localStorage.setItem("mainMovies", JSON.stringify(res));
+  //         localStorage.setItem("searchResultMain", searchResults);
+  //       })
+  //       .catch((err) => {
+  //         setErrorMessage(
+  //           `Во время запроса произошла ${err.toLowerCase()}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+  //         );
+  //       })
+  //       .finally(() => setIsLoading(false));
+  //   } else {
+  //     const moviesData = localStorage.getItem("mainMovies");
+  //     const searchResults = filter(moviesData, filterStatus, searchValue);
+  //     setSearchResultMain((prev) => ({
+  //       ...prev,
+  //       movies: searchResults,
+  //       visible: countItemsOnDisplay(),
+  //     }));
+  //     localStorage.setItem("searchResultMain", searchResults);
+  //   }
+
+  //   localStorage.setItem("search", searchValue);
+  //   setIsLoading(false);
+  // };
+
+  const getMainMoviesDB = () => {
+      mainApi
+        .getMainMovies()
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("mainMovies", JSON.stringify(res));
+          setMainMovies(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
   };
 
-  function getMovies() {
-    if (!localStorage.getItem("moviesData")) {
-      MoviesApi.getMovie()
-        .then((res) => {
-          setMoviesData(
-            localStorage.setItem("moviesData", JSON.stringify(res))
-          );
-          // localStorage.setItem("shortFilms", JSON.stringify((res) =>{
-          //   res.filter(({ duration }) => duration <= 40);
-          // }));
-        })
-        .catch((err) => console.log(err));
-    } else {
-      MoviesApi.getMovie().then((res) => {
-        setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
-        console.log(localStorage.getItem("moviesData"));
-        // localStorage.setItem("shortFilm", filterDuration(localStorage.getItem("moviesData")))
-      });
-    }
-  }
 
-  // console.log(localStorage.getItem("shortFilm"));
 
-  const handleTokenCheck = () =>  {
-    if (jwtToken) {
+  const handleTokenCheck = () => {
       mainApi
-        .checkToken(jwtToken)
+        .checkToken()
         .then((res) => {
           if (res) {
             setCurrentUser({ id: res.id, name: res.name, email: res.email });
             setLoggedIn(true);
             getMovies();
-            getMainMovies();
+            getMainMoviesDB();
             location.pathname === "/signin"
               ? navigate("/")
               : navigate(`${location.pathname}`);
@@ -229,8 +301,7 @@ function App() {
           console.log(err);
           setLoggedIn(false);
         });
-    }
-  }
+  };
 
   function getWindowSize() {
     // получение размера ширины окна
@@ -249,10 +320,7 @@ function App() {
       .authorize(email, password)
       .then((res) => {
         if (res) {
-          localStorage.setItem("jwtToken", res.jwtToken);
           setLoggedIn(true);
-          console.log(res);
-          console.log(currentUser);
           navigate("/movies");
         }
       })
@@ -281,8 +349,8 @@ function App() {
       .updateUserUnfo(name, email)
       .then((res) => {
         if (res) {
-          setCurrentUser((currentUser) => ({
-            ...currentUser,
+          setCurrentUser((prev) => ({
+            ...prev,
             name: res.name,
             email: res.email,
           }));
@@ -369,14 +437,15 @@ function App() {
                     </Header>
                     <Main>
                       <MoviesSaved
+                        onSearch={handleSearch}
                         setFirstCoutn={setFirstCoutn}
                         countItem={countItem}
                         AddMovies={AddMovies}
                         countItemsOnDisplay={countItemsOnDisplay}
                         toggleFilterstatus={toggleFilterStatus}
                         filterStatus={filterStatus}
-                        onSearch={handleSearch}
                         mainMovies={mainMovies}
+                        searchResult={searchResultMain}
                       />
                     </Main>
                     <Footer />

@@ -17,39 +17,14 @@ function MoviesExplorer({
   countItem,
   setFirstCoutn,
 }) {
-  // const windowSize = React.useContext(WindiwSizeContext);
-  // const moviesData = JSON.parse(localStorage.getItem("searchResult"));
-  console.log(searchResult.movies);
-  console.log(countItem);
-  console.log(mainMovies);
-  // const [searchResults, setSearchResult] = useState(searchResult);
-  // const [countsItem, setCountsItem] = useState(countItem);
-  //   useEffect(() => {
-  //     setCountsItem(localStorage.getItem("countItemonDisplay"));
-  //   }, [])
-  // const AllMovies = localStorage.getItem("AllMovies");
 
-  // const AddMovies = () => {
-  //   // const searchResultCopy = {...searchResult, visible: countItem + countItemsOnDisplay()}
-  //   localStorage.setItem("countItemonDisplay", countItem + countItemsOnDisplay())
-  //   setCountItem(countItem + countItemsOnDisplay());
-// }
+  console.log(searchResult);
 
   const handleAddMovie = () => {
     AddMovies();
 }
 
   const result = searchResult.movies.slice(0, countItem);
-
-  // function getMoviesListLength() {
-  //   if (windowSize >= 1000) {
-  //     return 12;
-  //   } else if (windowSize >= 740) {
-  //     return 8;
-  //   } else {
-  //     return 4;
-  //   }
-  // }
 
   return (
     <section className="movies">
