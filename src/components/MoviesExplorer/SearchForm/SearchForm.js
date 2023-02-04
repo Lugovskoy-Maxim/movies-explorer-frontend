@@ -1,43 +1,41 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import searchIcon from "../../../images/iconSearch.svg";
 import searchLine from "../../../images/input__line.svg";
 import "./SearchForm.css";
 
-function SearchForm({ onSearch, filterStatus, toggleFilterstatus, setFirstCoutn }) {
+function SearchForm({
+  onSearch,
+  filterStatus,
+  toggleFilterstatus,
+  setFirstCoutn,
+}) {
   // const [filterStatus, setFilterStatus] = useState();
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     setSearchValue(localStorage.getItem("search"));
-  }, [])
+  }, []);
 
-  // useEffect(() => {
-  //   setFilterStatus(localStorage.getItem("filter"));
-  //   console.log(filterStatus);
-  // },[])
-
-  function onChangeSearch (event) {
+  function onChangeSearch(event) {
     setSearchValue(event.target.value);
   }
-  // function toggleFilterstatus() {
-  //   filterStatus ? setFilterStatus(false) : setFilterStatus(true);
-  //   filterStatus ? localStorage.setItem("filter", "false") : localStorage.setItem("filter", "true" );
-  // }
 
-
+  const location = useLocation();
 
   function handleSubmit(event) {
     event.preventDefault();
-    setFirstCoutn();
-    onSearch(searchValue)
+    const locationPath = location.pathname;
+    setFirstCoutn(locationPath);
+    onSearch(searchValue);
   }
 
   return (
     <>
       <form className="search" onSubmit={handleSubmit}>
         <nav tabIndex="-1" className="search__nav">
-          <div  className="search__nav-left">
-            <div  className="search__input-left">
+          <div className="search__nav-left">
+            <div className="search__input-left">
               <img src={searchIcon} alt="Лупа" className="search__icon" />
               <input
                 id="search"
@@ -58,9 +56,16 @@ function SearchForm({ onSearch, filterStatus, toggleFilterstatus, setFirstCoutn 
             <button
               onClick={() => toggleFilterstatus()}
               type="button"
-              className={`search__togle  ${filterStatus === "true" ? "search__togle-active" : ""}`}
+              className={`search__togle  ${
+                filterStatus === "true" ? "search__togle-active" : ""
+              }`}
             >
-              <div className={`search__togle-icon  ${filterStatus === "true" ? "search__togle-icon-active" : ""}`} onClick={() => toggleFilterstatus()} ></div>
+              <div
+                className={`search__togle-icon  ${
+                  filterStatus === "true" ? "search__togle-icon-active" : ""
+                }`}
+                onClick={() => toggleFilterstatus()}
+              ></div>
             </button>
             <p className="search__togle-title">Короткометражки</p>
           </div>

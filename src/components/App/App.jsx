@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
-
 import Promo from "../Promo/Promo.jsx";
 import Techs from "../Techs/Techs.jsx";
 import AboutProject from "../AboutProject/AboutProject.jsx";
@@ -19,77 +18,55 @@ import SignIn from "../SignIn/SignIn.jsx";
 import SignUp from "../SignUp/SignUp.jsx";
 import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
 import "./App.css";
-// import moviesDB from "../../utils/moviesBD";
-// import moviesSaveDB from "../../utils/moviesSaveBD.js";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../protectedRoute";
-// import { filterDuration, filter } from "../../utils/searchFilter.js";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({
+    id: 0,
+    name: "",
+    email: "",
+  });
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
   const [loggedIn, setLoggedIn] = useState(false);
   const jwtToken = localStorage.getItem("jwtToken");
   const searchValue = localStorage.getItem("search");
   const [isLoading, setIsLoading] = useState(false);
-  const [mainMovies, setMainMovies] = useState();
-  const [searchResult, setSearchResult] = useState({
-    movies: [],
-    visible: 0,
-  });
+  const [mainMovies, setMainMovies] = useState([{}]);
 
-  function render(obj) {
-    return obj.slice(0, countItem);
-  }
-
-  function setFirstCoutn() {
-    setCountItem(countItemsOnDisplay());
-  }
-  const [countItem, setCountItem] = useState(
-    !localStorage.getItem("countItemonDisplay") === null
-      ? countItemsOnDisplay()
-      : localStorage.getItem("countItemonDisplay")
-  );
-
-  useEffect(() => {
-    // const searchMainMovies = localStorage.getItem("searchResultMain");
-    // setSearchResultMain((prev) => ({
-    //     ...prev,
-    //     movies: localStorage.getItem("searchResultMain").movies,
-    //     visible: localStorage.getItem("searchResultMain").visible
-    //   })
-    //   )
-    // setSearchResult((prev) => ({
-    //   ...prev,
-    //   movies: searchResults,
-    //   visible: countItemsOnDisplay()})
-    // )
-  }, []);
-
-  const AddMovies = () => {
-    // const searchResultCopy = {...searchResult, visible: countItem + countItemsOnDisplay()}
-    localStorage.setItem("countItemonDisplay", countItem + addItemOnDisplay());
-    setCountItem(countItem + addItemOnDisplay());
-  };
-  const searchMainMovies = localStorage.getItem("searchResultMain");
-  console.log(searchMainMovies);
   const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
-  const [searchResultMain, setSearchResultMain] = useState(!localStorage.getItem("searchResultMain") ? {
-    movies: [],
-    visible: 0,
-  } : {movies: [searchMainMovies],
-  visible: 0,}
-  );
+  const [searchResult, setSearchResult] = useState(() => {
+    const saved = localStorage.getItem("searchResult");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || {
+        movies: [],
+        // visible: 0,
+      }
+    );
+  });
+  const [searchResultMain, setSearchResultMain] = useState(() => {
+    const saved = localStorage.getItem("searchResultMain");
+    const initialValue = JSON.parse(saved);
+    return (
+      initialValue || {
+        movies: [],
+        // visible: 0,
+      }
+    );
+  });
 
-  const [filterStatus, setFilterStatus] = useState(
-    !localStorage.getItem("filter") === null
-      ? "false"
-      : localStorage.getItem("filter")
-  ); // Если нет в памяти тогда выключено, если есть то принимает значение
+  const [filterStatus, setFilterStatus] = useState(() => {
+    const saved = localStorage.getItem("filter");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "false";
+  });
+
+  // Если нет в памяти тогда выключено, если есть то принимает значение
 
   function toggleFilterStatus() {
     filterStatus === "true"
@@ -101,10 +78,12 @@ function App() {
   }
 
   useEffect(() => {
-    if (!searchValue === undefined) {
-      setFilterStatus(localStorage.getItem("filter"));
-      handleSearch(searchValue);
-    }
+    // if (!searchValue === undefined) {
+    //   setFilterStatus(localStorage.getItem("filter"));
+    //   handleSearch(searchValue);
+    // }
+    handleTokenCheck();
+    getMainMoviesDB();
   }, []);
 
   useEffect(() => {
@@ -118,23 +97,11 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    handleTokenCheck();
-    getMainMoviesDB();
-  }, []);
-
   const countItemsOnDisplay = () =>
     windowSize > 980 ? 12 : windowSize > 520 ? 8 : 5;
   const addItemOnDisplay = (windowSize) => (windowSize < 520 ? 3 : 2);
 
-  // useEffect(()=>{
-  //   if(loggedIn){
-  //     handleSearch(searchValue);
-  //   }
-  // })
-
   const filter = (movies, filterStatus, searchValue) => {
-    console.log(movies, searchValue, filterStatus);
     const matched = (str, match) =>
       str.toLowerCase().includes(match.toLowerCase());
     return (filterStatus === "true"
@@ -148,159 +115,174 @@ function App() {
     );
   };
 
-
-
   function getMovies() {
-      MoviesApi.getMovie()
-        .then((res) => {
-          setMoviesData(
-            localStorage.setItem("moviesData", JSON.stringify(res))
-          )
-        })
-        .catch((err) => console.log(err));
+    MoviesApi.getMovie()
+      .then((res) => {
+        setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
+      })
+      .catch((err) => console.log(err));
   }
+
+  function setFirstCoutn(location) {
+    if (location === "/movies") {
+      setCountItem(countItemsOnDisplay());
+      localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
+    } else if (location === "/saved-movies") {
+      setCountItemMain(countItemsOnDisplay());
+      localStorage.setItem("countItemonDisplayMain", countItemsOnDisplay());
+    }
+  }
+
+  const [countItem, setCountItem] = useState(
+    !localStorage.getItem("countItemonDisplay") === null
+      ? countItemsOnDisplay()
+      : localStorage.getItem("countItemonDisplay")
+  );
+
+  const [countItemMain, setCountItemMain] = useState(() => {
+    !localStorage.getItem("countItemonDisplayMain") === null
+      ? countItemsOnDisplay()
+      : localStorage.getItem("countItemonDisplayMain");
+  });
+
+  const addMovies = () => {
+    localStorage.setItem("countItemonDisplay", countItem + addItemOnDisplay());
+    setCountItem(countItem + addItemOnDisplay());
+  };
+
+  const addMoviesMain = () => {
+    localStorage.setItem(
+      "countItemonDisplayMain",
+      countItemMain + addItemOnDisplay()
+    );
+    setCountItemMain(countItemMain + addItemOnDisplay());
+  };
 
   const handleSearch = (searchValue) => {
     setIsLoading(true);
     // setCountItem(countItemsOnDisplay());
     // localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
 
-    if (!localStorage.getItem("moviesData") && !localStorage.getItem("mainMovies")) {
+    if (
+      !localStorage.getItem("moviesData") &&
+      !localStorage.getItem("mainMovies")
+    ) {
       Promise.all([MoviesApi.getMovie(), mainApi.getMainMovies()])
-      .then((res) => {
-        /// BeatFilm
-        const searchResults = filter(res[0], filterStatus, searchValue);
-        console.log(searchResults)
-        setSearchResult((prev) => ({
-          ...prev,
-          movies: searchResults,
-          visible: countItemsOnDisplay(),
-        }))
-        localStorage.setItem("moviesData", JSON.stringify(res[0]));
-        localStorage.setItem("searchResult", JSON.stringify(searchResults));
+        .then((res) => {
+          /// BeatFilm
+          const searchResults = filter(res[0], filterStatus, searchValue);
+          console.log(searchResults);
+          setSearchResult((prev) => ({
+            ...prev,
+            movies: searchResults,
+            // visible: countItemsOnDisplay(),
+          }));
+          localStorage.setItem("moviesData", JSON.stringify(res[0]));
+          localStorage.setItem("searchResult", JSON.stringify(searchResults));
 
-        ////// MAIN
-        const searchResultsMain = filter(res[1], filterStatus, searchValue);
-        console.log(searchResultsMain)
-        setSearchResultMain((prev) => ({
-          ...prev,
-          movies: searchResultsMain,
-          visible: countItemsOnDisplay(),
-        }))
-        localStorage.setItem("mainMovies", JSON.stringify(res[1]));
-        localStorage.setItem("searchResultMain", JSON.stringify({ movies: searchResultsMain, visible: countItemsOnDisplay()}));
-      })
-      .catch((err) => {
-        setErrorMessage(
-          `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-        );
-      })
-      .finally(() => setIsLoading(false));
+          ////// MAIN
+          const searchResultsMain = filter(res[1], filterStatus, searchValue);
+          console.log(searchResultsMain);
+          setSearchResultMain((prev) => ({
+            ...prev,
+            movies: searchResultsMain,
+            // visible: countItemsOnDisplay(),
+          }));
+          localStorage.setItem("mainMovies", JSON.stringify(res[1]));
+          localStorage.setItem(
+            "searchResultMain",
+            JSON.stringify({
+              movies: searchResultsMain,
+              // visible: countItemsOnDisplay(),
+            })
+          );
+        })
+        .catch((err) => {
+          setErrorMessage(
+            `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+          );
+        })
+        .finally(() => setIsLoading(false));
     } else {
-        /// BeatFilm
-        if(location.pathname === "/movies") {
+      /// BeatFilm
+      if (location.pathname === "/movies") {
         const moviesData = JSON.parse(localStorage.getItem("moviesData"));
         const searchResults = filter(moviesData, filterStatus, searchValue);
-        console.log(searchResults)
         setSearchResult((prev) => ({
           ...prev,
           movies: searchResults,
-          visible: countItemsOnDisplay(),
-        }))
+          // visible: countItemsOnDisplay(),
+        }));
         localStorage.setItem("moviesData", JSON.stringify(moviesData));
-        localStorage.setItem("searchResult", JSON.stringify(searchResults));
+        const object = {
+          movies: searchResults,
+          // visible: countItemsOnDisplay(),
+        };
+        localStorage.setItem(
+          "searchResult",
+          JSON.stringify(object)
+          // .replace(/"([^"]+)":/g, '$1:')
+        );
       } else {
         ////// MAIN
         const mainMoviesData = JSON.parse(localStorage.getItem("mainMovies"));
-        const searchResultsMain = filter(mainMoviesData, filterStatus, searchValue);
-        console.log(searchResultsMain)
+        const searchResultsMain = filter(
+          mainMoviesData,
+          filterStatus,
+          searchValue
+        );
         setSearchResultMain((prev) => ({
           ...prev,
           movies: searchResultsMain,
-          visible: countItemsOnDisplay(),
-        }))
+          // visible: countItemsOnDisplay(),  ////////////////////////////////
+        }));
         localStorage.setItem("mainMovies", JSON.stringify(mainMoviesData));
-        localStorage.searchResultMain = JSON.parse({ movies: searchResultsMain.movies, visible:  countItemsOnDisplay()});
+
+        const object = {
+          movies: searchResultsMain,
+          // visible: countItemsOnDisplay(), ////////////////////////////////
+        };
+        localStorage.setItem(
+          "searchResultMain",
+          JSON.stringify(object)
+          // .replace(/"([^"]+)":/g, '$1:')
+        );
       }
       //// придумать как сохранить что бы подгружать при перезагрузки страницы
-    localStorage.setItem("search", searchValue);
-    setIsLoading(false);
-  }};
-  ////////////////
-  // const handleMainSearch = (searchValue) => {
-  //   setIsLoading(true);
-  //   // setCountItem(countItemsOnDisplay());
-  //   // localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
-
-  //   if (!localStorage.getItem("mainMovies")) {
-  //     mainApi
-  //       .getMainMovies()
-  //       .then((res) => {
-  //         const searchResults = filter(res, filterStatus, searchValue);
-  //         console.log(searchResults);
-  //         setSearchResultMain((prev) => ({
-  //           ...prev,
-  //           movies: searchResults,
-  //           visible: countItemsOnDisplay(),
-  //         }));
-
-  //         localStorage.setItem("mainMovies", JSON.stringify(res));
-  //         localStorage.setItem("searchResultMain", searchResults);
-  //       })
-  //       .catch((err) => {
-  //         setErrorMessage(
-  //           `Во время запроса произошла ${err.toLowerCase()}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-  //         );
-  //       })
-  //       .finally(() => setIsLoading(false));
-  //   } else {
-  //     const moviesData = localStorage.getItem("mainMovies");
-  //     const searchResults = filter(moviesData, filterStatus, searchValue);
-  //     setSearchResultMain((prev) => ({
-  //       ...prev,
-  //       movies: searchResults,
-  //       visible: countItemsOnDisplay(),
-  //     }));
-  //     localStorage.setItem("searchResultMain", searchResults);
-  //   }
-
-  //   localStorage.setItem("search", searchValue);
-  //   setIsLoading(false);
-  // };
-
-  const getMainMoviesDB = () => {
-      mainApi
-        .getMainMovies()
-        .then((res) => {
-          console.log(res);
-          localStorage.setItem("mainMovies", JSON.stringify(res));
-          setMainMovies(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      localStorage.setItem("search", searchValue);
+      setIsLoading(false);
+    }
   };
 
-
+  const getMainMoviesDB = () => {
+    mainApi
+      .getMainMovies()
+      .then((res) => {
+        localStorage.setItem("mainMovies", JSON.stringify(res));
+        setMainMovies(res);
+      })
+      .catch((err) => {
+        setMainMovies([{}]);
+        console.log(err);
+      });
+  };
 
   const handleTokenCheck = () => {
-      mainApi
-        .checkToken()
-        .then((res) => {
-          if (res) {
-            setCurrentUser({ id: res.id, name: res.name, email: res.email });
-            setLoggedIn(true);
-            getMovies();
-            getMainMoviesDB();
-            location.pathname === "/signin"
-              ? navigate("/")
-              : navigate(`${location.pathname}`);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          setLoggedIn(false);
-        });
+    mainApi
+      .checkToken()
+      .then((res) => {
+        setCurrentUser({ id: res._id, name: res.name, email: res.email });
+        setLoggedIn(true);
+        getMovies();
+        getMainMoviesDB();
+        location.pathname === "/signin"
+          ? navigate("/")
+          : navigate(`${location.pathname}`);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoggedIn(false);
+      });
   };
 
   function getWindowSize() {
@@ -312,7 +294,7 @@ function App() {
   function signOut() {
     setLoggedIn(false);
     localStorage.clear();
-    setCurrentUser("");
+    setCurrentUser({ id: 0, name: "", email: "" });
   }
 
   function handleAuthorize(email, password) {
@@ -348,18 +330,59 @@ function App() {
     mainApi
       .updateUserUnfo(name, email)
       .then((res) => {
-        if (res) {
-          setCurrentUser((prev) => ({
-            ...prev,
-            name: res.name,
-            email: res.email,
-          }));
-          console.log(currentUser);
-        }
+        setCurrentUser((prev) => ({
+          ...prev,
+          id: res.user._id,
+          name: res.user.name,
+          email: res.user.email,
+        }));
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  // const handleCardLike = (card) => {
+  //   const isLiked = card.likes.some((i) => i === currentUser._id);
+  //   return api
+  //     .changeStatusLikeCard(card._id, isLiked)
+  //     .then((currentCard) => {
+  //       setCards(
+  //         cards.map((item) => (item._id === card._id ? currentCard : item))
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       console.log(`${err}`);
+  //     });
+  // };
+
+
+  function handleSavedMovies (movie) {
+    const isSaved = movie.owner === currentUser.id;
+    if (isSaved === true) {
+      mainApi.removeMovie(movie._id) /// нужно засунуть сохраненный фильм если он есть, если нет то не нужно засовывать
+      .then((res)=> {
+        setMainMovies(mainMovies.filter((i) => {return i != movie})) // удалить фильм который я отправлял из стейта
+        const newArr = searchResultMain
+        setSearchResultMain((prev) => ({
+          ...prev,
+          movies: newArr.filter((i) => {return i != movie})
+        }));
+
+        const object = {
+          movies: newArr.filter((i) => {return i != movie}),
+          // visible: countItemsOnDisplay(), ////////////////////////////////
+        };
+
+        localStorage.setItem("searchResultMain", JSON.stringify(object));
+      }).catch((err) => console.log(err))
+    } else {
+    mainApi.createMovies(movie)
+    .then((newMovie)=> {
+      setMainMovies([...mainMovies, newMovie]);
+    })
+  .catch((err) => console.log(err))
+  }
   }
 
   return (
@@ -375,7 +398,7 @@ function App() {
                 element={
                   <>
                     <Header>
-                      <HeaderNavigationProfile />
+                      <HeaderNavigationProfile loggedIn={loggedIn}/>
                       <HeaderNavigationMovies loggedIn={loggedIn} />
                     </Header>
                     <Main>
@@ -392,8 +415,11 @@ function App() {
                 path="/profile"
                 element={
                   <ProtectedRoute user={loggedIn}>
+                    <Header>
+                      <HeaderNavigationProfile loggedIn={loggedIn}/>
+                      <HeaderNavigationMovies loggedIn={loggedIn} />
+                    </Header>
                     <Profile
-                      updateInfo={updateUserInfo}
                       onSignOut={signOut}
                       updateUserInfo={updateUserInfo}
                     />
@@ -406,20 +432,21 @@ function App() {
                   // <ProtectedRoute user={loggedIn}>
                   <>
                     <Header>
-                      <HeaderNavigationProfile />
-                      <HeaderNavigationMovies />
+                      <HeaderNavigationProfile loggedIn={loggedIn}/>
+                      <HeaderNavigationMovies loggedIn={loggedIn}/>
                     </Header>
                     <Main>
                       <MoviesExplorer
                         setFirstCoutn={setFirstCoutn}
                         countItem={countItem}
-                        AddMovies={AddMovies}
+                        AddMovies={addMovies}
                         countItemsOnDisplay={countItemsOnDisplay}
                         toggleFilterstatus={toggleFilterStatus}
                         filterStatus={filterStatus}
                         onSearch={handleSearch}
                         mainMovies={mainMovies}
                         searchResult={searchResult}
+                        handleSavedMovies={handleSavedMovies}
                       />
                     </Main>
                     <Footer />
@@ -432,20 +459,21 @@ function App() {
                 element={
                   <ProtectedRoute user={loggedIn}>
                     <Header>
-                      <HeaderNavigationProfile />
+                      <HeaderNavigationProfile loggedIn={loggedIn}/>
                       <HeaderNavigationMovies />
                     </Header>
                     <Main>
                       <MoviesSaved
                         onSearch={handleSearch}
                         setFirstCoutn={setFirstCoutn}
-                        countItem={countItem}
-                        AddMovies={AddMovies}
+                        countItem={countItemMain}
+                        AddMovies={addMoviesMain}
                         countItemsOnDisplay={countItemsOnDisplay}
                         toggleFilterstatus={toggleFilterStatus}
                         filterStatus={filterStatus}
                         mainMovies={mainMovies}
                         searchResult={searchResultMain}
+                        handleSavedMovies={handleSavedMovies}
                       />
                     </Main>
                     <Footer />

@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Movie from "../Movie/Movie.jsx";
 import SearchForm from "./SearchForm/SearchForm";
 import "./MoviesExplorer.css";
-import { WindiwSizeContext } from "../../context/WindiwSizeContext.js";
-import { useEffect } from "react";
-import * as MoviesApi from "../../utils/MoviesApi";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function MoviesExplorer({
   searchResult,
@@ -16,13 +13,23 @@ function MoviesExplorer({
   toggleFilterstatus,
   countItem,
   setFirstCoutn,
+  handleSavedMovies,
 }) {
-
-  console.log(searchResult);
-
   const handleAddMovie = () => {
     AddMovies();
-}
+  };
+  const [informMessage, setInformMessage] = useState("");
+  // function inforner() {
+  //   if (searchResult.movies.length === 0) {
+  //     setInformMessage("Ничего не найдено");
+  //   } else {
+  //     setInformMessage("");
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   inforner();
+  // }, [searchResult]);
 
   const result = searchResult.movies.slice(0, countItem);
 
@@ -37,7 +44,10 @@ function MoviesExplorer({
       <ul className="movies__elements">
         {result.map((movie) => (
           <Movie
-            moviesSaveDB={mainMovies}
+            handleSavedMovies={handleSavedMovies}
+            trailerLink={movie.trailerLink}
+            movie={movie}
+            mainMovies={mainMovies}
             name={movie.nameRU}
             duration={movie.duration}
             imageUrl={`https://api.nomoreparties.co${movie.image.url}`}
@@ -49,13 +59,16 @@ function MoviesExplorer({
         type="button"
         className={
           searchResult.movies.length >= countItem
-            ? "movies__add-button"
+            ? !searchResult.movies.length === 0
+              ? "movies__add-button"
+              : "movies__add-button_hide"
             : "movies__add-button_hide"
         }
         onClick={handleAddMovie}
       >
         Ещё
       </button>
+      <p>{informMessage}</p>
     </section>
   );
 }

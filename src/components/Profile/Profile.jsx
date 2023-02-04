@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate  } from "react-router-dom";
 import "./Profile.css";
-import Header from "../Header/Header.jsx";
-import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
 import { CurrentUserContext } from "../../context/CurrentUserContext";
-import { useEffect } from "react";
 
-function Profile({ onSignOut, updateInfo }) {
+function Profile({ onSignOut, updateUserInfo }) {
 
-  const currentUser = React.useContext(CurrentUserContext);
-  const HelloName = currentUser.name;
+  const currentUser = useContext(CurrentUserContext);
   const [name, setName ] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, [currentUser]);
 
   function handleNameChange(evt) {
     setName(evt.target.value);
@@ -24,27 +25,11 @@ function Profile({ onSignOut, updateInfo }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    updateInfo(name, email);
+    updateUserInfo(name, email)
   }
-
-  // React.useEffect(()=> {
-  //   checkUser()
-  // }, [currentUser])
-
-  // function checkUser(){
-  //   if (!typeof currentUser === 'object'){
-  //     return navigate("/404")
-  //   } else {
-  //     setName(currentUser.name)
-  //     setEmail(currentUser.email)
-  //   }
-  // }
 
   return (
     <>
-    <Header>
-      {HeaderNavigationProfile()}
-    </Header>
     <section className="profile">
       <h1 className="profile__title">Привет, {currentUser.name}!</h1>
       <form onSubmit={handleSubmit} className="profile__form">
