@@ -86,6 +86,11 @@ function App() {
     getMainMoviesDB();
   }, []);
 
+  // useEffect(()=> {
+  //   setSearchResult()
+  //   setSearchResultMain()
+  // },[])
+
   useEffect(() => {
     // обновление стейта переменной для подписки компонентов
     function handleWindowResize() {
@@ -167,42 +172,51 @@ function App() {
       !localStorage.getItem("moviesData") &&
       !localStorage.getItem("mainMovies")
     ) {
-      Promise.all([MoviesApi.getMovie(), mainApi.getMainMovies()])
-        .then((res) => {
-          /// BeatFilm
-          const searchResults = filter(res[0], filterStatus, searchValue);
-          console.log(searchResults);
-          setSearchResult((prev) => ({
-            ...prev,
-            movies: searchResults,
-            // visible: countItemsOnDisplay(),
-          }));
-          localStorage.setItem("moviesData", JSON.stringify(res[0]));
-          localStorage.setItem("searchResult", JSON.stringify(searchResults));
-
-          ////// MAIN
-          const searchResultsMain = filter(res[1], filterStatus, searchValue);
-          console.log(searchResultsMain);
-          setSearchResultMain((prev) => ({
-            ...prev,
-            movies: searchResultsMain,
-            // visible: countItemsOnDisplay(),
-          }));
-          localStorage.setItem("mainMovies", JSON.stringify(res[1]));
-          localStorage.setItem(
-            "searchResultMain",
-            JSON.stringify({
+      if (location.pathname === "/movies") {
+        MoviesApi.getMovie()
+          .then((res) => {
+            /// BeatFilm
+            const searchResults = filter(res, filterStatus, searchValue);
+            console.log(searchResults);
+            setSearchResult((prev) => ({
+              ...prev,
+              movies: searchResults,
+              // visible: countItemsOnDisplay(),
+            }));
+            localStorage.setItem("moviesData", JSON.stringify(res));
+            localStorage.setItem("searchResult", JSON.stringify(searchResults));
+          })
+          .catch((err) => {
+            setErrorMessage(
+              `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+            );
+          })
+          .finally(() => setIsLoading(false));
+        } else {
+            ////// MAIN
+            mainApi.getMainMovies()
+            .then((res) =>{
+            const searchResultsMain = filter(res, filterStatus, searchValue);
+            console.log(searchResultsMain);
+            setSearchResultMain((prev) => ({
+              ...prev,
               movies: searchResultsMain,
               // visible: countItemsOnDisplay(),
-            })
-          );
-        })
-        .catch((err) => {
-          setErrorMessage(
-            `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-          );
-        })
-        .finally(() => setIsLoading(false));
+            }));
+            localStorage.setItem("mainMovies", JSON.stringify(res));
+            localStorage.setItem(
+              "searchResultMain",
+              JSON.stringify({
+                movies: searchResultsMain,
+                // visible: countItemsOnDisplay(),
+              })
+            );
+          }).catch((err) => {
+            setErrorMessage(
+              `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+            );
+          })
+          .finally(() => setIsLoading(false)); }
     } else {
       /// BeatFilm
       if (location.pathname === "/movies") {
@@ -227,7 +241,7 @@ function App() {
         ////// MAIN
         const mainMoviesData = JSON.parse(localStorage.getItem("mainMovies"));
         const searchResultsMain = filter(
-          mainMoviesData,
+          mainMovies,
           filterStatus,
           searchValue
         );
@@ -356,33 +370,41 @@ function App() {
   //     });
   // };
 
-
-  function handleSavedMovies (movie) {
+  function handleSavedMovies(movie) {
     const isSaved = movie.owner === currentUser.id;
     if (isSaved === true) {
-      mainApi.removeMovie(movie._id) /// нужно засунуть сохраненный фильм если он есть, если нет то не нужно засовывать
-      .then((res)=> {
-        setMainMovies(mainMovies.filter((i) => {return i != movie})) // удалить фильм который я отправлял из стейта
-        const newArr = searchResultMain
-        setSearchResultMain((prev) => ({
-          ...prev,
-          movies: newArr.filter((i) => {return i != movie})
-        }));
+      mainApi
+        .removeMovie(movie._id) /// нужно засунуть сохраненный фильм если он есть, если нет то не нужно засовывать
+        .then((res) => {
+          setMainMovies(mainMovies.filter((i) => i != movie)); // удалить фильм который я отправлял из стейта
+          const newArr = localStorage.getItem("searchResultMain");
+          const saved = JSON.parse(newArr).movies;
+          const removeIndex = saved
+            .map((item) => item.nameRU)
+            .indexOf(movie.nameRU);
+          saved.splice(removeIndex, 1);
 
-        const object = {
-          movies: newArr.filter((i) => {return i != movie}),
-          // visible: countItemsOnDisplay(), ////////////////////////////////
-        };
+          setSearchResultMain((prev) => ({
+            ...prev,
+            movies: saved,
+          }));
 
-        localStorage.setItem("searchResultMain", JSON.stringify(object));
-      }).catch((err) => console.log(err))
+          const object = {
+            movies: saved,
+            // visible: countItemsOnDisplay(), ////////////////////////////////
+          };
+
+          localStorage.setItem("searchResultMain", JSON.stringify(object));
+        })
+        .catch((err) => console.log(err));
     } else {
-    mainApi.createMovies(movie)
-    .then((newMovie)=> {
-      setMainMovies([...mainMovies, newMovie]);
-    })
-  .catch((err) => console.log(err))
-  }
+      mainApi
+        .createMovies(movie)
+        .then((newMovie) => {
+          setMainMovies([...mainMovies, newMovie]);
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   return (
@@ -398,7 +420,7 @@ function App() {
                 element={
                   <>
                     <Header>
-                      <HeaderNavigationProfile loggedIn={loggedIn}/>
+                      <HeaderNavigationProfile loggedIn={loggedIn} />
                       <HeaderNavigationMovies loggedIn={loggedIn} />
                     </Header>
                     <Main>
@@ -416,7 +438,7 @@ function App() {
                 element={
                   <ProtectedRoute user={loggedIn}>
                     <Header>
-                      <HeaderNavigationProfile loggedIn={loggedIn}/>
+                      <HeaderNavigationProfile loggedIn={loggedIn} />
                       <HeaderNavigationMovies loggedIn={loggedIn} />
                     </Header>
                     <Profile
@@ -432,8 +454,8 @@ function App() {
                   // <ProtectedRoute user={loggedIn}>
                   <>
                     <Header>
-                      <HeaderNavigationProfile loggedIn={loggedIn}/>
-                      <HeaderNavigationMovies loggedIn={loggedIn}/>
+                      <HeaderNavigationProfile loggedIn={loggedIn} />
+                      <HeaderNavigationMovies loggedIn={loggedIn} />
                     </Header>
                     <Main>
                       <MoviesExplorer
@@ -459,7 +481,7 @@ function App() {
                 element={
                   <ProtectedRoute user={loggedIn}>
                     <Header>
-                      <HeaderNavigationProfile loggedIn={loggedIn}/>
+                      <HeaderNavigationProfile loggedIn={loggedIn} />
                       <HeaderNavigationMovies />
                     </Header>
                     <Main>
