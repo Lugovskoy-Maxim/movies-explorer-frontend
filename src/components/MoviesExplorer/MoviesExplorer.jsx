@@ -28,11 +28,11 @@ function MoviesExplorer({
 
 
   function toggleFilterStatus() {
-    filterStatus === "true"
+    filterStatus === true
       ? setFilterStatus(false)
       : setFilterStatus(true);
     {
-    filterStatus === "true"
+    filterStatus === true
       ? localStorage.setItem("filter", false)
       : localStorage.setItem("filter", true)
       }
@@ -48,6 +48,7 @@ function MoviesExplorer({
   // useEffect(() => {
   //   inforner();
   // }, [searchResult]);
+  console.log(searchResult);
 
   const result = searchResult.movies.slice(0, countItem);
   return (

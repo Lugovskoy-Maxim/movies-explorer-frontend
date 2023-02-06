@@ -44,48 +44,18 @@ function App() {
     return (
       initialValue || {
         movies: [],
-        // visible: 0,
       }
     );
   });
   const [searchResultMain, setSearchResultMain] = useState({
         movies: [],
-        // visible: 0,
       }
     );
 
-    // const [filterStatus, setFilterStatus] = useState(() => {
-    //   const saved = localStorage.getItem("filter");
-    //   const initialValue = JSON.parse(saved);
-    //   return initialValue || "false";
-    // });
-
-    // // Если нет в памяти тогда выключено, если есть то принимает значение
-
-    // function toggleFilterStatus() {
-    //   filterStatus === "true"
-    //     ? setFilterStatus("false")
-    //     : setFilterStatus("true");
-    //   {
-    //   filterStatus === "true"
-    //     ? localStorage.setItem("filter", "false")
-    //     : localStorage.setItem("filter", "true");
-    //     }
-    // }
-
   useEffect(() => {
-    // if (!searchValue === undefined) {
-    //   setFilterStatus(localStorage.getItem("filter"));
-    //   handleSearch(searchValue);
-    // }
     handleTokenCheck();
     getMainMoviesDB();
   }, []);
-
-  // useEffect(()=> {
-  //   setSearchResult()
-  //   setSearchResultMain()
-  // },[])
 
   useEffect(() => {
     // обновление стейта переменной для подписки компонентов
@@ -260,7 +230,7 @@ function App() {
         getMovies();
         getMainMoviesDB();
         location.pathname === "/signin"
-          ? navigate("/")
+          ? navigate("/movies")
           : navigate(`${location.pathname}`);
       })
       .catch((err) => {
@@ -284,6 +254,11 @@ function App() {
         setLoggedIn(false);
         localStorage.clear();
         setCurrentUser({ id: 0, name: "", email: "" });
+        setSearchResult({
+          movies:[]
+        });
+        setMainMovies([]);
+        setMoviesData([]);
       })
       .catch((err) => console.log(err));
   }
@@ -294,8 +269,8 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
-          handleTokenCheck();
           navigate("/movies");
+          handleTokenCheck();
         }
       })
       .catch((err) => {
