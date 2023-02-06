@@ -109,9 +109,10 @@ function App() {
   const filter = (movies, filterStatus, searchValue) => {
     const matched = (str, match) =>
       str.toLowerCase().includes(match.toLowerCase());
-    return (filterStatus === "true"
-      ? movies.filter((movie) => movie.duration <= 40)
-      : movies
+    return (
+      filterStatus === "true"
+        ? movies.filter((movie) => movie.duration <= 40)
+        : movies
     ).filter(
       ({ nameRU, nameEN, description }) =>
         matched(nameRU, searchValue) ||
@@ -192,10 +193,11 @@ function App() {
             );
           })
           .finally(() => setIsLoading(false));
-        } else {
-            ////// MAIN
-            mainApi.getMainMovies()
-            .then((res) =>{
+      } else {
+        ////// MAIN
+        mainApi
+          .getMainMovies()
+          .then((res) => {
             const searchResultsMain = filter(res, filterStatus, searchValue);
             console.log(searchResultsMain);
             setSearchResultMain((prev) => ({
@@ -211,12 +213,14 @@ function App() {
                 // visible: countItemsOnDisplay(),
               })
             );
-          }).catch((err) => {
+          })
+          .catch((err) => {
             setErrorMessage(
               `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
             );
           })
-          .finally(() => setIsLoading(false)); }
+          .finally(() => setIsLoading(false));
+      }
     } else {
       /// BeatFilm
       if (location.pathname === "/movies") {
@@ -240,11 +244,7 @@ function App() {
       } else {
         ////// MAIN
         const mainMoviesData = JSON.parse(localStorage.getItem("mainMovies"));
-        const searchResultsMain = filter(
-          mainMovies,
-          filterStatus,
-          searchValue
-        );
+        const searchResultsMain = filter(mainMovies, filterStatus, searchValue);
         setSearchResultMain((prev) => ({
           ...prev,
           movies: searchResultsMain,
@@ -309,7 +309,6 @@ function App() {
   //   return document.cookie.split('; ').find(cookie =>  cookie.trim().startsWith(name + ""))?.split('=')[1];
   // }
 
-
   // console.log(get_cookie(jwtToken))
   // function delete_cookie(name, path, domain) {
   //     document.cookie = name + "=" +
@@ -317,18 +316,16 @@ function App() {
   //       ((domain)? ";domain=" + domain:"")+
   //       ";expires, 01 Jan 1970 00:00:00 GMT"
   function signOut() {
-    mainApi.signout()
-    .then((res)=> {
-      console.log(res)
-      navigate("/")
-      setLoggedIn(false);
-      localStorage.clear();
-      setCurrentUser({ id: 0, name: "", email: "" });
-      ;
-  }
-
-    )
-    .catch((err)=> console.log(err));
+    mainApi
+      .signout()
+      .then((res) => {
+        console.log(res);
+        navigate("/");
+        setLoggedIn(false);
+        localStorage.clear();
+        setCurrentUser({ id: 0, name: "", email: "" });
+      })
+      .catch((err) => console.log(err));
   }
 
   function handleAuthorize(email, password) {
@@ -471,35 +468,35 @@ function App() {
               <Route
                 path="/movies"
                 element={
-                  // <ProtectedRoute user={loggedIn}>
-                  <>
-                    <Header>
-                      <HeaderNavigationProfile loggedIn={loggedIn} />
-                      <HeaderNavigationMovies loggedIn={loggedIn} />
-                    </Header>
-                    <Main>
-                      <MoviesExplorer
-                        setFirstCoutn={setFirstCoutn}
-                        countItem={countItem}
-                        AddMovies={addMovies}
-                        countItemsOnDisplay={countItemsOnDisplay}
-                        toggleFilterstatus={toggleFilterStatus}
-                        filterStatus={filterStatus}
-                        onSearch={handleSearch}
-                        mainMovies={mainMovies}
-                        searchResult={searchResult}
-                        handleSavedMovies={handleSavedMovies}
-                      />
-                    </Main>
-                    <Footer />
-                  </>
-                  // </ProtectedRoute>
+                  <ProtectedRoute user={loggedIn}>
+                    <>
+                      <Header>
+                        <HeaderNavigationProfile loggedIn={loggedIn} />
+                        <HeaderNavigationMovies loggedIn={loggedIn} />
+                      </Header>
+                      <Main>
+                        <MoviesExplorer
+                          setFirstCoutn={setFirstCoutn}
+                          countItem={countItem}
+                          AddMovies={addMovies}
+                          countItemsOnDisplay={countItemsOnDisplay}
+                          toggleFilterstatus={toggleFilterStatus}
+                          filterStatus={filterStatus}
+                          onSearch={handleSearch}
+                          mainMovies={mainMovies}
+                          searchResult={searchResult}
+                          handleSavedMovies={handleSavedMovies}
+                        />
+                      </Main>
+                      <Footer />
+                    </>
+                  </ProtectedRoute>
                 }
               />
               <Route
                 path="/saved-movies"
                 element={
-                  <ProtectedRoute user={loggedIn}>
+                  <ProtectedRoute path="/saved-movies" user={loggedIn}>
                     <Header>
                       <HeaderNavigationProfile loggedIn={loggedIn} />
                       <HeaderNavigationMovies />
@@ -522,16 +519,27 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+
               <Route
                 path="/signup"
                 loggedIn={loggedIn}
-                element={<SignUp register={handleRegister} />}
+                element={
+                  <ProtectedRoute path="/signup" user={loggedIn}>
+                    <SignUp register={handleRegister} />
+                  </ProtectedRoute>
+                }
               />
+
               <Route
                 path="/signin"
                 loggedIn={loggedIn}
-                element={<SignIn login={handleAuthorize} />}
+                element={
+                  <ProtectedRoute path="/signin" user={loggedIn}>
+                    <SignIn login={handleAuthorize} />{" "}
+                  </ProtectedRoute>
+                }
               />
+
               <Route path="*" element={<NotFaundPage />} />
             </Routes>
           </div>
