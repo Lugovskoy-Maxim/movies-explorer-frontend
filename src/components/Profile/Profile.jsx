@@ -25,7 +25,12 @@ function Profile({ onSignOut, updateUserInfo }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    updateUserInfo(name, email)
+    // функция блокирующая отправку запроса без изменения данных
+    if(name === currentUser.name && email === currentUser.email){
+      // стейт для передачи иный в попап или под импутами
+    } else {
+      updateUserInfo(name, email)
+    }
   }
 
   return (
@@ -72,7 +77,6 @@ function Profile({ onSignOut, updateUserInfo }) {
             className="profile__signout-button button"
             onClick={
               () => {
-                // document.cookie = "jwtToken= ; path=/; domain= api.lugovskoy-movies.nomoredomain.club; max-age=-1";
                 onSignOut();
               }
             }
