@@ -6,8 +6,6 @@ function MoviesSaved({
   searchResult,
   AddMovies,
   onSearch,
-  filterStatus,
-  toggleFilterstatus,
   countItem,
   setFirstCoutn,
   handleSavedMovies,
@@ -15,7 +13,17 @@ function MoviesSaved({
 }){
 
   const result = searchResult.movies.length === 0 ? mainMovies : searchResult.movies;
-//   const handleAddMovie = () => {
+  const [filterStatus, setFilterStatus] = useState("false");
+
+  // Если нет в памяти тогда выключено, если есть то принимает значение
+
+  function toggleFilterStatus() {
+    filterStatus === "true"
+      ? setFilterStatus("false")
+      : setFilterStatus("true");
+  }
+
+  //   const handleAddMovie = () => {
 //     AddMovies();
 // }
 
@@ -39,7 +47,7 @@ const [informMessage, setInformMessage] = useState('')
       <SearchForm
         setFirstCoutn={setFirstCoutn}
         filterStatus={filterStatus}
-        toggleFilterstatus={toggleFilterstatus}
+        toggleFilterstatus={toggleFilterStatus}
         onSearch={onSearch}
       />
       <ul className="movies__elements">

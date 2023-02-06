@@ -16,10 +16,10 @@ function SearchForm({
 
   useEffect(() => {
     if (
-      location.pathname === "/movies" &&
-      !localStorage.getItem("search") === undefined
-    ) {
-      setSearchValue(localStorage.getItem("search"));
+      location.pathname === "/movies" ) {
+        const search = localStorage.getItem("search");
+        const res = search === undefined ? "Фильм" : search;
+      setSearchValue(res);
     }
   }, []);
 
@@ -31,7 +31,7 @@ function SearchForm({
     event.preventDefault();
     const locationPath = location.pathname;
     setFirstCoutn(locationPath);
-    onSearch(searchValue);
+    onSearch(searchValue, filterStatus);
   }
 
   return (

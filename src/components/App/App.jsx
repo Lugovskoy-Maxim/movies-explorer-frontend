@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель пользователя
 import { WindiwSizeContext } from "../../context/WindiwSizeContext"; // слушатель ширины окна
@@ -32,8 +32,7 @@ function App() {
   });
   const [windowSize, setWindowSize] = useState(getWindowSize()); // слушатель размера окна для отображения и добавления разного количества карточек
   const [loggedIn, setLoggedIn] = useState(false);
-  const jwtToken = localStorage.getItem("jwtToken");
-  const searchValue = localStorage.getItem("search");
+
   const [isLoading, setIsLoading] = useState(false);
   const [mainMovies, setMainMovies] = useState([]);
 
@@ -55,22 +54,24 @@ function App() {
       }
     );
 
-  const [filterStatus, setFilterStatus] = useState(() => {
-    const saved = localStorage.getItem("filter");
-    const initialValue = JSON.parse(saved);
-    return initialValue || "false";
-  });
+    // const [filterStatus, setFilterStatus] = useState(() => {
+    //   const saved = localStorage.getItem("filter");
+    //   const initialValue = JSON.parse(saved);
+    //   return initialValue || "false";
+    // });
 
-  // Если нет в памяти тогда выключено, если есть то принимает значение
+    // // Если нет в памяти тогда выключено, если есть то принимает значение
 
-  function toggleFilterStatus() {
-    filterStatus === "true"
-      ? setFilterStatus("false")
-      : setFilterStatus("true");
-    filterStatus === "true"
-      ? localStorage.setItem("filter", "false")
-      : localStorage.setItem("filter", "true");
-  }
+    // function toggleFilterStatus() {
+    //   filterStatus === "true"
+    //     ? setFilterStatus("false")
+    //     : setFilterStatus("true");
+    //   {
+    //   filterStatus === "true"
+    //     ? localStorage.setItem("filter", "false")
+    //     : localStorage.setItem("filter", "true");
+    //     }
+    // }
 
   useEffect(() => {
     // if (!searchValue === undefined) {
@@ -159,7 +160,7 @@ function App() {
     setCountItemMain(countItemMain + addItemOnDisplay());
   };
 
-  const handleSearch = (searchValue) => {
+  const handleSearch = (searchValue, filterStatus) => {
     setIsLoading(true);
 
     if (!localStorage.getItem("moviesData")) {
@@ -206,7 +207,7 @@ function App() {
     }
   };
 
-  function handleSearchMain(searchValue) {
+  function handleSearchMain(searchValue, filterStatus) {
       setIsLoading(true);
       if(mainMovies.length === 0) {
       mainApi
@@ -423,8 +424,8 @@ function App() {
                           countItem={countItem}
                           AddMovies={addMovies}
                           countItemsOnDisplay={countItemsOnDisplay}
-                          toggleFilterstatus={toggleFilterStatus}
-                          filterStatus={filterStatus}
+                          // toggleFilterstatus={toggleFilterStatus}
+                          // filterStatus={filterStatus}
                           onSearch={handleSearch}
                           mainMovies={mainMovies}
                           searchResult={searchResult}
@@ -451,8 +452,8 @@ function App() {
                         countItem={countItemMain}
                         AddMovies={addMoviesMain}
                         countItemsOnDisplay={countItemsOnDisplay}
-                        toggleFilterstatus={toggleFilterStatus}
-                        filterStatus={filterStatus}
+                        // toggleFilterstatus={toggleFilterStatus}
+                        // filterStatus={filterStatus}
                         mainMovies={mainMovies}
                         searchResult={searchResultMain}
                         handleSavedMovies={handleSavedMovies}

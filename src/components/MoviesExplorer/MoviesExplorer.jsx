@@ -9,8 +9,6 @@ function MoviesExplorer({
   AddMovies,
   mainMovies,
   onSearch,
-  filterStatus,
-  toggleFilterstatus,
   countItem,
   setFirstCoutn,
   handleSavedMovies,
@@ -19,6 +17,25 @@ function MoviesExplorer({
     AddMovies();
   };
   const [informMessage, setInformMessage] = useState("");
+  const [filterStatus, setFilterStatus] = useState(() => {
+    const saved = localStorage.getItem("filter");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "false";
+  });
+
+  // Если нет в памяти тогда выключено, если есть то принимает значение
+
+
+  function toggleFilterStatus() {
+    filterStatus === "true"
+      ? setFilterStatus("false")
+      : setFilterStatus("true");
+    {
+    filterStatus === "true"
+      ? localStorage.setItem("filter", "false")
+      : localStorage.setItem("filter", "true");
+      }
+  }
   // function inforner() {
   //   if (searchResult.movies.length === 0) {
   //     setInformMessage("Ничего не найдено");
@@ -37,7 +54,7 @@ function MoviesExplorer({
       <SearchForm
         setFirstCoutn={setFirstCoutn}
         filterStatus={filterStatus}
-        toggleFilterstatus={toggleFilterstatus}
+        toggleFilterstatus={toggleFilterStatus}
         onSearch={onSearch}
       />
       <ul className="movies__elements">
