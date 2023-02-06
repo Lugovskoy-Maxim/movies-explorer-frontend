@@ -73,7 +73,7 @@ function Profile({ onSignOut, updateUserInfo }) {
             onClick={
               () => {
                 onSignOut()
-                navigate("/signin")
+                navigate("/")
               }
             }
           >
