@@ -31,6 +31,17 @@ export const register = async (name, email, password) => {
   return handleResponse(res);
 };
 
+export const signout = async () => {
+  const res = await fetch(`${BASE_URL}/signout`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return handleResponse(res);
+};
+
 export const authorize = async (email, password) => {
   const res = await fetch(`${BASE_URL}/signin`, {
     method: "POST",

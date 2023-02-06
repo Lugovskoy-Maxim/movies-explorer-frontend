@@ -72,8 +72,8 @@ function Profile({ onSignOut, updateUserInfo }) {
             className="profile__signout-button button"
             onClick={
               () => {
-                onSignOut()
-                navigate("/")
+                // document.cookie = "jwtToken= ; path=/; domain= api.lugovskoy-movies.nomoredomain.club; max-age=-1";
+                onSignOut();
               }
             }
           >

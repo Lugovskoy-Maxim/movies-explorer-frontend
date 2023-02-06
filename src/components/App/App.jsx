@@ -305,10 +305,30 @@ function App() {
     return width;
   }
 
+  // const cookieValue = (name) => {
+  //   return document.cookie.split('; ').find(cookie =>  cookie.trim().startsWith(name + ""))?.split('=')[1];
+  // }
+
+
+  // console.log(get_cookie(jwtToken))
+  // function delete_cookie(name, path, domain) {
+  //     document.cookie = name + "=" +
+  //       ((path) ? ";path=" + path:"")+
+  //       ((domain)? ";domain=" + domain:"")+
+  //       ";expires, 01 Jan 1970 00:00:00 GMT"
   function signOut() {
-    setLoggedIn(false);
-    localStorage.clear();
-    setCurrentUser({ id: 0, name: "", email: "" });
+    mainApi.signout()
+    .then((res)=> {
+      console.log(res)
+      navigate("/")
+      setLoggedIn(false);
+      localStorage.clear();
+      setCurrentUser({ id: 0, name: "", email: "" });
+      ;
+  }
+
+    )
+    .catch((err)=> console.log(err));
   }
 
   function handleAuthorize(email, password) {
