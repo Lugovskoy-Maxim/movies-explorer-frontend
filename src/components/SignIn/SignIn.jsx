@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import Logo from "../../images/logo.svg";
 import { useEffect } from "react";
@@ -12,6 +12,13 @@ function SignIn(props) {
   const [passwordValid, setPasswordValid] = useState(null);
   const [passwordError, setPasswordError] = useState("");
   const [availableButton, setAvailableButton] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() =>{
+    if(props.loggedIn === true){
+      navigate(-1);
+    }
+  },[])
 
   useEffect(() => {
     toggleSubmitButton();

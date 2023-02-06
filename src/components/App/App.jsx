@@ -524,10 +524,12 @@ function App() {
               />
               <Route
                 path="/signup"
+                loggedIn={loggedIn}
                 element={<SignUp register={handleRegister} />}
               />
               <Route
                 path="/signin"
+                loggedIn={loggedIn}
                 element={<SignIn login={handleAuthorize} />}
               />
               <Route path="*" element={<NotFaundPage />} />
