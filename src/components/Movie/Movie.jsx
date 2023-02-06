@@ -24,7 +24,6 @@ function handlePreview(){
 
 function saveButton(){
   const isSaved = mainMovies.find(i => i.nameRU === name)
-  console.log(isSaved)
   handleSavedMovies(isSaved ? isSaved : movie)
 }
 

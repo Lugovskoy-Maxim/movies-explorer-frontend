@@ -32,7 +32,6 @@ function MoviesExplorer({
   // }, [searchResult]);
 
   const result = searchResult.movies.slice(0, countItem);
-
   return (
     <section className="movies">
       <SearchForm
@@ -58,11 +57,9 @@ function MoviesExplorer({
       <button
         type="button"
         className={
-          searchResult.movies.length >= countItem
-            ? !searchResult.movies.length === 0
+            searchResult.movies.length > countItem
               ? "movies__add-button"
               : "movies__add-button_hide"
-            : "movies__add-button_hide"
         }
         onClick={handleAddMovie}
       >

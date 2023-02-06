@@ -11,17 +11,21 @@ function SearchForm({
   setFirstCoutn,
 }) {
   // const [filterStatus, setFilterStatus] = useState();
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState("Фильм");
+  const location = useLocation();
 
   useEffect(() => {
-    setSearchValue(localStorage.getItem("search"));
+    if (
+      location.pathname === "/movies" &&
+      !localStorage.getItem("search") === undefined
+    ) {
+      setSearchValue(localStorage.getItem("search"));
+    }
   }, []);
 
   function onChangeSearch(event) {
     setSearchValue(event.target.value);
   }
-
-  const location = useLocation();
 
   function handleSubmit(event) {
     event.preventDefault();

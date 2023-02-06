@@ -14,10 +14,10 @@ function MoviesSaved({
   mainMovies,
 }){
 
-  const result = searchResult.movies.slice(0, countItem)
-  const handleAddMovie = () => {
-    AddMovies();
-}
+  const result = searchResult.movies.length === 0 ? mainMovies : searchResult.movies;
+//   const handleAddMovie = () => {
+//     AddMovies();
+// }
 
 const [informMessage, setInformMessage] = useState('')
 // function inforner() {
@@ -56,7 +56,7 @@ const [informMessage, setInformMessage] = useState('')
           />
         )) }
       </ul>
-      <button
+      {/* <button
         type="button"
         className={
           searchResult.movies.length >= countItem
@@ -69,7 +69,7 @@ const [informMessage, setInformMessage] = useState('')
       >
         Ещё
       </button>
-      <p>{informMessage}</p>
+      <p>{informMessage}</p> */}
     </section>
   )
 }

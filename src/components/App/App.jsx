@@ -35,7 +35,7 @@ function App() {
   const jwtToken = localStorage.getItem("jwtToken");
   const searchValue = localStorage.getItem("search");
   const [isLoading, setIsLoading] = useState(false);
-  const [mainMovies, setMainMovies] = useState([{}]);
+  const [mainMovies, setMainMovies] = useState([]);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
@@ -49,16 +49,11 @@ function App() {
       }
     );
   });
-  const [searchResultMain, setSearchResultMain] = useState(() => {
-    const saved = localStorage.getItem("searchResultMain");
-    const initialValue = JSON.parse(saved);
-    return (
-      initialValue || {
+  const [searchResultMain, setSearchResultMain] = useState({
         movies: [],
         // visible: 0,
       }
     );
-  });
 
   const [filterStatus, setFilterStatus] = useState(() => {
     const saved = localStorage.getItem("filter");
@@ -166,26 +161,24 @@ function App() {
 
   const handleSearch = (searchValue) => {
     setIsLoading(true);
-    // setCountItem(countItemsOnDisplay());
-    // localStorage.setItem("countItemonDisplay", countItemsOnDisplay());
 
-    if (
-      !localStorage.getItem("moviesData") &&
-      !localStorage.getItem("mainMovies")
-    ) {
-      if (location.pathname === "/movies") {
+    if (!localStorage.getItem("moviesData")) {
         MoviesApi.getMovie()
           .then((res) => {
-            /// BeatFilm
             const searchResults = filter(res, filterStatus, searchValue);
             console.log(searchResults);
             setSearchResult((prev) => ({
               ...prev,
               movies: searchResults,
-              // visible: countItemsOnDisplay(),
             }));
             localStorage.setItem("moviesData", JSON.stringify(res));
-            localStorage.setItem("searchResult", JSON.stringify(searchResults));
+            const object = {
+              movies: searchResults,
+            };
+            localStorage.setItem(
+              "searchResult",
+              JSON.stringify(object)
+            );
           })
           .catch((err) => {
             setErrorMessage(
@@ -194,79 +187,53 @@ function App() {
           })
           .finally(() => setIsLoading(false));
       } else {
-        ////// MAIN
-        mainApi
-          .getMainMovies()
-          .then((res) => {
-            const searchResultsMain = filter(res, filterStatus, searchValue);
-            console.log(searchResultsMain);
-            setSearchResultMain((prev) => ({
-              ...prev,
-              movies: searchResultsMain,
-              // visible: countItemsOnDisplay(),
-            }));
-            localStorage.setItem("mainMovies", JSON.stringify(res));
-            localStorage.setItem(
-              "searchResultMain",
-              JSON.stringify({
-                movies: searchResultsMain,
-                // visible: countItemsOnDisplay(),
-              })
-            );
-          })
-          .catch((err) => {
-            setErrorMessage(
-              `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-            );
-          })
-          .finally(() => setIsLoading(false));
-      }
-    } else {
-      /// BeatFilm
-      if (location.pathname === "/movies") {
         const moviesData = JSON.parse(localStorage.getItem("moviesData"));
         const searchResults = filter(moviesData, filterStatus, searchValue);
         setSearchResult((prev) => ({
           ...prev,
           movies: searchResults,
-          // visible: countItemsOnDisplay(),
         }));
         localStorage.setItem("moviesData", JSON.stringify(moviesData));
         const object = {
           movies: searchResults,
-          // visible: countItemsOnDisplay(),
         };
         localStorage.setItem(
           "searchResult",
           JSON.stringify(object)
-          // .replace(/"([^"]+)":/g, '$1:')
         );
-      } else {
-        ////// MAIN
-        const mainMoviesData = JSON.parse(localStorage.getItem("mainMovies"));
-        const searchResultsMain = filter(mainMovies, filterStatus, searchValue);
-        setSearchResultMain((prev) => ({
-          ...prev,
-          movies: searchResultsMain,
-          // visible: countItemsOnDisplay(),  ////////////////////////////////
-        }));
-        localStorage.setItem("mainMovies", JSON.stringify(mainMoviesData));
-
-        const object = {
-          movies: searchResultsMain,
-          // visible: countItemsOnDisplay(), ////////////////////////////////
-        };
-        localStorage.setItem(
-          "searchResultMain",
-          JSON.stringify(object)
-          // .replace(/"([^"]+)":/g, '$1:')
-        );
-      }
-      //// придумать как сохранить что бы подгружать при перезагрузки страницы
       localStorage.setItem("search", searchValue);
       setIsLoading(false);
     }
   };
+
+  function handleSearchMain(searchValue) {
+      setIsLoading(true);
+      if(mainMovies.length === 0) {
+      mainApi
+        .getMainMovies()
+        .then((res) => {
+          const searchResultsMain = filter(res, filterStatus, searchValue);
+          setSearchResultMain((prev) => ({
+            ...prev,
+            movies: searchResultsMain,
+            // visible: countItemsOnDisplay(),
+          }));
+        })
+        .catch((err) => {
+          setErrorMessage(
+            `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+          );
+        })
+    } else {
+      const searchResultsMain = filter(mainMovies, filterStatus, searchValue);
+          setSearchResultMain((prev) => ({
+            ...prev,
+            movies: searchResultsMain,
+            // visible: countItemsOnDisplay(),
+          }));
+
+      setIsLoading(false)
+    }}
 
   const getMainMoviesDB = () => {
     mainApi
@@ -305,16 +272,6 @@ function App() {
     return width;
   }
 
-  // const cookieValue = (name) => {
-  //   return document.cookie.split('; ').find(cookie =>  cookie.trim().startsWith(name + ""))?.split('=')[1];
-  // }
-
-  // console.log(get_cookie(jwtToken))
-  // function delete_cookie(name, path, domain) {
-  //     document.cookie = name + "=" +
-  //       ((path) ? ";path=" + path:"")+
-  //       ((domain)? ";domain=" + domain:"")+
-  //       ";expires, 01 Jan 1970 00:00:00 GMT"
   function signOut() {
     mainApi
       .signout()
@@ -372,20 +329,6 @@ function App() {
         console.log(err);
       });
   }
-
-  // const handleCardLike = (card) => {
-  //   const isLiked = card.likes.some((i) => i === currentUser._id);
-  //   return api
-  //     .changeStatusLikeCard(card._id, isLiked)
-  //     .then((currentCard) => {
-  //       setCards(
-  //         cards.map((item) => (item._id === card._id ? currentCard : item))
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       console.log(`${err}`);
-  //     });
-  // };
 
   function handleSavedMovies(movie) {
     const isSaved = movie.owner === currentUser.id;
@@ -503,7 +446,7 @@ function App() {
                     </Header>
                     <Main>
                       <MoviesSaved
-                        onSearch={handleSearch}
+                        onSearch={handleSearchMain}
                         setFirstCoutn={setFirstCoutn}
                         countItem={countItemMain}
                         AddMovies={addMoviesMain}
