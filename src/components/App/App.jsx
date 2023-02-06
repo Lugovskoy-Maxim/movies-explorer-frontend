@@ -522,7 +522,6 @@ function App() {
 
               <Route
                 path="/signup"
-                loggedIn={loggedIn}
                 element={
                   <ProtectedRoute path="/signup" user={loggedIn}>
                     <SignUp register={handleRegister} />
@@ -532,10 +531,9 @@ function App() {
 
               <Route
                 path="/signin"
-                loggedIn={loggedIn}
                 element={
                   <ProtectedRoute path="/signin" user={loggedIn}>
-                    <SignIn login={handleAuthorize} />{" "}
+                    <SignIn login={handleAuthorize} />
                   </ProtectedRoute>
                 }
               />

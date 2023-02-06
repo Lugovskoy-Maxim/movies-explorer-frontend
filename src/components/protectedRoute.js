@@ -1,17 +1,18 @@
-import React from 'react';
-import { Navigate} from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
+function ProtectedRoute(props) {
+  const navigate = useNavigate();
 
-function ProtectedRoute (props){
-  if (!props.user === true) {
-    return <Navigate to="/" replace />;
-  } else if (props.path === "/signin"){
-    return <Navigate to="/" replace />;
-  }
-  else if (props.path === "/signup"){
-    return <Navigate to="/" replace />;
-  }
-  return props.children;
-};
+  if (props.user === true && props.path === "/signup") {
+    return navigate("/");
+  }  else if (props.user === true && props.path === "/signin") {
+    return navigate("/");
+  } else if (!props.user && props.path === "/signin" ) {
+    return props.children;
+  } else if (!props.user && props.path === "/signup") {
+    return props.children;
+  } else return props.children;
+}
 
 export default ProtectedRoute;
