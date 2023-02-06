@@ -20,7 +20,8 @@ function MoviesExplorer({
   const [filterStatus, setFilterStatus] = useState(() => {
     const saved = localStorage.getItem("filter");
     const initialValue = JSON.parse(saved);
-    return initialValue || "false";
+    console.log(initialValue);
+    return initialValue.toString() || "false";
   });
 
   // Если нет в памяти тогда выключено, если есть то принимает значение
