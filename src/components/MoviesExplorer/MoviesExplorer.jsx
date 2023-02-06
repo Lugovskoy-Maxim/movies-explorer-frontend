@@ -21,7 +21,7 @@ function MoviesExplorer({
     const saved = localStorage.getItem("filter");
     const initialValue = JSON.parse(saved);
     console.log(initialValue);
-    return initialValue.toString() || "false";
+    return initialValue || false;
   });
 
   // Если нет в памяти тогда выключено, если есть то принимает значение
@@ -29,12 +29,12 @@ function MoviesExplorer({
 
   function toggleFilterStatus() {
     filterStatus === "true"
-      ? setFilterStatus("false")
-      : setFilterStatus("true");
+      ? setFilterStatus(false)
+      : setFilterStatus(true);
     {
     filterStatus === "true"
-      ? localStorage.setItem("filter", "false")
-      : localStorage.setItem("filter", "true");
+      ? localStorage.setItem("filter", false)
+      : localStorage.setItem("filter", true)
       }
   }
   // function inforner() {

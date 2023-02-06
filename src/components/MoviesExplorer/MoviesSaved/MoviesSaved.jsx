@@ -13,14 +13,14 @@ function MoviesSaved({
 }){
 
   const result = searchResult.movies.length === 0 ? mainMovies : searchResult.movies;
-  const [filterStatus, setFilterStatus] = useState("false");
+  const [filterStatus, setFilterStatus] = useState(false);
 
   // Если нет в памяти тогда выключено, если есть то принимает значение
 
   function toggleFilterStatus() {
-    filterStatus === "true"
-      ? setFilterStatus("false")
-      : setFilterStatus("true");
+    filterStatus === true
+      ? setFilterStatus(false)
+      : setFilterStatus(true);
   }
 
   //   const handleAddMovie = () => {

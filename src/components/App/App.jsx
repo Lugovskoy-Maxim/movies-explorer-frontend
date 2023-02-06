@@ -103,10 +103,11 @@ function App() {
   const addItemOnDisplay = (windowSize) => (windowSize < 520 ? 3 : 2);
 
   const filter = (movies, filterStatus, searchValue) => {
+    console.log(movies, filterStatus, searchValue);
     const matched = (str, match) =>
       str.toLowerCase().includes(match.toLowerCase());
     return (
-      filterStatus === "true"
+      filterStatus === true
         ? movies.filter((movie) => movie.duration <= 40)
         : movies
     ).filter(
@@ -118,6 +119,7 @@ function App() {
   };
 
   function getMovies() {
+    setIsLoading(true);
     MoviesApi.getMovie()
       .then((res) => {
         setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
@@ -292,6 +294,7 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
+          handleTokenCheck();
           navigate("/movies");
         }
       })

@@ -61,12 +61,12 @@ function SearchForm({
               onClick={() => toggleFilterstatus()}
               type="button"
               className={`search__togle  ${
-                filterStatus === "true" ? "search__togle-active" : ""
+                filterStatus === true ? "search__togle-active" : ""
               }`}
             >
               <div
                 className={`search__togle-icon  ${
-                  filterStatus === "true" ? "search__togle-icon-active" : ""
+                  filterStatus === true ? "search__togle-icon-active" : ""
                 }`}
                 onClick={() => toggleFilterstatus()}
               ></div>

@@ -67,11 +67,7 @@ function SignUp(props) {
   const errorMessagePassword = (value) => {
     if (value.length < 8) {
       return "Пароль должен состоять минимум из 8 символов";
-    } else if (!/[0-9]/.test(value)) {
-      return "Пароль должен содержать минимум 1 цифру";
-    } else if (!/[a-zA-Z]/.test(value)) {
-      return "Пароль должен содержать минимум 1 букву";
-    } else if (/[!@#$%^&*]/.test(value)) {
+    }  else if (/[!@#$%^&*]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";
     } else if (/[a-яА-Я]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";

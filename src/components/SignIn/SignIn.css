@@ -28,6 +28,17 @@
   line-height: 29px;
 }
 
+.signin__field-error{
+  margin: 6px 0 4px;
+  height: 12px;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.signin__field-error-active{
+  color: #EE3465;
+}
+
 .signin__form {
   position: relative;
   margin: 0 auto;
