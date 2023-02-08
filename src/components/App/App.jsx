@@ -289,6 +289,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
+        setServerMessage(`Неверная почта или пароль`);
       });
   }
 
