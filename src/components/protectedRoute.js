@@ -12,7 +12,7 @@ function ProtectedRoute(props) {
     return props.children
   } else if (!props.user && props.path === "/signup") { // пользователь не залогинен
     return props.children
-  }  else if (!props.user && props.path === "/profile") { // пользователь не залогинен
+  }  else if (!props.user) { // пользователь не залогинен
     return navigate("/");
   } else return props.children;
 }
