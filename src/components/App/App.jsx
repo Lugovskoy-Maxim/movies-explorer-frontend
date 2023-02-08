@@ -17,6 +17,7 @@ import Main from "../Main/Main.jsx";
 import SignIn from "../SignIn/SignIn.jsx";
 import SignUp from "../SignUp/SignUp.jsx";
 import NotFaundPage from "../NotFaund/NotFaundPage.jsx";
+import Popup from "../Popup/Popup";
 import "./App.css";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
@@ -35,9 +36,10 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [mainMovies, setMainMovies] = useState([]);
-
+  const [serverMessage, setServerMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
+  const [popupOpened, setPopupOpened] = useState(false);
   const [searchResult, setSearchResult] = useState(() => {
     const saved = localStorage.getItem("searchResult");
     const initialValue = JSON.parse(saved);
@@ -48,9 +50,27 @@ function App() {
     );
   });
   const [searchResultMain, setSearchResultMain] = useState({
-        movies: [],
-      }
-    );
+    movies: [],
+  });
+
+  function closePopup() {
+    setTimeout(() => {
+      setServerMessage("");
+      setPopupOpened(false);
+    }, 500);
+  }
+
+  function removeServerMessage() {
+    setTimeout(() => {
+      setServerMessage("");
+    }, 1500);
+  }
+
+  useEffect(() => {
+    setPopupOpened(true);
+    closePopup();
+    removeServerMessage();
+  }, [serverMessage]);
 
   useEffect(() => {
     handleTokenCheck();
@@ -76,10 +96,9 @@ function App() {
     console.log(movies, filterStatus, searchValue);
     const matched = (str, match) =>
       str.toLowerCase().includes(match.toLowerCase());
-    return (
-      filterStatus === true
-        ? movies.filter((movie) => movie.duration <= 40)
-        : movies
+    return (filterStatus === true
+      ? movies.filter((movie) => movie.duration <= 40)
+      : movies
     ).filter(
       ({ nameRU, nameEN, description }) =>
         matched(nameRU, searchValue) ||
@@ -136,52 +155,46 @@ function App() {
     setIsLoading(true);
 
     if (!localStorage.getItem("moviesData")) {
-        MoviesApi.getMovie()
-          .then((res) => {
-            const searchResults = filter(res, filterStatus, searchValue);
-            console.log(searchResults);
-            setSearchResult((prev) => ({
-              ...prev,
-              movies: searchResults,
-            }));
-            localStorage.setItem("moviesData", JSON.stringify(res));
-            const object = {
-              movies: searchResults,
-            };
-            localStorage.setItem(
-              "searchResult",
-              JSON.stringify(object)
-            );
-          })
-          .catch((err) => {
-            setErrorMessage(
-              `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-            );
-          })
-          .finally(() => setIsLoading(false));
-      } else {
-        const moviesData = JSON.parse(localStorage.getItem("moviesData"));
-        const searchResults = filter(moviesData, filterStatus, searchValue);
-        setSearchResult((prev) => ({
-          ...prev,
-          movies: searchResults,
-        }));
-        localStorage.setItem("moviesData", JSON.stringify(moviesData));
-        const object = {
-          movies: searchResults,
-        };
-        localStorage.setItem(
-          "searchResult",
-          JSON.stringify(object)
-        );
+      MoviesApi.getMovie()
+        .then((res) => {
+          const searchResults = filter(res, filterStatus, searchValue);
+          setSearchResult((prev) => ({
+            ...prev,
+            movies: searchResults,
+          }));
+          localStorage.setItem("moviesData", JSON.stringify(res));
+          const object = {
+            movies: searchResults,
+          };
+          localStorage.setItem("searchResult", JSON.stringify(object));
+        })
+        .catch((err) => {
+          console.log(err);
+          // setServerMessage(
+          //   `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
+          // );
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+      const moviesData = JSON.parse(localStorage.getItem("moviesData"));
+      const searchResults = filter(moviesData, filterStatus, searchValue);
+      setSearchResult((prev) => ({
+        ...prev,
+        movies: searchResults,
+      }));
+      localStorage.setItem("moviesData", JSON.stringify(moviesData));
+      const object = {
+        movies: searchResults,
+      };
+      localStorage.setItem("searchResult", JSON.stringify(object));
       localStorage.setItem("search", searchValue);
       setIsLoading(false);
     }
   };
 
   function handleSearchMain(searchValue, filterStatus) {
-      setIsLoading(true);
-      if(mainMovies.length === 0) {
+    setIsLoading(true);
+    if (mainMovies.length === 0) {
       mainApi
         .getMainMovies()
         .then((res) => {
@@ -193,20 +206,19 @@ function App() {
           }));
         })
         .catch((err) => {
-          setErrorMessage(
-            `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-          );
-        })
+          console.log(err);
+        });
     } else {
       const searchResultsMain = filter(mainMovies, filterStatus, searchValue);
-          setSearchResultMain((prev) => ({
-            ...prev,
-            movies: searchResultsMain,
-            // visible: countItemsOnDisplay(),
-          }));
+      setSearchResultMain((prev) => ({
+        ...prev,
+        movies: searchResultsMain,
+        // visible: countItemsOnDisplay(),
+      }));
 
-      setIsLoading(false)
-    }}
+      setIsLoading(false);
+    }
+  }
 
   const getMainMoviesDB = () => {
     mainApi
@@ -216,7 +228,7 @@ function App() {
         setMainMovies(res);
       })
       .catch((err) => {
-        setMainMovies([{}]);
+        setMainMovies([]);
         console.log(err);
       });
   };
@@ -255,12 +267,14 @@ function App() {
         localStorage.clear();
         setCurrentUser({ id: 0, name: "", email: "" });
         setSearchResult({
-          movies:[]
+          movies: [],
         });
         setMainMovies([]);
         setMoviesData([]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleAuthorize(email, password) {
@@ -303,6 +317,7 @@ function App() {
           name: res.user.name,
           email: res.user.email,
         }));
+        setServerMessage("Информация успешно обнавлена");
       })
       .catch((err) => {
         console.log(err);
@@ -326,23 +341,26 @@ function App() {
           setSearchResultMain((prev) => ({
             ...prev,
             movies: saved,
-          }));
-
+          }))
           const object = {
             movies: saved,
             // visible: countItemsOnDisplay(), ////////////////////////////////
           };
-
           localStorage.setItem("searchResultMain", JSON.stringify(object));
+
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       mainApi
         .createMovies(movie)
         .then((newMovie) => {
-          setMainMovies([...mainMovies, newMovie]);
+            setMainMovies([...mainMovies, newMovie]);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 
@@ -375,7 +393,7 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <ProtectedRoute user={loggedIn}>
+                  <ProtectedRoute path="/profile" user={loggedIn}>
                     <Header>
                       <HeaderNavigationProfile loggedIn={loggedIn} />
                       <HeaderNavigationMovies loggedIn={loggedIn} />
@@ -383,6 +401,10 @@ function App() {
                     <Profile
                       onSignOut={signOut}
                       updateUserInfo={updateUserInfo}
+                    />
+                    <Popup
+                      popupOpened={popupOpened}
+                      serverMessage={serverMessage}
                     />
                   </ProtectedRoute>
                 }
@@ -410,6 +432,10 @@ function App() {
                           handleSavedMovies={handleSavedMovies}
                         />
                       </Main>
+                      <Popup
+                      popupOpened={popupOpened}
+                      serverMessage={serverMessage}
+                    />
                       <Footer />
                     </>
                   </ProtectedRoute>
@@ -437,6 +463,10 @@ function App() {
                         handleSavedMovies={handleSavedMovies}
                       />
                     </Main>
+                    <Popup
+                      popupOpened={popupOpened}
+                      serverMessage={serverMessage}
+                    />
                     <Footer />
                   </ProtectedRoute>
                 }
@@ -447,6 +477,10 @@ function App() {
                 element={
                   <ProtectedRoute path="/signup" user={loggedIn}>
                     <SignUp register={handleRegister} />
+                    <Popup
+                      popupOpened={popupOpened}
+                      serverMessage={serverMessage}
+                    />
                   </ProtectedRoute>
                 }
               />
@@ -456,6 +490,10 @@ function App() {
                 element={
                   <ProtectedRoute path="/signin" user={loggedIn}>
                     <SignIn login={handleAuthorize} />
+                    <Popup
+                      popupOpened={popupOpened}
+                      serverMessage={serverMessage}
+                    />
                   </ProtectedRoute>
                 }
               />

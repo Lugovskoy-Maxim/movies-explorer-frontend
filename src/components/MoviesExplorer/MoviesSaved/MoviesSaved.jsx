@@ -1,48 +1,60 @@
 import React, { useEffect, useState } from "react";
 import Movie from "../../Movie/Movie.jsx";
-import SearchForm from "./../SearchForm/SearchForm"
+import SearchForm from "./../SearchForm/SearchForm";
 
 function MoviesSaved({
   searchResult,
-  AddMovies,
   onSearch,
-  countItem,
   setFirstCoutn,
   handleSavedMovies,
   mainMovies,
-}){
-
-  const result = searchResult.movies.length === 0 ? mainMovies : searchResult.movies;
+}) {
+  const result =
+    mainMovies.length > 0 ? (
+      (searchResult.movies.length === 0
+        ? mainMovies
+        : searchResult.movies
+      ).map((movie) => (
+        <Movie
+          mainMovies={mainMovies}
+          handleSavedMovies={handleSavedMovies}
+          movie={movie}
+          trailerLink={movie.trailerLink}
+          name={movie.nameRU}
+          duration={movie.duration}
+          imageUrl={movie.image}
+          key={movie._id}
+        />
+      ))
+    ) : (
+      <p>У вас нет сохраненых фильмов</p>
+    );
   const [filterStatus, setFilterStatus] = useState(false);
 
   // Если нет в памяти тогда выключено, если есть то принимает значение
 
   function toggleFilterStatus() {
-    filterStatus === true
-      ? setFilterStatus(false)
-      : setFilterStatus(true);
+    filterStatus === true ? setFilterStatus(false) : setFilterStatus(true);
   }
 
   //   const handleAddMovie = () => {
-//     AddMovies();
-// }
+  //     AddMovies();
+  // }
 
-const [informMessage, setInformMessage] = useState('')
-// function inforner() {
-//   if (searchResult.movies.length === 0) {
-//     setInformMessage("Ничего не найдено");
-//   } else {
-//     setInformMessage("");
-//   }
-// }
+  const [informMessage, setInformMessage] = useState("");
+  // function inforner() {
+  //   if (searchResult.movies.length === 0) {
+  //     setInformMessage("Ничего не найдено");
+  //   } else {
+  //     setInformMessage("");
+  //   }
+  // }
 
-// useEffect(()=>{
-//   inforner()
-// }, [searchResult])
+  // useEffect(()=>{
+  //   inforner()
+  // }, [searchResult])
 
-
-
-  return(
+  return (
     <section className="movies">
       <SearchForm
         setFirstCoutn={setFirstCoutn}
@@ -50,20 +62,7 @@ const [informMessage, setInformMessage] = useState('')
         toggleFilterstatus={toggleFilterStatus}
         onSearch={onSearch}
       />
-      <ul className="movies__elements">
-        {result.map((movie) => (
-          <Movie
-            mainMovies={mainMovies}
-            handleSavedMovies={handleSavedMovies}
-            movie={movie}
-            trailerLink={movie.trailerLink}
-            name={movie.nameRU}
-            duration={movie.duration}
-            imageUrl={movie.image}
-            key={movie._id}
-          />
-        )) }
-      </ul>
+      <ul className="movies__elements">{result}</ul>
       {/* <button
         type="button"
         className={
@@ -79,7 +78,7 @@ const [informMessage, setInformMessage] = useState('')
       </button>
       <p>{informMessage}</p> */}
     </section>
-  )
+  );
 }
 
 export default MoviesSaved;

@@ -6,6 +6,7 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 function Profile({ onSignOut, updateUserInfo }) {
 
   const currentUser = useContext(CurrentUserContext);
+  const [buttonStatus, setButtonStatus] = useState(false);
   const [name, setName ] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
   const navigate = useNavigate();
@@ -14,6 +15,15 @@ function Profile({ onSignOut, updateUserInfo }) {
     setName(currentUser.name);
     setEmail(currentUser.email);
   }, [currentUser]);
+
+  useEffect(()=> {
+    if(name === currentUser.name && email === currentUser.email){
+      setButtonStatus(false);
+      // стейт для передачи информации в попап или под импутами
+    } else {
+      setButtonStatus(true);
+    }
+  })
 
   function handleNameChange(evt) {
     setName(evt.target.value);
@@ -24,11 +34,8 @@ function Profile({ onSignOut, updateUserInfo }) {
   }
 
   function handleSubmit(evt) {
-    evt.preventDefault();
-    // функция блокирующая отправку запроса без изменения данных
-    if(name === currentUser.name && email === currentUser.email){
-      // стейт для передачи иный в попап или под импутами
-    } else {
+    evt.preventDefault();    // функция блокирующая отправку запроса без изменения данных
+    if(buttonStatus === true){
       updateUserInfo(name, email)
     }
   }
@@ -68,11 +75,14 @@ function Profile({ onSignOut, updateUserInfo }) {
           />
         </div>
         <div className="profile__button-container">
-          <button type="submit" className="profile__save-button button">
+          <button
+          disabled={!buttonStatus}
+          type="submit" className={`profile__save-button button ${buttonStatus?  "" : "profile__save-button-disable" }`}>
             Редактировать
           </button>
         </div>
         <button
+
             type="button"
             className="profile__signout-button button"
             onClick={

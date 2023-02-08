@@ -13,8 +13,7 @@ function SearchForm({
   // const [filterStatus, setFilterStatus] = useState();
   const [searchValue, setSearchValue] = useState(()=> {
     const search = localStorage.getItem("search");
-    console.log(search);
-    return search || "Фильм"
+    return search || '';
   });
   const location = useLocation();
 
@@ -50,7 +49,7 @@ function SearchForm({
                 onChange={onChangeSearch}
                 value={searchValue}
                 className="search__input"
-                placeholder={searchValue}
+                placeholder="Фильм"
                 type="text"
                 required
               ></input>

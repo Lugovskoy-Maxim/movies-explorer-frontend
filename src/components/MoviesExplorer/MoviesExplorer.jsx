@@ -20,22 +20,18 @@ function MoviesExplorer({
   const [filterStatus, setFilterStatus] = useState(() => {
     const saved = localStorage.getItem("filter");
     const initialValue = JSON.parse(saved);
-    console.log(initialValue);
     return initialValue || false;
   });
 
   // Если нет в памяти тогда выключено, если есть то принимает значение
 
-
   function toggleFilterStatus() {
-    filterStatus === true
-      ? setFilterStatus(false)
-      : setFilterStatus(true);
+    filterStatus === true ? setFilterStatus(false) : setFilterStatus(true);
     {
-    filterStatus === true
-      ? localStorage.setItem("filter", false)
-      : localStorage.setItem("filter", true)
-      }
+      filterStatus === true
+        ? localStorage.setItem("filter", false)
+        : localStorage.setItem("filter", true);
+    }
   }
   // function inforner() {
   //   if (searchResult.movies.length === 0) {
@@ -48,7 +44,6 @@ function MoviesExplorer({
   // useEffect(() => {
   //   inforner();
   // }, [searchResult]);
-  console.log(searchResult);
 
   const result = searchResult.movies.slice(0, countItem);
   return (
@@ -76,9 +71,9 @@ function MoviesExplorer({
       <button
         type="button"
         className={
-            searchResult.movies.length > countItem
-              ? "movies__add-button"
-              : "movies__add-button_hide"
+          searchResult.movies.length >= countItem
+            ? "movies__add-button"
+            : "movies__add-button_hide"
         }
         onClick={handleAddMovie}
       >
