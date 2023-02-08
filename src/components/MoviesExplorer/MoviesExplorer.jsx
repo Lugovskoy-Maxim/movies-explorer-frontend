@@ -71,7 +71,7 @@ function MoviesExplorer({
       <button
         type="button"
         className={
-          searchResult.movies.length >= countItem
+          searchResult.movies.length > countItem
             ? "movies__add-button"
             : "movies__add-button_hide"
         }
