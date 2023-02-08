@@ -100,10 +100,9 @@ function App() {
       ? movies.filter((movie) => movie.duration <= 40)
       : movies
     ).filter(
-      ({ nameRU, nameEN, description }) =>
+      ({ nameRU, nameEN }) =>
         matched(nameRU, searchValue) ||
-        matched(nameEN, searchValue) ||
-        matched(description, searchValue)
+        matched(nameEN, searchValue)
     );
   };
 
@@ -182,7 +181,7 @@ function App() {
         ...prev,
         movies: searchResults,
       }));
-      localStorage.setItem("moviesData", JSON.stringify(moviesData));
+      // localStorage.setItem("moviesData", JSON.stringify(moviesData));   //////////
       const object = {
         movies: searchResults,
       };

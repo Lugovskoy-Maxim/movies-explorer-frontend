@@ -9,26 +9,28 @@ function MoviesSaved({
   handleSavedMovies,
   mainMovies,
 }) {
-  const result =
-    mainMovies.length > 0 ? (
-      (searchResult.movies.length === 0
-        ? mainMovies
-        : searchResult.movies
-      ).map((movie) => (
-        <Movie
-          mainMovies={mainMovies}
-          handleSavedMovies={handleSavedMovies}
-          movie={movie}
-          trailerLink={movie.trailerLink}
-          name={movie.nameRU}
-          duration={movie.duration}
-          imageUrl={movie.image}
-          key={movie._id}
-        />
-      ))
-    ) : (
-      <p>У вас нет сохраненых фильмов</p>
-    );
+
+  console.log(mainMovies)
+  // const result = mainMovies.length > 0 ? (
+  //   (searchResult.movies.length === 0
+  //     ? mainMovies
+  //     : searchResult.movies
+  //   ).map((movie) => (
+  //     <Movie
+  //       mainMovies={mainMovies}
+  //       handleSavedMovies={handleSavedMovies}
+  //       movie={movie}
+  //       trailerLink={movie.trailerLink}
+  //       name={movie.nameRU}
+  //       duration={movie.duration}
+  //       imageUrl={movie.image}
+  //       key={movie._id}
+  //     />
+  //   ))
+  // ) : (
+  //   <p>У вас нет сохраненых фильмов</p>
+  // );
+
   const [filterStatus, setFilterStatus] = useState(false);
 
   // Если нет в памяти тогда выключено, если есть то принимает значение
@@ -62,7 +64,27 @@ function MoviesSaved({
         toggleFilterstatus={toggleFilterStatus}
         onSearch={onSearch}
       />
-      <ul className="movies__elements">{result}</ul>
+      <ul className="movies__elements">
+        {mainMovies.length > 0 ? (
+      (searchResult.movies.length === 0
+        ? mainMovies
+        : searchResult.movies
+      ).map((movie) => (
+        <Movie
+          mainMovies={mainMovies}
+          handleSavedMovies={handleSavedMovies}
+          movie={movie}
+          trailerLink={movie.trailerLink}
+          name={movie.nameRU}
+          duration={movie.duration}
+          imageUrl={movie.image}
+          key={movie._id}
+        />
+      ))
+    ) : (
+      <p>У вас нет сохраненых фильмов</p>
+    )}
+    </ul>
       {/* <button
         type="button"
         className={

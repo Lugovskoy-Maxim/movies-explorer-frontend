@@ -45,6 +45,8 @@ function MoviesExplorer({
   //   inforner();
   // }, [searchResult]);
 
+  console.log(searchResult);
+
   const result = searchResult.movies.slice(0, countItem);
   return (
     <section className="movies">
