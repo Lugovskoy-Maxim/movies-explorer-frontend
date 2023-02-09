@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate  } from "react-router-dom";
 import "./Profile.css";
-import Header from "../Header/Header.jsx";
-import HeaderNavigationProfile from "../Header/__nav-profile/Header__nav-profile"
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
-function Profile({ onSignOut }) {
+function Profile({ onSignOut, updateUserInfo }) {
 
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
+  const [buttonStatus, setButtonStatus] = useState(false);
   const [name, setName ] = useState(currentUser.name);
   const [email, setEmail] = useState(currentUser.email);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, [currentUser]);
+
+  useEffect(()=> {
+    if(name === currentUser.name && email === currentUser.email){
+      setButtonStatus(false);
+      // стейт для передачи информации в попап или под импутами
+    } else {
+      setButtonStatus(true);
+    }
+  })
 
   function handleNameChange(evt) {
     setName(evt.target.value);
@@ -21,32 +34,16 @@ function Profile({ onSignOut }) {
   }
 
   function handleSubmit(evt) {
-    evt.preventDefault();
-    // функция отправки лучше прокинуть пропсом
-    setName("");
-    setEmail("");
-  }
-
-  React.useEffect(()=> {
-    checkUser()
-  }, [currentUser])
-
-  function checkUser(){
-    if (!typeof currentUser === 'object'){
-      return navigate("/404")
-    } else {
-      setName(currentUser.name)
-      setEmail(currentUser.email)
+    evt.preventDefault();    // функция блокирующая отправку запроса без изменения данных
+    if(buttonStatus === true){
+      updateUserInfo(name, email)
     }
   }
 
   return (
     <>
-    <Header>
-      {HeaderNavigationProfile()}
-    </Header>
     <section className="profile">
-      <h1 className="profile__title">Привет, {name}!</h1>
+      <h1 className="profile__title">Привет, {currentUser.name}!</h1>
       <form onSubmit={handleSubmit} className="profile__form">
         <div className="profile__container">
           <p className="profile__lable">Имя</p>
@@ -78,17 +75,19 @@ function Profile({ onSignOut }) {
           />
         </div>
         <div className="profile__button-container">
-          <button type="submit" className="profile__save-button button">
+          <button
+          disabled={!buttonStatus}
+          type="submit" className={`profile__save-button button ${buttonStatus?  "" : "profile__save-button-disable" }`}>
             Редактировать
           </button>
         </div>
         <button
+
             type="button"
             className="profile__signout-button button"
             onClick={
               () => {
-                onSignOut()
-                navigate("/signin")
+                onSignOut();
               }
             }
           >

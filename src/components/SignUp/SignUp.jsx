@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import Logo from "../../images/logo.svg";
 
@@ -67,11 +67,7 @@ function SignUp(props) {
   const errorMessagePassword = (value) => {
     if (value.length < 8) {
       return "Пароль должен состоять минимум из 8 символов";
-    } else if (!/[0-9]/.test(value)) {
-      return "Пароль должен содержать минимум 1 цифру";
-    } else if (!/[a-zA-Z]/.test(value)) {
-      return "Пароль должен содержать минимум 1 букву";
-    } else if (/[!@#$%^&*]/.test(value)) {
+    }  else if (/[!@#$%^&*]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";
     } else if (/[a-яА-Я]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";
@@ -104,14 +100,15 @@ function SignUp(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    props.register(name, email, password);
     // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");
   }
 
   function toggleSubmitButton() {
-    if(nameValid === true && emailValid === true && passwordValid === true ){
-      setAvailableButton(true)
+    if (nameValid === true && emailValid === true && passwordValid === true) {
+      setAvailableButton(true);
     } else {
       setAvailableButton(false);
     }
@@ -171,6 +168,7 @@ function SignUp(props) {
         <p className="signup__lable">Пароль</p>
         <label htmlFor="password"></label>
         <input
+          autoComplete="off"
           className="signup__input"
           placeholder="Пароль"
           required

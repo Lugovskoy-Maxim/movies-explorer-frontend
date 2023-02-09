@@ -2,17 +2,25 @@ import React  from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header__nav-movies.css";
 
-function HeaderNavMovies() {
+function HeaderNavMovies({loggedIn}) {
   const location = useLocation();
-
   function chekPathname(pathname, className) {
     if (location.pathname === pathname) {
       return className + "-active";
-    } else if (location.pathname === "/profile") {
+    }
+    else if (location.pathname === "/profile") {
       return "header__nav-movies-link-notactive";
-    } else if (!location.pathname.includes("movies")) {
+    }
+    else if (loggedIn === true && location.pathname === "/") {
+      return "header__nav-movies-link-notactive";
+    }
+    else if (loggedIn === true && location.pathname === "/profile") {
+      return "header__nav-movies-link-notactive";
+    }
+    else if (!location.pathname.includes("movies")) {
       return className + "-disabled";
     }
+
     return className + "-notactive";
   }
 

@@ -5,12 +5,11 @@ import "./Header__nav-profile.css";
 import closeButton from "../../../images/closeButton.svg";
 import menuButton from "../../../images/mainburger.svg";
 import { WindiwSizeContext } from "../../../context/WindiwSizeContext.js";
-import { CurrentUserContext } from "../../../context/CurrentUserContext";
 
-function HeaderNavProfile() {
+function HeaderNavProfile(loggedIn) {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentUser = useContext(CurrentUserContext);
+
   const [popupOpen, setPopupOpen] = useState(false);
   const windowSize = useContext(WindiwSizeContext);
 
@@ -37,10 +36,10 @@ function HeaderNavProfile() {
   React.useEffect(() => {
     toggleNavigation();
     togglePopup();
-  }, [currentUser, popupOpen]);
+  }, []);
 
   function toggleNavigation() {
-    if (typeof currentUser == "object") {
+    if (loggedIn.loggedIn === true) {
       return (
         <>
           {desctopProfile()}

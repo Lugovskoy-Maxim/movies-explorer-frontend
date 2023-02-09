@@ -13,14 +13,13 @@ function SignIn(props) {
   const [passwordError, setPasswordError] = useState("");
   const [availableButton, setAvailableButton] = useState(false);
 
-  useEffect(()=> {
-    toggleSubmitButton()
-  },[email, password])
-
+  useEffect(() => {
+    toggleSubmitButton();
+  }, [email, password]);
 
   function toggleSubmitButton() {
-    if(emailValid === true && passwordValid === true ){
-      setAvailableButton(true)
+    if (emailValid === true && passwordValid === true) {
+      setAvailableButton(true);
     } else {
       setAvailableButton(false);
     }
@@ -55,10 +54,6 @@ function SignIn(props) {
   const errorMessagePassword = (value) => {
     if (value.length < 8) {
       return "Пароль должен состоять минимум из 8 символов";
-    } else if (!/[0-9]/.test(value)) {
-      return "Пароль должен содержать минимум 1 цифру";
-    } else if (!/[a-zA-Z]/.test(value)) {
-      return "Пароль должен содержать минимум 1 букву";
     } else if (/[!@#$%^&*]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";
     } else if (/[a-яА-Я]/.test(value)) {
@@ -87,6 +82,7 @@ function SignIn(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    props.login(email, password);
     // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");
@@ -124,6 +120,7 @@ function SignIn(props) {
         <p className="signin__lable">Пароль</p>
         <label htmlFor="password"></label>
         <input
+          autoComplete="off"
           className="signin__input"
           placeholder="Пароль"
           required
@@ -145,7 +142,7 @@ function SignIn(props) {
         <div className="signin__button-container">
           <button
             type="submit"
-            disabled={availableButton? "" : "disable"}
+            disabled={availableButton ? "" : "disable"}
             className={`signin__save-button ${
               availableButton ? "" : "signin__save-button-disable"
             }`}
