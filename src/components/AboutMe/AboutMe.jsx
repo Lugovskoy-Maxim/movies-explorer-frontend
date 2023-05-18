@@ -6,10 +6,10 @@ function aboutMe() {
 
   return (
     <section className="about-me">
-      <h1 className="about-me__title">Студент</h1>
+      <h1 className="about-me__title">Обо мне</h1>
       <div className="about-me__container">
         <div className="about-me__info">
-          <h2 className="about-me__name">Виталий</h2>
+          <h2 className="about-me__name">Максим</h2>
           <span className="about-me__profession">
             Фронтенд-разработчик, 28 лет
           </span>
