@@ -12,6 +12,7 @@ function MoviesExplorer({
   countItem,
   setFirstCoutn,
   handleSavedMovies,
+  setSearchResult,
 }) {
   const handleAddMovie = () => {
     AddMovies();
@@ -33,19 +34,6 @@ function MoviesExplorer({
         : localStorage.setItem("filter", true);
     }
   }
-  // function inforner() {
-  //   if (searchResult.movies.length === 0) {
-  //     setInformMessage("Ничего не найдено");
-  //   } else {
-  //     setInformMessage("");
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   inforner();
-  // }, [searchResult]);
-
-  console.log(searchResult);
 
   const result = searchResult.movies.slice(0, countItem);
   return (
@@ -55,6 +43,7 @@ function MoviesExplorer({
         filterStatus={filterStatus}
         toggleFilterstatus={toggleFilterStatus}
         onSearch={onSearch}
+        setSearchResult={setSearchResult}
       />
       <ul className="movies__elements">
         {result.map((movie) => (

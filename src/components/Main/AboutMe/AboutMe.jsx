@@ -1,6 +1,6 @@
 import React from "react";
 import "./AboutMe.css";
-import aboutMePhoto from "../../images/aboutMePhoto.jpg";
+import aboutMePhoto from "../../../images/aboutMePhoto.jpg";
 
 function aboutMe() {
 
@@ -11,13 +11,14 @@ function aboutMe() {
         <div className="about-me__info">
           <h2 className="about-me__name">Виталий</h2>
           <span className="about-me__profession">
-            Фронтенд-разработчик, 28 лет
+            Фронтенд-разработчик, 30 лет
           </span>
           <p className="about-me__bio">
-            Я родился в Омске, сейчас живу в Сургуте. У
+            Я родился и живу в Саратове, закончил факультет экономики СГУ. У
             меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь
-            играми, 3d графикой и монтажем видео. Недавно начал кодить.После того, как прошёл курс по веб-разработке, начал
-            разрабатывать пет проекты и планирую уйти с текущей работы и "войти в IT".
+            бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ
+            Контур». После того, как прошёл курс по веб-разработке, начал
+            заниматься фриланс-заказами и ушёл с постоянной работы.
           </p>
           <a
             className="about-me__info-link about-me__link"

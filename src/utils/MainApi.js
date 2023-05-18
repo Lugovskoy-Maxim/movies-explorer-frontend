@@ -1,4 +1,5 @@
-const BASE_URL = "https://api.lugovskoy-movies.nomoredomains.club";
+const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "https://api.lugovskoy-movies.nomoredomains.club";
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -7,128 +8,63 @@ const handleResponse = (res) => {
   return Promise.reject(`Ошибка ${res.status}`);
 };
 
-// export const register = (name, email, password) => {
-//   return fetch(`${BASE_URL}/signup`, {
-//     method: 'POST',
-//     credentials: 'include',
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({ name, email, password })
-//   })
-//   .then(handleResponse);
-// }
-
-export const register = async (name, email, password) => {
-  const res = await fetch(`${BASE_URL}/signup`, {
-    method: "POST",
+const sendRequest = async (url, method, body) => {
+  const res = await fetch(url, {
+    method,
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, email, password }),
+    body: JSON.stringify(body),
   });
   return handleResponse(res);
+};
+
+export const register = async (name, email, password) => {
+  return sendRequest(`${BASE_URL}/signup`, "POST", { name, email, password });
 };
 
 export const signout = async () => {
-  const res = await fetch(`${BASE_URL}/signout`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return handleResponse(res);
+  return sendRequest(`${BASE_URL}/signout`, "GET");
 };
 
 export const authorize = async (email, password) => {
-  const res = await fetch(`${BASE_URL}/signin`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  return handleResponse(res);
+  return sendRequest(`${BASE_URL}/signin`, "POST", { email, password });
 };
 
-export const updateUserUnfo = async (name, email) => {
-  const res = await fetch(`${BASE_URL}/users/me`, {
-    method: "PATCH",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({name, email}),
-  });
-  return handleResponse(res);
+export const updateUserInfo = async (name, email) => {
+  return sendRequest(`${BASE_URL}/users/me`, "PATCH", { name, email });
 };
 
 export const getUserData = async () => {
-  const res = await fetch(`${BASE_URL}/movies`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return handleResponse(res);
+  return sendRequest(`${BASE_URL}/movies`, "GET");
 };
 
-export const createMovies = async (movie) => {
-  const res = await fetch(`${BASE_URL}/movies`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      movieId: movie.id,
-      nameRU: movie.nameRU,
-      nameEN: movie.nameEN,
-      director: movie.director,
-      country: movie.country,
-      year: movie.year ,
-      duration: movie.duration,
-      description: movie.description,
-      trailerLink: movie.trailerLink,
-      image: "https://api.nomoreparties.co"+movie.image.url,
-      thumbnail: "https://api.nomoreparties.co"+movie.image.formats.thumbnail.url,
-    }),
-  });
-  return handleResponse(res);
+export const createMovie = async (movie) => {
+  const formattedMovie = {
+    movieId: movie.id,
+    nameRU: movie.nameRU,
+    nameEN: movie.nameEN,
+    director: movie.director,
+    country: movie.country,
+    year: movie.year,
+    duration: movie.duration,
+    description: movie.description,
+    trailerLink: movie.trailerLink,
+    image: `https://api.nomoreparties.co${movie.image.url}`,
+    thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+  };
+  return sendRequest(`${BASE_URL}/movies`, "POST", formattedMovie);
 };
 
 export const removeMovie = async (id) => {
-  const res = await fetch(`${BASE_URL}/movies/${id}`, {
-    method: "DELETE",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return handleResponse(res);
+  return sendRequest(`${BASE_URL}/movies/${id}`, "DELETE");
 };
 
 export const getMainMovies = async () => {
-  const res = await fetch(`${BASE_URL}/movies`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return handleResponse(res);
+  return sendRequest(`${BASE_URL}/movies`, "GET");
 };
 
-export async function checkToken() {
-  return await fetch(`${BASE_URL}/users/me`, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-TYPE": "application/json",
-    },
-  }).then(handleResponse);
-}
+export const checkToken = async () => {
+  return sendRequest(`${BASE_URL}/users/me`, "GET");
+};

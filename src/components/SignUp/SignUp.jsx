@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css";
 import Logo from "../../images/logo.svg";
+import InputField from "../InputField/InputField";
 
 function SignUp(props) {
-  const [name, setName] = useState();
+  const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(null);
   const [nameError, setNameError] = useState("");
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(null);
   const [emailError, setEmailError] = useState("");
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(null);
   const [passwordError, setPasswordError] = useState("");
   const [availableButton, setAvailableButton] = useState(false);
@@ -52,11 +53,11 @@ function SignUp(props) {
 
   const errorMessageName = (value) => {
     if (/[0-9_!?@#$%^&*(/)/]/i.test(value)) {
-      return "Имя не должно содержать цыфры и символы";
+      return "Имя не должно содержать цифры и символы";
     } else if (value.length <= 2 || value.length >= 20) {
-      return "Дилина имени должна быть не менее 2 символов и не более 20";
+      return "Длина имени должна быть не менее 2 символов и не более 20";
     } else {
-      return "Ошибка, неверное занчение имени";
+      return "Ошибка, неверное значение имени";
     }
   };
 
@@ -67,52 +68,42 @@ function SignUp(props) {
   const errorMessagePassword = (value) => {
     if (value.length < 8) {
       return "Пароль должен состоять минимум из 8 символов";
-    }  else if (/[!@#$%^&*]/.test(value)) {
+    } else if (/[!@#$%^&*]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";
     } else if (/[a-яА-Я]/.test(value)) {
       return "Пароль должен состоять только из латинских символов и цифр";
     }
   };
 
-  const lineColorEffect = (props) => {
-    if (props == null) {
-      return "signup__line";
-    } else if (props) {
-      return "signup__line signup__line-valid";
-    } else {
-      return "signup__line signup__line-error";
-    }
-  };
-
-  function onNameChange(evt) {
+  const onNameChange = (evt) => {
     checkValid(evt.target.id, evt.target.value);
     setName(evt.target.value);
-  }
+  };
 
-  function onEmailChange(evt) {
+  const onEmailChange = (evt) => {
     checkValid(evt.target.id, evt.target.value);
     setEmail(evt.target.value);
-  }
-  function onPasswordChange(evt) {
+  };
+
+  const onPasswordChange = (evt) => {
     checkValid(evt.target.id, evt.target.value);
     setPassword(evt.target.value);
-  }
+  };
 
-  function handleSubmit(evt) {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     props.register(name, email, password);
-    // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");
-  }
+  };
 
-  function toggleSubmitButton() {
+  const toggleSubmitButton = () => {
     if (nameValid === true && emailValid === true && passwordValid === true) {
       setAvailableButton(true);
     } else {
       setAvailableButton(false);
     }
-  }
+  };
 
   return (
     <section className="signup">
@@ -121,79 +112,38 @@ function SignUp(props) {
       </a>
       <h1 className="signup__title">Добро пожаловать!</h1>
       <form onSubmit={handleSubmit} className="signup__form">
-        <p className="signup__lable">Имя</p>
-        <label htmlFor="name"></label>
-        <input
-          className="signup__input"
+        <InputField
+          type="name"
           placeholder="Имя"
-          pattern="[а-яА-Яa-zA-Z ]{2,20}$"
-          required
-          id="name"
-          name="name"
-          type="text"
-          value={name || ""}
+          value={name}
           onChange={onNameChange}
+          isValid={nameValid}
+          errorMessage={nameError}
+          className={'signup'}
         />
-        <hr className={lineColorEffect(nameValid)} />
-        <p
-          className={`signup__field-error ${
-            nameValid ? "" : "signup__field-error-active"
-          }`}
-          id="name-error"
-        >
-          {nameError}
-        </p>
-        <p className="signup__lable">E-mail</p>
-        <label htmlFor="email"></label>
-        <input
-          className="signup__input"
-          placeholder="Email"
-          required
-          id="email"
-          autoComplete="off"
-          name="email"
+        <InputField
           type="email"
-          value={email || ""}
+          placeholder="Email"
+          value={email}
           onChange={onEmailChange}
+          isValid={emailValid}
+          errorMessage={emailError}
+          className={'signup'}
         />
-        <hr className={lineColorEffect(emailValid)} />
-        <p
-          className={`signup__field-error ${
-            emailValid ? "" : "signup__field-error-active"
-          }`}
-          id="email-error"
-        >
-          {emailError}
-        </p>
-        <p className="signup__lable">Пароль</p>
-        <label htmlFor="password"></label>
-        <input
-          autoComplete="off"
-          className="signup__input"
-          placeholder="Пароль"
-          required
-          id="password"
-          name="password"
+        <InputField
           type="password"
-          value={password || ""}
+          placeholder="Пароль"
+          value={password}
           onChange={onPasswordChange}
+          isValid={passwordValid}
+          errorMessage={passwordError}
+          className={'signup'}
         />
-        <hr className={lineColorEffect(passwordValid)} />
-        <p
-          className={`signup__field-error ${
-            passwordValid ? "" : "signup__field-error-active"
-          }`}
-          id="password-error"
-        >
-          {passwordError}
-        </p>
         <div className="signup__button-container">
           <button
             type="submit"
-            disabled={availableButton ? "" : "disable"}
-            className={`signup__save-button ${
-              availableButton ? "" : "signup__save-button-disable"
-            }`}
+            disabled={!availableButton}
+            className={`signup__save-button ${availableButton ? "" : "signup__save-button-disable"}`}
           >
             Зарегистрироваться
           </button>

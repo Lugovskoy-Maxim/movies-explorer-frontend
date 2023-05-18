@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import { useLocation } from "react-router-dom";
-import movieDefaultImage from "../../images/movieDefaultImage.png";
 import "./Movie.css";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 
 function Movie({ movie, name, duration, imageUrl, mainMovies, handleSavedMovies, trailerLink }) {
-  const currentUser = useContext(CurrentUserContext);
   const location = useLocation();
   const pathname = location.pathname;
 

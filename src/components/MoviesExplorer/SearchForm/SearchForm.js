@@ -9,6 +9,7 @@ function SearchForm({
   filterStatus,
   toggleFilterstatus,
   setFirstCoutn,
+  setSearchResult,
 }) {
   // const [filterStatus, setFilterStatus] = useState();
   const [searchValue, setSearchValue] = useState(()=> {
@@ -34,7 +35,7 @@ function SearchForm({
     event.preventDefault();
     const locationPath = location.pathname;
     setFirstCoutn(locationPath);
-    onSearch(searchValue, filterStatus);
+    onSearch(searchValue, filterStatus, setSearchResult);
   }
 
   return (

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./SignIn.css";
 import Logo from "../../images/logo.svg";
-import { useEffect } from "react";
+import InputField from "../InputField/InputField";
 
 function SignIn(props) {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState("");
   const [emailValid, setEmailValid] = useState(null);
   const [emailError, setEmailError] = useState("");
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(null);
   const [passwordError, setPasswordError] = useState("");
   const [availableButton, setAvailableButton] = useState(false);
@@ -36,7 +36,7 @@ function SignIn(props) {
         setEmailError(errorMessageEmail(value));
       }
     } else if (type === "password") {
-      const regExpPassword = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{7,}$/;
+      const regExpPassword = /[a-zA-Z0-9]{8,}$/;
       if (regExpPassword.test(String(value).toLowerCase())) {
         setPasswordValid(true);
         setPasswordError("");
@@ -61,32 +61,22 @@ function SignIn(props) {
     }
   };
 
-  const lineColorEffect = (props) => {
-    if (props == null) {
-      return "signin__line";
-    } else if (props) {
-      return "signin__line signin__line-valid";
-    } else {
-      return "signin__line signin__line-error";
-    }
-  };
-
-  function onEmailChange(evt) {
+  const onEmailChange = (evt) => {
     checkValid(evt.target.id, evt.target.value);
     setEmail(evt.target.value);
-  }
-  function onPasswordChange(evt) {
+  };
+
+  const onPasswordChange = (evt) => {
     checkValid(evt.target.id, evt.target.value);
     setPassword(evt.target.value);
-  }
+  };
 
-  function handleSubmit(evt) {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
     props.login(email, password);
-    // функция отправки прокинутая пропсом
     setEmail("");
     setPassword("");
-  }
+  };
 
   return (
     <section className="signin">
@@ -95,57 +85,29 @@ function SignIn(props) {
       </a>
       <h1 className="signin__title">Рады видеть!</h1>
       <form onSubmit={handleSubmit} className="signin__form">
-        <p className="signin__lable">E-mail</p>
-        <label htmlFor="email"></label>
-        <input
-          className="signin__input"
-          placeholder="Email"
-          required
-          id="email"
-          autoComplete="off"
-          name="email"
+        <InputField
           type="email"
-          value={email || ""}
+          placeholder="Email"
+          value={email}
           onChange={onEmailChange}
+          isValid={emailValid}
+          errorMessage={emailError}
+          className={'signin'}
         />
-        <hr className={lineColorEffect(emailValid)} />
-        <p
-          className={`signin__field-error ${
-            emailValid ? "" : "signin__field-error-active"
-          }`}
-          id="email-error"
-        >
-          {emailError}
-        </p>
-        <p className="signin__lable">Пароль</p>
-        <label htmlFor="password"></label>
-        <input
-          autoComplete="off"
-          className="signin__input"
-          placeholder="Пароль"
-          required
-          id="password"
-          name="password"
+        <InputField
           type="password"
-          value={password || ""}
+          placeholder="Пароль"
+          value={password}
           onChange={onPasswordChange}
+          isValid={passwordValid}
+          errorMessage={passwordError}
+          className={'signin'}
         />
-        <hr className={lineColorEffect(passwordValid)} />
-        <p
-          className={`signin__field-error ${
-            passwordValid ? "" : "signin__field-error-active"
-          }`}
-          id="password-error"
-        >
-          {passwordError}
-        </p>
         <div className="signin__button-container">
           <button
             type="submit"
-            disabled={availableButton ? "" : "disable"}
-            className={`signin__save-button ${
-              availableButton ? "" : "signin__save-button-disable"
-            }`}
+            disabled={!availableButton}
+            className={`signin__save-button ${availableButton ? "" : "signin__save-button-disable"}`}
           >
             Войти
           </button>

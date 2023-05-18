@@ -22,6 +22,9 @@ import "./App.css";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../protectedRoute";
+import { isLoggedIn, getCurrentUser } from "../helpers/authHelpers";
+import { getMovies, getMainMoviesDB } from "../helpers/apiHelpers";
+import { searchMovies } from "../helpers/searchHelper";
 
 function App() {
   const location = useLocation();
@@ -37,7 +40,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [mainMovies, setMainMovies] = useState([]);
   const [serverMessage, setServerMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [moviesData, setMoviesData] = useState();
   const [popupOpened, setPopupOpened] = useState(false);
   const [searchResult, setSearchResult] = useState(() => {
@@ -74,7 +76,8 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-    getMainMoviesDB();
+    // getMainMoviesDB())
+    getMainMoviesDB(setMainMovies);
   }, []);
 
   useEffect(() => {
@@ -93,7 +96,7 @@ function App() {
   const addItemOnDisplay = (windowSize) => (windowSize < 520 ? 3 : 2);
 
   const filter = (movies, filterStatus, searchValue) => {
-    console.log(movies, filterStatus, searchValue);
+    console.log(movies, filterStatus, searchValue)
     const matched = (str, match) =>
       str.toLowerCase().includes(match.toLowerCase());
     return (filterStatus === true
@@ -105,15 +108,6 @@ function App() {
         matched(nameEN, searchValue)
     );
   };
-
-  function getMovies() {
-    setIsLoading(true);
-    MoviesApi.getMovie()
-      .then((res) => {
-        setMoviesData(localStorage.setItem("moviesData", JSON.stringify(res)));
-      })
-      .catch((err) => console.log(err));
-  }
 
   function setFirstCoutn(location) {
     if (location === "/movies") {
@@ -169,9 +163,6 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
-          // setServerMessage(
-          //   `Во время запроса произошла ${err}. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.`
-          // );
         })
         .finally(() => setIsLoading(false));
     } else {
@@ -181,7 +172,6 @@ function App() {
         ...prev,
         movies: searchResults,
       }));
-      // localStorage.setItem("moviesData", JSON.stringify(moviesData));   //////////
       const object = {
         movies: searchResults,
       };
@@ -201,7 +191,6 @@ function App() {
           setSearchResultMain((prev) => ({
             ...prev,
             movies: searchResultsMain,
-            // visible: countItemsOnDisplay(),
           }));
         })
         .catch((err) => {
@@ -212,25 +201,11 @@ function App() {
       setSearchResultMain((prev) => ({
         ...prev,
         movies: searchResultsMain,
-        // visible: countItemsOnDisplay(),
       }));
 
       setIsLoading(false);
     }
   }
-
-  const getMainMoviesDB = () => {
-    mainApi
-      .getMainMovies()
-      .then((res) => {
-        localStorage.setItem("mainMovies", JSON.stringify(res));
-        setMainMovies(res);
-      })
-      .catch((err) => {
-        setMainMovies([]);
-        console.log(err);
-      });
-  };
 
   const handleTokenCheck = () => {
     mainApi
@@ -238,8 +213,10 @@ function App() {
       .then((res) => {
         setCurrentUser({ id: res._id, name: res.name, email: res.email });
         setLoggedIn(true);
-        getMovies();
-        getMainMoviesDB();
+        getMovies(setMoviesData);
+        // getMovies();
+        // getMainMoviesDB();
+        getMainMoviesDB(setMainMovies);
         location.pathname === "/signin"
           ? navigate("/movies")
           : navigate(`${location.pathname}`);
@@ -304,12 +281,11 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-    // .finally();
   }
 
   function updateUserInfo(name, email) {
     mainApi
-      .updateUserUnfo(name, email)
+      .updateUserInfo(name, email)
       .then((res) => {
         setCurrentUser((prev) => ({
           ...prev,
@@ -330,7 +306,7 @@ function App() {
       mainApi
         .removeMovie(movie._id) /// нужно засунуть сохраненный фильм если он есть, если нет то не нужно засовывать
         .then((res) => {
-          setMainMovies(mainMovies.filter((i) => i != movie)); // удалить фильм который я отправлял из стейта
+          setMainMovies(mainMovies.filter((i) => i !== movie)); // удалить фильм который я отправлял из стейта
           const newArr = localStorage.getItem("searchResultMain");
           const saved = JSON.parse(newArr).movies;
           const removeIndex = saved
@@ -344,7 +320,6 @@ function App() {
           }))
           const object = {
             movies: saved,
-            // visible: countItemsOnDisplay(), ////////////////////////////////
           };
           localStorage.setItem("searchResultMain", JSON.stringify(object));
 
@@ -354,7 +329,7 @@ function App() {
         });
     } else {
       mainApi
-        .createMovies(movie)
+        .createMovie(movie)
         .then((newMovie) => {
             setMainMovies([...mainMovies, newMovie]);
         })
@@ -424,9 +399,8 @@ function App() {
                           countItem={countItem}
                           AddMovies={addMovies}
                           countItemsOnDisplay={countItemsOnDisplay}
-                          // toggleFilterstatus={toggleFilterStatus}
-                          // filterStatus={filterStatus}
-                          onSearch={handleSearch}
+                          onSearch={searchMovies}
+                          setSearchResult={setSearchResult}
                           mainMovies={mainMovies}
                           searchResult={searchResult}
                           handleSavedMovies={handleSavedMovies}
@@ -456,8 +430,6 @@ function App() {
                         countItem={countItemMain}
                         AddMovies={addMoviesMain}
                         countItemsOnDisplay={countItemsOnDisplay}
-                        // toggleFilterstatus={toggleFilterStatus}
-                        // filterStatus={filterStatus}
                         mainMovies={mainMovies}
                         searchResult={searchResultMain}
                         handleSavedMovies={handleSavedMovies}
