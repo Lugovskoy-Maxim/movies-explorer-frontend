@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-
 // function ProtectedRoute({ user, path, children }) {
 //   console.log(user, path, children);
 //   const navigate = useNavigate();

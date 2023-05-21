@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Movie from "../Movie/Movie.jsx";
-import SearchForm from "./SearchForm/SearchForm";
-import "./MoviesExplorer.css";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import Movie from '../Movie/Movie.jsx';
+import SearchForm from './SearchForm/SearchForm';
+import './MoviesExplorer.css';
 
 function MoviesExplorer({
   searchResult,
@@ -17,9 +16,9 @@ function MoviesExplorer({
   const handleAddMovie = () => {
     AddMovies();
   };
-  const [informMessage, setInformMessage] = useState("");
+  const [informMessage, setInformMessage] = useState('');
   const [filterStatus, setFilterStatus] = useState(() => {
-    const saved = localStorage.getItem("filter");
+    const saved = localStorage.getItem('filter');
     const initialValue = JSON.parse(saved);
     return initialValue || false;
   });
@@ -30,8 +29,8 @@ function MoviesExplorer({
     filterStatus === true ? setFilterStatus(false) : setFilterStatus(true);
     {
       filterStatus === true
-        ? localStorage.setItem("filter", false)
-        : localStorage.setItem("filter", true);
+        ? localStorage.setItem('filter', false)
+        : localStorage.setItem('filter', true);
     }
   }
 
@@ -63,8 +62,8 @@ function MoviesExplorer({
         type="button"
         className={
           searchResult.movies.length > countItem
-            ? "movies__add-button"
-            : "movies__add-button_hide"
+            ? 'movies__add-button'
+            : 'movies__add-button_hide'
         }
         onClick={handleAddMovie}
       >

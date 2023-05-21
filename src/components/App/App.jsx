@@ -22,7 +22,6 @@ import "./App.css";
 import * as mainApi from "../../utils/MainApi";
 import * as MoviesApi from "../../utils/MoviesApi";
 import ProtectedRoute from "../protectedRoute";
-import { isLoggedIn, getCurrentUser } from "../helpers/authHelpers";
 import { getMovies, getMainMoviesDB } from "../helpers/apiHelpers";
 import { searchMovies } from "../helpers/searchHelper";
 

@@ -1,11 +1,7 @@
-import React from "react";
-import * as mainApi from "../../utils/MainApi";
-import * as MoviesApi from "../../utils/MoviesApi";
-import { CurrentUserContext } from "../../context/CurrentUserContext"; // слушатель
+import * as MoviesApi from '../../utils/MoviesApi';
 
-
-export function searchMovies ( searchValue, filterStatus, setSearchResult) {
-  if (!localStorage.getItem("moviesData")) {
+export function searchMovies(searchValue, filterStatus, setSearchResult) {
+  if (!localStorage.getItem('moviesData')) {
     MoviesApi.getMovie()
       .then((res) => {
         const searchResults = filter(res, filterStatus, searchValue);
@@ -13,17 +9,17 @@ export function searchMovies ( searchValue, filterStatus, setSearchResult) {
           ...prev,
           movies: searchResults,
         }));
-        localStorage.setItem("moviesData", JSON.stringify(res));
+        localStorage.setItem('moviesData', JSON.stringify(res));
         const object = {
           movies: searchResults,
         };
-        localStorage.setItem("searchResult", JSON.stringify(object));
+        localStorage.setItem('searchResult', JSON.stringify(object));
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
   } else {
-    const moviesData = JSON.parse(localStorage.getItem("moviesData"));
+    const moviesData = JSON.parse(localStorage.getItem('moviesData'));
     const searchResults = filter(moviesData, filterStatus, searchValue);
     setSearchResult((prev) => ({
       ...prev,
@@ -32,10 +28,10 @@ export function searchMovies ( searchValue, filterStatus, setSearchResult) {
     const object = {
       movies: searchResults,
     };
-    localStorage.setItem("searchResult", JSON.stringify(object));
-    localStorage.setItem("search", searchValue);
+    localStorage.setItem('searchResult', JSON.stringify(object));
+    localStorage.setItem('search', searchValue);
   }
-};
+}
 
 // export function searchMoviesMain(mainMovies, setMainMovies, setSearchResultMain, movie){
 //   const isSaved = movie.owner === currentUser.id;
@@ -84,7 +80,6 @@ const filter = (movies, filterStatus, searchValue) => {
     : movies
   ).filter(
     ({ nameRU, nameEN }) =>
-      matched(nameRU, searchValue) ||
-      matched(nameEN, searchValue)
+      matched(nameRU, searchValue) || matched(nameEN, searchValue)
   );
 };
